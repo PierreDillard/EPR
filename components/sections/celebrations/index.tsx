@@ -3,7 +3,7 @@
 import { useCelebrations } from "@/components/hooks/useCelebrations";
 import CelebrationCard from "./celebration-card"
 import MapView from "./map-view"
-import SectionSeparator from "@/components/ui/SectionSeparator"
+
 import  SectionTitle  from "@/components/sections/section-title";
 
 
@@ -22,7 +22,7 @@ export default function Celebrations() {
 
   return (
     <> 
-    <section id="celebrations" className="py-10">
+    <section id="celebrations" className="py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
         <SectionTitle 
@@ -41,9 +41,7 @@ export default function Celebrations() {
         <MapView />
       </div>
     </section>
-     <SectionSeparator color="#A8CC3D" 
-       direction="center"
-       thickness="medium" />
+
      </>
   )
 }

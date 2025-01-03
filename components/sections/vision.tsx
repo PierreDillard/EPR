@@ -3,7 +3,7 @@
 export default function Vision() {
   return (
     <>
-      <section id="vision" className="py-16 bg-gray-50 ">
+      <section id="vision" className="py-14 bg-gray-50 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="prose prose-slate lg:prose-xl mx-auto mb-12">
             <h2 className="text-4xl text-center font-bold my-6 relative py-8
