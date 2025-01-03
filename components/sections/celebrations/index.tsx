@@ -32,13 +32,13 @@ export default function Celebrations() {
         />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
           {celebrations.map((celebration, index) => (
             <CelebrationCard key={index} {...celebration} />
           ))}
         </div>
 
-        <MapView />
+     {/*    <MapView /> */}
       </div>
     </section>
 
