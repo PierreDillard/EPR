@@ -1,7 +1,7 @@
 "use client"
 
 import { useCelebrations } from "@/components/hooks/useCelebrations";
-import CelebrationCard, { CelebrationProps } from "./celebration-card"
+import CelebrationCard from "./celebration-card"
 import MapView from "./map-view"
 
 

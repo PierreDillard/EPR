@@ -3,7 +3,7 @@ export interface Celebration {
     lieu: string;
     adresse: string;
     horaire: string;
-    date: string;
+    jour: string;
     created_at?: string;
   }
 
