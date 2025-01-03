@@ -22,9 +22,9 @@ export default function Celebrations() {
 
   return (
     <> 
-    <section id="celebrations" className="py-20">
+    <section id="celebrations" className="py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8">
         <SectionTitle 
           title="Nos Célébrations"
           color="#A8CC3D"
