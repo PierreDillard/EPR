@@ -80,3 +80,6 @@
     @apply bg-background text-foreground;
   }
 }
+h2::after {
+  background-color: var(--title-underline-color);
+}

@@ -73,7 +73,7 @@ export default function HeroBanner() {
               onClick={scrollToVision}
               variant="outline"
               size="lg"
-              className="text-white border-white hover:bg-white hover:text-black"
+              className="text-slate-400 border-white hover:bg-white hover:text-black"
             >
               Découvrir notre vision
             </Button>
@@ -81,7 +81,7 @@ export default function HeroBanner() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 animate-bounce">
+        <div className="absolute bottom-4 animate-bounce">
           <ChevronDown className="h-8 w-8" />
         </div>
       </div>
