@@ -53,13 +53,13 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Suivez-nous</h4>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white">
+              <a href="https://www.facebook.com/EnsemblePourLeRoyaume/?locale=fr_FR" className="text-gray-400 hover:text-white">
                 <Facebook className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white">
+              <a href="https://www.instagram.com/ensemblepourleroyaume/" className="text-gray-400 hover:text-white">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white">
+              <a href="https://www.youtube.com/@ensemblepourleroyaume" className="text-gray-400 hover:text-white">
                 <Youtube className="h-6 w-6" />
               </a>
             </div>
