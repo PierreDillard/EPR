@@ -22,11 +22,11 @@ export default function Celebrations() {
 
   return (
     <> 
-    <section id="celebrations" className="py-8">
+    <section id="celebrations" className="py-8 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
         <SectionTitle 
-          title="Nos Célébrations"
+          title="Célébrations"
           color="#A8CC3D"
           subtitle="Rejoignez-nous pour des moments de louange, de prière et de communion fraternelle"
         />
