@@ -21,6 +21,11 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: 'Ensemble pour le Royaume',
   description: 'Rassembler des chrétiens de différentes dénominations pour l\'avancement du Royaume de Dieu',
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  }
 }
 
 export default function RootLayout({

@@ -87,7 +87,7 @@ export default function Vision() {
           ))}
         </div>
 
-        <div className="prose prose-slate lg:prose-xl mx-auto mt-4">
+        <div className="prose prose-slate lg:prose-xl mx-auto mt-6">
           <p className="text-center text-lg text-gray-600 italic">
             C'est en cultivant <span className="font-medium">"la culture du Royaume"</span> que nous encourageons 
             chaque chrétien à s'investir dans sa ville, son église locale et sa nation.
