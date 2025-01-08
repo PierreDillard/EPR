@@ -6,6 +6,9 @@ UnlockKeyhole,
 BookOpen, 
 Globe 
 } from "lucide-react";
+import Script from "next/script";
+import { StructuredDataVision } from "@/lib/structuredData/vision";
+
 
 export default function Vision() {
     const visionCards = [
@@ -41,8 +44,14 @@ export default function Vision() {
     }
   ];
 
+  const structuredData = StructuredDataVision(visionCards);
+
   return (
     <section id="vision" className="py-12 bg-gray-50">
+         <Script type="application/ld+json" id="json-ld-vision">
+                {JSON.stringify(structuredData)}
+            </Script>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="prose prose-slate lg:prose-xl mx-auto mb-12">
           <h2 className="text-4xl text-center font-bold my-6 relative py-8
