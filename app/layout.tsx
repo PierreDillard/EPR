@@ -1,3 +1,4 @@
+
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter,Playfair_Display, Montserrat  } from 'next/font/google'
@@ -5,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
+import ScrollHandler from'@/components/utils/scroll-handler'
 
 const inter = Inter({ subsets: ['latin'] })
 const playfair = Playfair_Display({ 
@@ -57,8 +59,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="fr" suppressHydrationWarning >
+         <ScrollHandler /> 
   <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
