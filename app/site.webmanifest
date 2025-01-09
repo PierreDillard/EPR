@@ -1,2 +1,22 @@
-{"name":"Ensemble pour le Royaume","short_name":"EPR","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512",
-"type":"image/png"}, ],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone","start_url":"/"}
+
+{
+  "name": "Ensemble pour le Royaume",
+  "short_name": "EPR",
+  "description": "Rassembler des chrétiens de différentes dénominations pour l'avancement du Royaume de Dieu",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00AECE",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
