@@ -22,11 +22,35 @@ export const metadata: Metadata = {
   title: 'Ensemble pour le Royaume',
   description: 'Rassembler des chrétiens de différentes dénominations pour l\'avancement du Royaume de Dieu',
   icons: {
-    icon: '/icon.png',
-    shortcut: '/favicon.ico',
+    icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
-  }
+    shortcut: '/favicon-32x32.png',
+  },
+  openGraph: {
+    title: 'Ensemble pour le Royaume',
+    description: 'Rassembler des chrétiens de différentes dénominations pour l\'avancement du Royaume de Dieu',
+    url: 'https://www.ensemblepourleroyaume.com',
+    siteName: 'Ensemble pour le Royaume',
+    images: [
+      {
+        url: '/android-chrome-512x512.png',
+        width: 512,
+        height: 512,
+        alt: 'Ensemble pour le Royaume',
+      },
+    ],
+    locale: 'fr_FR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@ensemblepourleroyaume',
+    title: 'Ensemble pour le Royaume',
+    description: 'Rassembler des chrétiens de différentes dénominations pour l\'avancement du Royaume de Dieu',
+    images: ['/android-chrome-512x512.png'],
+  },
 }
+
 
 export default function RootLayout({
   children,
