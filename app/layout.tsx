@@ -63,24 +63,14 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning >
          <ScrollHandler /> 
-         <head>
-         <link rel="icon" href="/favicon.ico" sizes="any" />
-         <link
-  rel="apple-touch-icon"
-  href="/apple-icon?<generated>"
-  type="image/<generated>"
-  sizes="<generated>"
-/>
-  <link
-  rel="icon"
-  href="/icon?<generated>"
-  type="image/<generated>"
-  sizes="<generated>"
-/>
-  <link rel="manifest" href="/site.webmanifest" />
-  <meta name="msapplication-TileColor" content="#ffffff" />
-  <meta name="theme-color" content="#ffffff" />
-</head>
+         <head/>
+         <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32"/>
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <meta name="theme-color" content="#ffffff"/>
+<head/>
   <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
