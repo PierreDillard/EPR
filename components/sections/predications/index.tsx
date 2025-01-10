@@ -5,22 +5,14 @@ import SectionTitle from "@/components/sections/section-title"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import { supabase } from "@/lib/supabaseClient"
+import { PredicationData } from "@/types/predications"
+import { StructuredDataPredications } from "@/lib/structuredData/predications";
 
-interface PredicationData {
- id: number;
- youtube_id: string;
- titre: string;
- date: string;
- miniature: string;
- description: string;
- duration: string;
- vues: number;
- created_at: string;
-}
 
 export default function Predications() {
  const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
  const [videos, setVideos] = useState<VideoProps[]>([])
+ const [structuredData, setStructuredData] = useState({});
 
  useEffect(() => {
    async function getVideos() {
@@ -53,6 +45,10 @@ export default function Predications() {
 
  return (
    <section id="predications" className="py-4 bg-gray-50">
+       <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
        <SectionTitle 
          title="Prédications"
