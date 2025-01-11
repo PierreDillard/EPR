@@ -50,7 +50,7 @@ export default function Predications() {
       setVideos(formattedVideos)
       
       // Mettre à jour les données structurées
-      setStructuredData(StructuredDataPredications(formattedVideos))
+      setStructuredData(StructuredDataPredications(data as PredicationData[]))
     }
 
     getVideos()
