@@ -4,12 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Calendar, Play } from "lucide-react"
 import Image from "next/image"
 
-export interface VideoProps {
-  id: string
-  title: string
-  date: string
-  thumbnail: string
-}
+
 
 export default function VideoCard({ id, title, date, thumbnail }: VideoProps) {
   return (

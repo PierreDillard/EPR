@@ -7,6 +7,8 @@ import { Toaster } from "@/components/ui/toaster"
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import ScrollHandler from'@/components/utils/scroll-handler'
+import NavigationWrapper from '@/components/layout/navigation-wrapper'  
+import { usePathname } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 const playfair = Playfair_Display({ 
@@ -28,6 +30,7 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
     shortcut: '/favicon-32x32.png',
   },
+  manifest: '/site.webmanifest',
   openGraph: {
     title: 'Ensemble pour le Royaume',
     description: 'Rassembler des chrétiens de différentes dénominations pour l\'avancement du Royaume de Dieu',
@@ -79,9 +82,9 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Navigation />
-          <main>{children}</main>
-          <Footer />
+           <NavigationWrapper />
+           <main>{children}</main>
+           <Footer />
           <Toaster />
         </ThemeProvider>
       </body>
