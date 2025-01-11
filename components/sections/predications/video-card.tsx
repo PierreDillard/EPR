@@ -3,6 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Calendar, Play } from "lucide-react"
 import Image from "next/image"
+import { VideoProps } from "@/types/predications"
 
 
 

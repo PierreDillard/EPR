@@ -18,7 +18,7 @@ export default function Predications() {
   // Fonction pour gérer le scroll vers la vidéo
   const scrollToVideo = () => {
     if (videoPlayerRef.current) {
-      const yOffset = -80; // Ajustez cette valeur selon votre header
+      const yOffset = -80;
       const y = videoPlayerRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
