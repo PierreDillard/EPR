@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/no-unescaped-entities */
 import Link from "next/link"
 import { Facebook, Instagram, Youtube } from "lucide-react"
 

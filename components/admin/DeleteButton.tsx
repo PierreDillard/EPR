@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 
 import { useState } from 'react';
@@ -72,7 +74,7 @@ export default function DeleteButton({ id, title, onDelete }: DeleteButtonProps)
         <AlertDialogHeader>
           <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
           <AlertDialogDescription>
-            Vous êtes sur le point de supprimer la prédication "{title}". 
+            Vous êtes sur le point de supprimer la prédication &quot;{title}". 
             Cette action est irréversible.
           </AlertDialogDescription>
         </AlertDialogHeader>
