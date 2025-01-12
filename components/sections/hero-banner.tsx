@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 "use client"
-
+import Head from "next/head"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
@@ -13,6 +13,15 @@ function VideoBackground() {
 
   return (
     <div className="absolute inset-0 overflow-hidden hidden md:block">
+       <Head>
+        <title>Vision - Ensemble pour le Royaume</title>
+        <meta name="description" content="Découvrez notre vision pour rassembler des chrétiens et avancer ensemble dans le Royaume de Dieu." />
+        <meta property="og:title" content="Vision - Ensemble pour le Royaume" />
+        <meta property="og:description" content="Découvrez la vision d'ensemble pour le royaume:Atteindre, Restaurer, Libérer, Equiper, Envoyer. " />
+        <meta property="og:image" content="/og-vision.jpg" />
+        <meta property="og:video" content="/epr.mp4" />
+        <meta property="og:type" content="video.other" />
+      </Head>
       <video
         autoPlay
         muted
