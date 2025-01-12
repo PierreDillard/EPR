@@ -9,7 +9,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Plus, Youtube, Calendar, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-
+import Loading from '@/components/ui/Loading';
 import DeleteButton from '@/components/admin/DeleteButton';
 import {
   Table,
@@ -144,7 +144,7 @@ export default function PredicationsPage() {
               {isLoading ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-8">
-                    Chargement des prédications...
+                  <Loading />
                   </TableCell>
                 </TableRow>
               ) : predications.map((predication) => (

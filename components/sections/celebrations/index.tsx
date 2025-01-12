@@ -6,6 +6,7 @@ import MapView from "./map-view"
 import Script from "next/script";
 import { StructuredDataCelebration } from "@/lib/structuredData/celebrations";
 import  SectionTitle  from "@/components/sections/section-title";
+import Loading from "@/components/ui/Loading";
 
 
 export default function Celebrations() {
@@ -14,7 +15,7 @@ export default function Celebrations() {
   const { celebrations, isLoading, error } = useCelebrations();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import { MapPin, Clock, Calendar } from 'lucide-react';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import Loading from '@/components/ui/Loading';
 
 interface Celebration {
   id: number;
@@ -51,7 +52,7 @@ export default function CelebrationsPage() {
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-48">
-      Chargement des célébrations...
+     <Loading/>
     </div>;
   }
 

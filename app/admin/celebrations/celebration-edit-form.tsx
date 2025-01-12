@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-
+import Loading from '@/components/ui/Loading';
 interface CelebrationFormData {
   lieu: string;
   adresse: string;
@@ -174,7 +174,7 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
           disabled={isLoading}
           className="w-full md:w-auto"
         >
-          {isLoading ? "Mise à jour..." : "Mettre à jour"}
+          {isLoading ? <Loading/> : "Mettre à jour"}
         </Button>
       </div>
     </form>
