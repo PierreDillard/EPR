@@ -9,6 +9,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Plus, Youtube, Calendar, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
+
 import DeleteButton from '@/components/admin/DeleteButton';
 import {
   Table,
@@ -19,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-// Type pour une prédication
+
 interface Predication {
   id: number;
   titre: string;
@@ -67,6 +68,9 @@ export default function PredicationsPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 space-y-8">
       {/* En-tête */}
+ 
+
+
       <div className="flex justify-between items-center border-b pb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 my-3">Prédications</h1>
@@ -195,6 +199,7 @@ export default function PredicationsPage() {
           </Table>
         </div>
       </Card>
+    
     </div>
   );
 }

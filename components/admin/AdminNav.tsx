@@ -1,15 +1,19 @@
 'use client';
-
+import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
   Video,
   Calendar,
   Settings,
-  LogOut
+  LogOut,
+  Menu,
+  X,
+  ChevronLeft
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from "@/lib/utils";
 
 const navigation = [
   {
@@ -36,56 +40,123 @@ const navigation = [
 
 export default function AdminNav() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isSubPage = pathname !== '/admin/dashboard';
+
+  const handleBack = () => {
+    router.back();
+  };
 
   return (
-    <nav className="bg-white shadow-sm fixed w-full z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo et nom */}
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
+    <>
+      {/* Navigation desktop */}
+      <nav className="bg-white shadow-sm fixed w-full z-50 top-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between h-16">
+            {/* Logo et nom */}
+            <div className="flex items-center">
+              {isSubPage ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="md:hidden mr-2"
+                  onClick={handleBack}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+              ) : null}
               <span className="text-xl font-bold">EPR Admin</span>
             </div>
-          </div>
 
-          {/* Navigation links */}
-          <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                    ${isActive 
-                      ? 'border-indigo-500 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                    }`}
-                >
-                  <Icon className="h-4 w-4 mr-2" />
-                  {item.name}
-                </Link>
-              );
-            })}
-          </div>
+            {/* Navigation desktop */}
+            <div className="hidden md:flex md:items-center md:space-x-8">
+              {navigation.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname === item.href;
+                
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      "inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      isActive 
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                    )}
+                  >
+                    <Icon className="h-4 w-4 mr-2" />
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
 
-          {/* Bouton de déconnexion */}
-          <div className="flex items-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                // Ajouter la logique de déconnexion
-              }}
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Déconnexion
-            </Button>
+            {/* Menu mobile */}
+            <div className="flex items-center md:hidden">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+
+        {/* Menu mobile overlay */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-50 bg-white md:hidden">
+            <div className="pt-16 pb-6 px-4">
+              <div className="flex flex-col space-y-2">
+                {navigation.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
+                  
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        "flex items-center px-4 py-3 rounded-md text-base font-medium transition-colors",
+                        isActive 
+                          ? "bg-gray-100 text-gray-900"
+                          : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                      )}
+                    >
+                      <Icon className="h-5 w-5 mr-3" />
+                      {item.name}
+                    </Link>
+                  );
+                })}
+                
+                {/* Bouton déconnexion mobile */}
+                <Button
+                  variant="ghost"
+                  size="lg"
+                  className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 mt-4"
+                  onClick={() => {
+                    // Logique de déconnexion
+                  }}
+                >
+                  <LogOut className="h-5 w-5 mr-3" />
+                  Déconnexion
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Espace pour éviter que le contenu ne soit caché sous la navbar fixe */}
+      <div className="h-16" />
+    </>
   );
 }
