@@ -25,7 +25,7 @@ export default function YouTubeForm({ onSuccess }: YouTubeFormProps) {
     try {
       // Utiliser l'URL complète pour éviter les problèmes de routage
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || '';
-      const response = await fetch(`${baseUrl}/api/admin/predications`, {
+      const response = await fetch(`${baseUrl}/admin/actions/predications`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
