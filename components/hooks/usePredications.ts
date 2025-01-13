@@ -1,35 +1,27 @@
 import { useState, useEffect } from 'react';
-import { getVideos } from '@/lib/videos';
+import { fetchPredications } from '@/app/admin/actions/predications';
+import type { VideoProps } from '@/types/predications';
 
-export interface Video {
-  id: number;
-  youtube_id: string;
-  title: string;
-  description?: string;
-  date: string;
-  duration: string;
-  views: number;
-}
-
-export function usePredications() {
-  const [videos, setVideos] = useState<Video[]>([]);
+export const usePredications = () => {
+  const [videos, setVideos] = useState<VideoProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function fetchVideos() {
+    const loadPredications = async () => {
       try {
-        const data = await getVideos();
+        setIsLoading(true);
+        const data = await fetchPredications();
         setVideos(data);
-        setIsLoading(false);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Une erreur est survenue'));
+      } catch (e) {
+        setError(e instanceof Error ? e : new Error('Erreur inattendue'));
+      } finally {
         setIsLoading(false);
       }
-    }
-    
-    fetchVideos();
+    };
+
+    loadPredications();
   }, []);
 
   return { videos, isLoading, error };
-}
+};

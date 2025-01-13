@@ -28,17 +28,32 @@ export default function PredicationsPage() {
   useEffect(() => {
     const loadPredications = async () => {
       try {
-        const data = await fetchPredications();
-        setPredications(data);
+        const data = await fetchPredications(); // data est de type VideoProps[]
+  
+        // Adapter les données pour qu'elles correspondent à Predication[]
+        const formattedData: Predication[] = data.map(video => ({
+          id: Number(video.id), // Convert id to number
+          video_id: video.id, // Assuming video.id can be used as video_id
+          youtube_id: video.id,
+          titre: video.title,
+          date: video.date,
+          miniature: video.thumbnail,
+          description: video.description || "", // Valeur par défaut
+          duration: video.duration || "",       // Valeur par défaut
+          created_at: new Date().toISOString(), // Ou utilisez une valeur réelle
+        }));
+  
+        setPredications(formattedData);
       } catch (error) {
         console.error(error);
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     loadPredications();
   }, []);
+  
 
     // Ajouter une nouvelle prédication
     const handleAddPredication = (newPredication: Predication) => {
