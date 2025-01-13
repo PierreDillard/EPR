@@ -1,54 +1,66 @@
-"use client";
+"use client"
 
-import { useRef, useState } from "react";
-import { usePredications } from "@/components/hooks/usePredications";
-import VideoCard from "./video-card";
-import SectionTitle from "@/components/sections/section-title";
-import { Button } from "@/components/ui/button";
-import { StructuredDataPredications } from "@/lib/structuredData/predications";
-import Script from "next/script";
-
+import { useState, useEffect, useRef } from "react"
+import VideoCard from "./video-card"
+import SectionTitle from "@/components/sections/section-title"
+import { Button } from "@/components/ui/button"
+import { supabase } from "@/lib/supabaseClient"
+import { PredicationData ,VideoProps} from "@/types/predications"
+import { StructuredDataPredications } from "@/lib/structuredData/predications"
+import Script from "next/script"
 
 export default function Predications() {
-  const { videos, isLoading, error } = usePredications();
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const videoPlayerRef = useRef<HTMLDivElement>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
+  const [videos, setVideos] = useState<VideoProps[]>([])
+  const [structuredData, setStructuredData] = useState<any>(null)
+  const videoPlayerRef = useRef<HTMLDivElement>(null)
 
-  const structuredData = videos.length
-  ? StructuredDataPredications(
-      videos.map(video => ({
-        id: 0, 
-        youtube_id: video.id,
-        titre: video.title,
-        date: video.date,
-        miniature: video.thumbnail,
-        description: video.description || "", // Valeur par défaut
-        duration: video.duration || "",       // Valeur par défaut
-        created_at: new Date().toISOString(), // Ou ajoutez une autre valeur par défaut
-      }))
-    )
-  : null;
-
-
+  // Fonction pour gérer le scroll vers la vidéo
   const scrollToVideo = () => {
     if (videoPlayerRef.current) {
       const yOffset = -80;
       const y = videoPlayerRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
-  };
-
-  const handleVideoSelect = (videoId: string) => {
-    setSelectedVideo(videoId);
-    setTimeout(scrollToVideo, 100);
-  };
-
-  if (isLoading) {
-    return <div>Chargement...</div>;
   }
 
-  if (error) {
-    return <div className="text-red-500">Erreur : {error.message}</div>;
+  useEffect(() => {
+    async function getVideos() {
+      const { data, error } = await supabase
+        .from('predications')
+        .select('*')
+        .order('date', { ascending: false })
+      
+      if (error) {
+        console.error('Error fetching videos:', error)
+        return
+      }
+
+      const formattedVideos = (data as PredicationData[]).map(video => ({
+        id: video.youtube_id,
+        title: video.titre,
+        date: new Date(video.date).toLocaleDateString('fr-FR', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        }),
+        thumbnail: video.miniature || `https://img.youtube.com/vi/${video.youtube_id}/maxresdefault.jpg`
+      }))
+
+      setVideos(formattedVideos)
+      
+      // Mettre à jour les données structurées
+      setStructuredData(StructuredDataPredications(data as PredicationData[]))
+    }
+
+    getVideos()
+  }, [])
+
+  // Gérer la sélection de vidéo et le scroll
+  const handleVideoSelect = (videoId: string) => {
+    setSelectedVideo(videoId)
+    // Petit délai pour laisser le temps au lecteur de se monter
+    setTimeout(scrollToVideo, 100)
   }
 
   return (
@@ -62,7 +74,7 @@ export default function Predications() {
       )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle
+        <SectionTitle 
           title="Prédications"
           color="#00AECE"
           subtitle="Dernières prédications et enseignements"
@@ -82,15 +94,16 @@ export default function Predications() {
               />
             </div>
             <div className="text-center mt-4">
-              <Button
+              <Button 
                 variant="outline"
                 className="bg-[#F34325] text-white hover:bg-[#F34325]/90"
                 onClick={() => {
-                  setSelectedVideo(null);
-                  window.scrollTo({
-                    top: document.getElementById("predications")?.offsetTop ?? 0,
-                    behavior: "smooth",
-                  });
+                  setSelectedVideo(null)
+                  // Scroll vers le haut de la section après la fermeture
+                  window.scrollTo({ 
+                    top: document.getElementById('predications')?.offsetTop ?? 0,
+                    behavior: 'smooth' 
+                  })
                 }}
               >
                 Dernières prédications
@@ -106,30 +119,22 @@ export default function Predications() {
             </div>
           ))}
         </div>
-
+        
         <div className="flex justify-center mt-6 sticky bottom-4">
-          <Button
+          <Button 
             variant="outline"
             className="group bg-[#F34325] text-white flex items-center gap-2 
             hover:bg-[#F34325]/90 transition-all duration-300 hover:scale-105"
-            onClick={() =>
-              window.open(
-                "https://www.youtube.com/@ensemblepourleroyaume",
-                "_blank"
-              )
-            }
+            onClick={() => window.open('https://www.youtube.com/@ensemblepourleroyaume', '_blank')}
           >
             <span className="relative z-10">Voir plus sur YouTube</span>
-            <svg
-              className="w-6 h-6 transform transition-all duration-300 group-hover:scale-125"
-              viewBox="0 0 24 24"
-              fill="white"
-            >
-              <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+            <svg className="w-6 h-6 transform transition-all duration-300 group-hover:scale-125" 
+                viewBox="0 0 24 24" fill="white">
+              <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
             </svg>
           </Button>
         </div>
       </div>
     </section>
-  );
+  )
 }

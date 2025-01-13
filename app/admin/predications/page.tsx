@@ -5,7 +5,8 @@
 import { useEffect, useState } from 'react';
 import YouTubeForm from './youtube-form';
 import { Card } from "@/components/ui/card";
-import { Plus, Youtube, Calendar } from 'lucide-react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Plus, Youtube, Calendar, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import Loading from '@/components/ui/Loading';
@@ -18,56 +19,45 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { fetchPredications, deletePredicationById, Predication } from '@/app/admin/actions/predications';
+
+
+interface Predication {
+  id: number;
+  titre: string;
+  miniature: string;
+  video_id: string;
+  created_at: string;
+}
 
 export default function PredicationsPage() {
   const [predications, setPredications] = useState<Predication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const supabase = createClientComponentClient();
 
-  // Charger prédications
+  // Fonction pour charger les prédications
+  const loadPredications = async () => {
+    const { data, error } = await supabase
+      .from('predications')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Erreur lors du chargement des prédications:', error);
+      return;
+    }
+
+    setPredications(data || []);
+    setIsLoading(false);
+  };
+
+  // Charger les prédications au montage du composant
   useEffect(() => {
-    const loadPredications = async () => {
-      try {
-        const data = await fetchPredications(); // data est de type VideoProps[]
-  
-        // Adapter les données pour qu'elles correspondent à Predication[]
-        const formattedData: Predication[] = data.map(video => ({
-          id: Number(video.id), // Convert id to number
-          video_id: video.id, // Assuming video.id can be used as video_id
-          youtube_id: video.id,
-          titre: video.title,
-          date: video.date,
-          miniature: video.thumbnail,
-          description: video.description || "", // Valeur par défaut
-          duration: video.duration || "",       // Valeur par défaut
-          created_at: new Date().toISOString(), // Ou utilisez une valeur réelle
-        }));
-  
-        setPredications(formattedData);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-  
     loadPredications();
   }, []);
-  
 
-    // Ajouter une nouvelle prédication
-    const handleAddPredication = (newPredication: Predication) => {
-      setPredications(prev => [newPredication, ...prev]);
-    };
-
-  // Supprimer une prédication
-  const handleDelete = async (id: number) => {
-    try {
-      await deletePredicationById(id);
-      setPredications(prev => prev.filter(p => p.id !== id));
-    } catch (error) {
-      console.error(error);
-    }
+  // Fonction pour mettre à jour la liste après un ajout
+  const handlePredicationAdded = async (newPredication: Predication) => {
+    setPredications(prev => [newPredication, ...prev]);
   };
 
   // Calculer le nombre de prédications de ce mois
@@ -77,6 +67,10 @@ export default function PredicationsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 space-y-8">
+      {/* En-tête */}
+ 
+
+
       <div className="flex justify-between items-center border-b pb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 my-3">Prédications</h1>
@@ -89,6 +83,7 @@ export default function PredicationsPage() {
         </div>
       </div>
 
+      {/* Statistiques */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="p-6">
           <div className="flex items-center gap-4">
@@ -115,18 +110,26 @@ export default function PredicationsPage() {
         </Card>
       </div>
 
+      {/* Formulaire d'ajout */}
       <Card className="p-6 bg-gradient-to-br from-blue-50 to-white">
-      <YouTubeForm onSuccess={handleAddPredication} />
+        <div className="flex items-center gap-4 mb-6">
+          <div className="p-2 bg-blue-100 rounded-lg">
+            <Youtube className="h-5 w-5 text-blue-600" />
+          </div>
+          <h2 className="text-xl font-semibold">Ajouter une nouvelle prédication</h2>
+        </div>
+        <YouTubeForm onSuccess={handlePredicationAdded} />
       </Card>
 
-      <Card className="overflow-hidden">
+      {/* Liste des prédications */}
+      <Card className="overflow-hidden ">
         <div className="p-6 border-b">
           <h2 className="text-xl font-semibold">Prédications récentes</h2>
           <p className="text-sm text-gray-600 mt-1">
             Liste de toutes les prédications par date d'ajout
           </p>
         </div>
-
+        
         <div className="overflow-x-auto my-6">
           <Table>
             <TableHeader>
@@ -141,10 +144,10 @@ export default function PredicationsPage() {
               {isLoading ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-8">
-                    <Loading />
+                  <Loading />
                   </TableCell>
                 </TableRow>
-              ) : predications.map(predication => (
+              ) : predications.map((predication) => (
                 <TableRow key={predication.id}>
                   <TableCell>
                     {predication.miniature && (
@@ -163,15 +166,32 @@ export default function PredicationsPage() {
                     {new Date(predication.created_at).toLocaleDateString('fr-FR', {
                       year: 'numeric',
                       month: 'long',
-                      day: 'numeric',
+                      day: 'numeric'
                     })}
                   </TableCell>
                   <TableCell className="text-right">
-                    <DeleteButton
-                      id={predication.id}
-                      title={predication.titre}
-                      onDelete={() => handleDelete(predication.id)}
-                    />
+                    <div className="flex justify-end gap-2">
+                      <Button variant="outline" size="sm" asChild>
+                        <a
+                          href={`https://youtube.com/watch?v=${predication.video_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          YouTube
+                        </a>
+                      </Button>
+                      <DeleteButton
+                        id={predication.id}
+                        title={predication.titre}
+                        onDelete={() => {
+                          setPredications(prev => 
+                            prev.filter(p => p.id !== predication.id)
+                          );
+                        }}
+                      />
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -179,6 +199,7 @@ export default function PredicationsPage() {
           </Table>
         </div>
       </Card>
+    
     </div>
   );
 }
