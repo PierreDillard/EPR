@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,14 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Loading from '@/components/ui/Loading';
-interface CelebrationFormData {
-  lieu: string;
-  adresse: string;
-  horaire: string;
-  jour: string;
-}
+import { fetchCelebrationById, updateCelebration, CelebrationFormData } from '@/app/admin/actions/celebrations';
 
 interface CelebrationEditFormProps {
   celebrationId: number;
@@ -31,7 +27,7 @@ const JOURS = [
   'Mercredi',
   'Jeudi',
   'Vendredi',
-  'Samedi'
+  'Samedi',
 ] as const;
 
 export default function CelebrationEditForm({ celebrationId, onSuccess }: CelebrationEditFormProps) {
@@ -39,58 +35,34 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
     lieu: '',
     adresse: '',
     horaire: '',
-    jour: ''
+    jour: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
-    const fetchCelebration = async () => {
-      const { data, error } = await supabase
-        .from('celebrations')
-        .select('*')
-        .eq('id', celebrationId)
-        .single();
-
-      if (error) {
+    const loadCelebration = async () => {
+      try {
+        const data = await fetchCelebrationById(celebrationId);
+        if (data) setFormData(data);
+      } catch (error) {
         toast({
           title: "Erreur",
           description: "Impossible de charger les données de la célébration",
           variant: "destructive",
         });
-        return;
-      }
-
-      if (data) {
-        setFormData({
-          lieu: data.lieu,
-          adresse: data.adresse,
-          horaire: data.horaire,
-          jour: data.jour
-        });
       }
     };
 
-    fetchCelebration();
-  }, [celebrationId]);
+    loadCelebration();
+  }, [celebrationId, toast]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const { error } = await supabase
-        .from('celebrations')
-        .update({
-          lieu: formData.lieu,
-          adresse: formData.adresse,
-          horaire: formData.horaire,
-          jour: formData.jour
-        })
-        .eq('id', celebrationId);
-
-      if (error) throw error;
+      await updateCelebration(celebrationId, formData);
 
       toast({
         title: "Succès",
@@ -117,7 +89,7 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
           <Input
             id="lieu"
             value={formData.lieu}
-            onChange={(e) => setFormData(prev => ({ ...prev, lieu: e.target.value }))}
+            onChange={(e) => setFormData((prev) => ({ ...prev, lieu: e.target.value }))}
             required
             placeholder="Ex: Église Saint-Michel"
             className="w-full"
@@ -129,7 +101,7 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
           <Input
             id="adresse"
             value={formData.adresse}
-            onChange={(e) => setFormData(prev => ({ ...prev, adresse: e.target.value }))}
+            onChange={(e) => setFormData((prev) => ({ ...prev, adresse: e.target.value }))}
             required
             placeholder="Ex: 123 rue de la Paix"
             className="w-full"
@@ -141,7 +113,7 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
           <Input
             id="horaire"
             value={formData.horaire}
-            onChange={(e) => setFormData(prev => ({ ...prev, horaire: e.target.value }))}
+            onChange={(e) => setFormData((prev) => ({ ...prev, horaire: e.target.value }))}
             required
             placeholder="Ex: 10:30"
             className="w-full"
@@ -152,7 +124,7 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
           <Label htmlFor="jour">Jour</Label>
           <Select
             value={formData.jour}
-            onValueChange={(value) => setFormData(prev => ({ ...prev, jour: value }))}
+            onValueChange={(value) => setFormData((prev) => ({ ...prev, jour: value }))}
           >
             <SelectTrigger>
               <SelectValue placeholder="Sélectionnez un jour" />
@@ -174,7 +146,7 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
           disabled={isLoading}
           className="w-full md:w-auto"
         >
-          {isLoading ? <Loading/> : "Mettre à jour"}
+          {isLoading ? <Loading /> : "Mettre à jour"}
         </Button>
       </div>
     </form>
