@@ -17,24 +17,23 @@ export default function YouTubeForm({ onSuccess }: YouTubeFormProps) {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
 
-    try {
-      // Utiliser l'URL complète pour éviter les problèmes de routage
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || '';
-      const response = await fetch(`${baseUrl}/api/admin/predications`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Ajouter un header personnalisé pour s'assurer que c'est une requête API
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        credentials: 'include',
-        body: JSON.stringify({ url }),
-      });
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setIsLoading(true);
+      setError(null);
+    
+      try {
+        // Utilisez une URL relative plutôt qu'absolue
+        const response = await fetch('/api/admin/predications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          credentials: 'include',
+          body: JSON.stringify({ url }),
+        });
 
       // Vérifier d'abord le type de contenu de la réponse
       const contentType = response.headers.get('content-type');
