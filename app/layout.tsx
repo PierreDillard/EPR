@@ -26,11 +26,11 @@ export const metadata: Metadata = {
   title: 'Ensemble pour le Royaume',
   description: 'Rassembler des chrétiens de différentes dénominations pour l\'avancement du Royaume de Dieu',
   icons: {
-    icon: '/favicon.ico',
+    icon: 'favicon.ico',
     apple: '/apple-touch-icon.png',
     shortcut: '/favicon-32x32.png',
   },
-  manifest: '/site.webmanifest',
+  manifest: 'site.webmanifest',
   openGraph: {
     title: 'Ensemble pour le Royaume',
     description: 'Rassembler des chrétiens de différentes dénominations pour l\'avancement du Royaume de Dieu',
