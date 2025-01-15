@@ -1,6 +1,7 @@
-# *
 User-agent: *
-Allow: /
+Disallow: /administration
+Disallow: /login
+
 
 # Host
 Host: https://www.ensemblepourleroyaume.com
