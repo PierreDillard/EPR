@@ -63,11 +63,11 @@ export default function Vision() {
           </h2>
           
           <div className="!max-w-3xl mx-auto not-prose">
-            <p className="text-left text-lg text-gray-600 mb-6">
-              <span className="font-medium">  Ensemble pour le Royaume</span> est une association qui a pour vocation de rassembler 
-              des chrétiens de différentes dénominations, horizons ou cultures, afin de 
-              participer ensemble à l'avancement du Royaume de Dieu dès ici-bas.
-            </p>
+           <p className="text-left text-lg text-gray-600 mb-6 indent-[1.5em]">
+  <span className="font-medium">Ensemble pour le Royaume</span> est une association qui a pour vocation de rassembler 
+  des chrétiens de différentes dénominations, horizons ou cultures, afin de 
+  participer ensemble à l'avancement du Royaume de Dieu dès ici-bas.
+</p>
             <p className="text-left text-lg text-gray-600 mb-6">
               Elle est appelée à proclamer la bonne nouvelle du royaume (Mat 4:23), 
               à manifester la puissance du royaume (I Cor 4:20) et à produire les 
