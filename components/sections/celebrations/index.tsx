@@ -1,17 +1,16 @@
-"use client"
+'use client';
 
 import { useCelebrations } from "@/components/hooks/useCelebrations";
-import CelebrationCard from "./celebration-card"
-import MapView from "./map-view"
+import SectionTitle from "@/components/sections/section-title";
+import CelebrationCard from "./celebration-card";
 import Script from "next/script";
 import { StructuredDataCelebration } from "@/lib/structuredData/celebrations";
-import  SectionTitle  from "@/components/sections/section-title";
 import Loading from "@/components/ui/Loading";
+import MeetingCard from "./meeting-card";
 
+const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || 'http://206.189.23.60';
 
 export default function Celebrations() {
- 
-  
   const { celebrations, isLoading, error } = useCelebrations();
 
   if (isLoading) {
@@ -22,33 +21,51 @@ export default function Celebrations() {
     return <div className="text-red-500">Error: {error.message}</div>;
   }
 
-const structuredData = StructuredDataCelebration(celebrations);
+  const structuredData = StructuredDataCelebration(celebrations);
 
   return (
-    <> 
-       <Script type="application/ld+json" id="json-ld-celebrations">
+    <>
+      <Script type="application/ld+json" id="json-ld-celebrations">
         {JSON.stringify(structuredData)}
       </Script>
-    <section id="celebrations" className="py-8 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-        <SectionTitle 
-          title="Célébrations"
-          color="#A8CC3D"
-          subtitle="Rejoignez-nous pour des moments de louange, de prière et de communion fraternelle"
-        />
+      
+      <section id="celebrations" className="py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-2 lg:px-4">
+          <SectionTitle 
+            title="Célébrations"
+            color="#A8CC3D"
+            subtitle="Rejoignez-nous pour des moments de louange, de prière et de communion fraternelle"
+          />
+          
+          {/* Grille de cartes */}
+          <div className="grid md:grid-cols-2 gap-8 ">
+            {celebrations.map((celebration, index) => (
+              <div 
+                key={index}
+                className="h-[400px]" // Hauteur fixe pour les cartes
+              >
+                <CelebrationCard {...celebration} />
+              </div>
+            ))}
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 mt-8 ">
+  <MeetingCard 
+    title="Intercession" 
+    image={`${baseUrl}/images/intercession.jpg`}
+    date="Tous les vendredis"
+    time="19h30"
+    location="Boulogne"
+  />
+  <MeetingCard 
+    title="Étude Biblique" 
+    image={`${baseUrl}/images/bible.jpg`}
+    date="Tous les mardis"
+    time="19h00"
+    location="Boulogne"
+  />
+</div>
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
-          {celebrations.map((celebration, index) => (
-            <CelebrationCard key={index} {...celebration} />
-          ))}
-        </div>
-
-     {/*    <MapView /> */}
-      </div>
-    </section>
-
-     </>
-  )
+      </section>
+    </>
+  );
 }

@@ -4,63 +4,76 @@ import { useState, useEffect, useRef } from "react"
 import VideoCard from "./video-card"
 import SectionTitle from "@/components/sections/section-title"
 import { Button } from "@/components/ui/button"
-import { supabase } from "@/lib/supabaseClient"
-import { PredicationData ,VideoProps} from "@/types/predications"
+import { VideoProps } from "@/types/predications"
 import { StructuredDataPredications } from "@/lib/structuredData/predications"
+import  Loading from "@/components/ui/Loading"
+import { getVideos } from "@/lib/videos"
 import Script from "next/script"
+import { useToast } from "@/hooks/use-toast"
 
 export default function Predications() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
   const [videos, setVideos] = useState<VideoProps[]>([])
   const [structuredData, setStructuredData] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const videoPlayerRef = useRef<HTMLDivElement>(null)
+  const { toast } = useToast()
 
   // Fonction pour gérer le scroll vers la vidéo
   const scrollToVideo = () => {
     if (videoPlayerRef.current) {
-      const yOffset = -80;
-      const y = videoPlayerRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      const yOffset = -80
+      const y = videoPlayerRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset
+      window.scrollTo({ top: y, behavior: 'smooth' })
     }
   }
 
   useEffect(() => {
-    async function getVideos() {
-      const { data, error } = await supabase
-        .from('predications')
-        .select('*')
-        .order('date', { ascending: false })
-      
-      if (error) {
-        console.error('Error fetching videos:', error)
-        return
+    async function loadPredications() {
+      try {
+        setIsLoading(true)
+        const { data: formattedVideos, rawData } = await getVideos()
+        setVideos(formattedVideos)
+        setStructuredData(StructuredDataPredications(rawData))
+      } catch (error) {
+        console.error('Erreur lors du chargement des prédications:', error)
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger les prédications",
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
       }
-
-      const formattedVideos = (data as PredicationData[]).map(video => ({
-        id: video.youtube_id,
-        title: video.titre,
-        date: new Date(video.date).toLocaleDateString('fr-FR', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        }),
-        thumbnail: video.miniature || `https://img.youtube.com/vi/${video.youtube_id}/maxresdefault.jpg`
-      }))
-
-      setVideos(formattedVideos)
-      
-      // Mettre à jour les données structurées
-      setStructuredData(StructuredDataPredications(data as PredicationData[]))
     }
 
-    getVideos()
-  }, [])
+    loadPredications()
+  }, [toast])
 
   // Gérer la sélection de vidéo et le scroll
   const handleVideoSelect = (videoId: string) => {
     setSelectedVideo(videoId)
-    // Petit délai pour laisser le temps au lecteur de se monter
     setTimeout(scrollToVideo, 100)
+  }
+
+  // Gérer le retour à la liste
+  const handleBackToList = () => {
+    setSelectedVideo(null)
+    window.scrollTo({ 
+      top: document.getElementById('predications')?.offsetTop ?? 0,
+      behavior: 'smooth' 
+    })
+  }
+
+  // Gérer l'ouverture de YouTube
+  const handleOpenYouTube = () => {
+    window.open('https://www.youtube.com/@ensemblepourleroyaume', '_blank')
+  }
+
+  if (isLoading) {
+    return (
+      <Loading />
+    )
   }
 
   return (
@@ -97,14 +110,7 @@ export default function Predications() {
               <Button 
                 variant="outline"
                 className="bg-[#F34325] text-white hover:bg-[#F34325]/90"
-                onClick={() => {
-                  setSelectedVideo(null)
-                  // Scroll vers le haut de la section après la fermeture
-                  window.scrollTo({ 
-                    top: document.getElementById('predications')?.offsetTop ?? 0,
-                    behavior: 'smooth' 
-                  })
-                }}
+                onClick={handleBackToList}
               >
                 Dernières prédications
               </Button>
@@ -125,7 +131,7 @@ export default function Predications() {
             variant="outline"
             className="group bg-[#F34325] text-white flex items-center gap-2 
             hover:bg-[#F34325]/90 transition-all duration-300 hover:scale-105"
-            onClick={() => window.open('https://www.youtube.com/@ensemblepourleroyaume', '_blank')}
+            onClick={handleOpenYouTube}
           >
             <span className="relative z-10">Voir plus sur YouTube</span>
             <svg className="w-6 h-6 transform transition-all duration-300 group-hover:scale-125" 

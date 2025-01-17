@@ -72,6 +72,7 @@ export default function RootLayout({
   <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
   <link rel="manifest" href="/site.webmanifest"/>
+  <meta name="msvalidate.01" content="C2B25B7A6E318B040EE6B2F0014A8A8D" />
   <meta name="theme-color" content="#ffffff"/>
   
 <head/>

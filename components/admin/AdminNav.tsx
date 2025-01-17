@@ -1,7 +1,9 @@
 'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import {
   LayoutDashboard,
   Video,
@@ -14,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const navigation = [
   {
@@ -32,6 +35,11 @@ const navigation = [
     icon: Calendar,
   },
   {
+    name: 'Événements',
+    href: '/admin/events',
+    icon: Calendar,
+  },
+  {
     name: 'Paramètres',
     href: '/admin/settings',
     icon: Settings,
@@ -41,11 +49,42 @@ const navigation = [
 export default function AdminNav() {
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const isSubPage = pathname !== '/admin/dashboard';
+  const supabase = createClientComponentClient();
 
   const handleBack = () => {
     router.back();
+  };
+
+  const handleSignOut = async () => {
+    try {
+      setIsLoading(true);
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        throw error;
+      }
+      
+      // Redirection vers la page de connexion
+      router.push('/');
+      
+      // Notification de succès
+      toast({
+        title: "Déconnexion réussie",
+        description: "À bientôt !",
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Un problème est survenu lors de la déconnexion",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+      setIsMobileMenuOpen(false);
+    }
   };
 
   return (
@@ -91,6 +130,18 @@ export default function AdminNav() {
                   </Link>
                 );
               })}
+              
+              {/* Bouton déconnexion desktop */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+                disabled={isLoading}
+                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                {isLoading ? "Déconnexion..." : "Déconnexion"}
+              </Button>
             </div>
 
             {/* Menu mobile */}
@@ -142,12 +193,11 @@ export default function AdminNav() {
                   variant="ghost"
                   size="lg"
                   className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 mt-4"
-                  onClick={() => {
-                    // Logique de déconnexion
-                  }}
+                  onClick={handleSignOut}
+                  disabled={isLoading}
                 >
                   <LogOut className="h-5 w-5 mr-3" />
-                  Déconnexion
+                  {isLoading ? "Déconnexion..." : "Déconnexion"}
                 </Button>
               </div>
             </div>

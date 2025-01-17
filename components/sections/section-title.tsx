@@ -10,7 +10,7 @@ export default function SectionTitle({ title, color, subtitle }: SectionTitlePro
           {title}
         </h2>
         {subtitle && (
-          <p className="text-MD text-gray-600">
+          <p className="text-MD text-gray-600 mb-4">
             {subtitle}
           </p>
         )}

@@ -32,6 +32,7 @@ export default function Navigation() {
     { href: "#vision", label: "Notre Vision" },
     { href: "#celebrations", label: "Célébrations" },
     { href: "#actualites", label: "Actualités" },
+    { href: "#predications", label: "Prédications" },
     { href: "#contact", label: "Contact" },
   ]
 

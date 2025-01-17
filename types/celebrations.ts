@@ -12,4 +12,5 @@ export interface Celebration {
     adresse: string
     horaire: string
     jour: string
+    image?: string;
   }

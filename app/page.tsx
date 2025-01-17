@@ -11,8 +11,8 @@ export default function Home() {
       <HeroBanner />
       <Vision />
       <Celebrations />
-      <Predications /> 
       <Actualites />
+      <Predications /> 
       <Contact />
     </>
   )
