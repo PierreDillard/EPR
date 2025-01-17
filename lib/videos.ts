@@ -1,4 +1,4 @@
-import { VideoProps, PredicationData } from '@/types/predications';
+import { Video, PredicationData } from '@/types/predications';
 import { supabase } from './supabaseClient';
 
 export async function getVideos() {
@@ -11,18 +11,18 @@ export async function getVideos() {
     if (error) throw error;
 
     // Formatter les données pour l'affichage
-    const formattedVideos: VideoProps[] = (data as PredicationData[]).map(video => ({
-      id: video.youtube_id,
+    const formattedVideos: Video[] = (data as PredicationData[]).map(video => ({
+      id: video.id,
+      youtube_id: video.youtube_id,
       title: video.titre,
-      date: new Date(video.date).toLocaleDateString('fr-FR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      }),
+      description: video.description,
+      date: video.date,
+      duration: video.duration || '',
+      views: 0, // Valeur par défaut si non disponible
       thumbnail: video.miniature || `https://img.youtube.com/vi/${video.youtube_id}/maxresdefault.jpg`
     }));
 
-    return { data: formattedVideos, rawData: data };
+    return { data: formattedVideos };
   } catch (error) {
     console.error('Erreur lors de la récupération des prédications:', error);
     throw error;

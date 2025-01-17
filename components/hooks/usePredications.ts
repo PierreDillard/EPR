@@ -1,15 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getVideos } from '@/lib/videos';
-
-export interface Video {
-  id: number;
-  youtube_id: string;
-  title: string;
-  description?: string;
-  date: string;
-  duration: string;
-  views: number;
-}
+import { Video } from '@/types/predications';
 
 export function usePredications() {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -19,7 +10,7 @@ export function usePredications() {
   useEffect(() => {
     async function fetchVideos() {
       try {
-        const data = await getVideos();
+        const { data } = await getVideos();
         setVideos(data);
         setIsLoading(false);
       } catch (err) {
