@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
 import { getVideos } from '@/lib/videos';
+import { VideoProps, PredicationData } from '@/types/predications';
 
 export function useVideos() {
-  const [videos, setVideos] = useState<any[]>([]);
+  const [videos, setVideos] = useState<VideoProps[]>([]);
+  const [rawData, setRawData] = useState<PredicationData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     async function fetchVideos() {
       try {
-        const data = await getVideos();
-        setVideos(data);
+        const response = await getVideos();
+        setVideos(response.formattedVideos);
+        setRawData(response.rawData);
       } catch (err) {
-        setError(err);
+        setError(err instanceof Error ? err : new Error('Une erreur est survenue'));
       } finally {
         setIsLoading(false);
       }
@@ -20,5 +23,5 @@ export function useVideos() {
     fetchVideos();
   }, []);
 
-  return { videos, isLoading, error };
+  return { videos, rawData, isLoading, error };
 }

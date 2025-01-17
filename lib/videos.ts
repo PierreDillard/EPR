@@ -1,7 +1,12 @@
-import { Video, PredicationData } from '@/types/predications';
+import { Video, VideoProps, PredicationData } from '@/types/predications';
 import { supabase } from './supabaseClient';
 
-export async function getVideos() {
+export interface VideosResponse {
+  formattedVideos: VideoProps[];
+  rawData: PredicationData[];
+}
+
+export async function getVideos(): Promise<VideosResponse> {
   try {
     const { data, error } = await supabase
       .from('predications')
@@ -10,19 +15,25 @@ export async function getVideos() {
 
     if (error) throw error;
 
-    // Formatter les données pour l'affichage
-    const formattedVideos: Video[] = (data as PredicationData[]).map(video => ({
-      id: video.id,
-      youtube_id: video.youtube_id,
+    const rawData = data as PredicationData[];
+    
+    // Format pour l'affichage (VideoProps)
+    const formattedVideos: VideoProps[] = rawData.map(video => ({
+      id: video.id.toString(), // Conversion en string pour VideoProps
       title: video.titre,
-      description: video.description,
-      date: video.date,
-      duration: video.duration || '',
-      views: 0, // Valeur par défaut si non disponible
-      thumbnail: video.miniature || `https://img.youtube.com/vi/${video.youtube_id}/maxresdefault.jpg`
+      date: new Date(video.date).toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }),
+      thumbnail: video.miniature || `https://img.youtube.com/vi/${video.youtube_id}/maxresdefault.jpg`,
+      description: video.description
     }));
 
-    return { data: formattedVideos };
+    return {
+      formattedVideos,
+      rawData
+    };
   } catch (error) {
     console.error('Erreur lors de la récupération des prédications:', error);
     throw error;

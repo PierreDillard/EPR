@@ -32,9 +32,9 @@ export default function Predications() {
     async function loadPredications() {
       try {
         setIsLoading(true)
-        const { data: formattedVideos, rawData } = await getVideos()
-        setVideos(formattedVideos)
-        setStructuredData(StructuredDataPredications(rawData))
+        const response = await getVideos();
+        setVideos(response.formattedVideos);
+        setStructuredData(StructuredDataPredications(response.rawData));
       } catch (error) {
         console.error('Erreur lors du chargement des prédications:', error)
         toast({
