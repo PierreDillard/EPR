@@ -28,7 +28,7 @@ interface DeleteButtonProps {
 export default function DeleteButton({ id, title, onDelete }: DeleteButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
+  
 
   const handleDelete = async () => {
     setIsLoading(true);
