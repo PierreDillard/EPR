@@ -4,7 +4,6 @@ import type { Metadata } from 'next'
 import { Inter,Playfair_Display  } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
-import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import ScrollHandler from'@/components/utils/scroll-handler'
 import NavigationWrapper from '@/components/layout/navigation-wrapper'  
@@ -57,17 +56,16 @@ export default function RootLayout({
 
   return (
     <html lang="fr" suppressHydrationWarning >
-         <ScrollHandler /> 
-         <head/>
-         <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
-  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32"/>
-  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
-  <link rel="manifest" href="/site.webmanifest"/>
+        
+         <head>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <meta name="msvalidate.01" content="C2B25B7A6E318B040EE6B2F0014A8A8D" />
-  <meta name="theme-color" content="#ffffff"/>
-  
-<head/>
+  <meta name="theme-color" content="#ffffff" />
+</head>
   <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"

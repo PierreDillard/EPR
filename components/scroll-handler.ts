@@ -6,16 +6,19 @@ export default function ScrollHandler() {
   useEffect(() => {
     // Gérer le scroll initial si l'URL contient un hash
     const handleInitialScroll = () => {
-      const hash = window.location.hash;
-      if (hash) {
-        const section = document.querySelector(hash);
-        if (section) {
-          setTimeout(() => {
-            section.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
+        const hash = window.location.hash;
+        if (hash) {
+          const section = document.querySelector(hash);
+          if (section) {
+            setTimeout(() => {
+              section.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          } else {
+            console.warn(`Aucun élément trouvé pour le hash : ${hash}`);
+          }
         }
-      }
-    };
+      };
+      
 
     // Gérer les clics sur les liens internes
     const handleLinkClick = (e: MouseEvent) => {
