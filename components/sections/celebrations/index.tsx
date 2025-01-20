@@ -38,7 +38,7 @@ export default function Celebrations() {
           />
           
           {/* Grille de cartes */}
-          <div className="grid md:grid-cols-2 gap-8 ">
+          <div className="grid md:grid-cols-2 gap-8  ">
             {celebrations.map((celebration, index) => (
               <div 
                 key={index}
@@ -48,7 +48,7 @@ export default function Celebrations() {
               </div>
             ))}
           </div>
-          <div className="grid md:grid-cols-2 gap-8 mt-8 ">
+          <div className="grid md:grid-cols-2 gap-8 mt-16 ">
   <MeetingCard 
     title="Intercession" 
     image={`${baseUrl}/images/intercession.jpg`}

@@ -9,7 +9,7 @@ import { VideoProps } from "@/types/predications"
 
 export default function VideoCard({ id, title, date, thumbnail }: VideoProps) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer">
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow  group cursor-pointer">
       <div className="relative aspect-video">
         <Image 
           src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}

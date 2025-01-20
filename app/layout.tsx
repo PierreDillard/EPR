@@ -1,25 +1,16 @@
 
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter,Playfair_Display, Montserrat  } from 'next/font/google'
+import { Inter,Playfair_Display  } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import ScrollHandler from'@/components/utils/scroll-handler'
 import NavigationWrapper from '@/components/layout/navigation-wrapper'  
-import { usePathname } from 'next/navigation'
+
 
 const inter = Inter({ subsets: ['latin'] })
-const playfair = Playfair_Display({ 
-  subsets: ['latin'],
-  variable: '--font-playfair'
-})
-
-const montserrat = Montserrat({ 
-  subsets: ['latin'],
-  variable: '--font-montserrat'
-})
 
 
 export const metadata: Metadata = {
@@ -62,6 +53,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+ 
 
   return (
     <html lang="fr" suppressHydrationWarning >
@@ -82,7 +74,7 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
-        >
+        > <ScrollHandler />
            <NavigationWrapper />
            <main>{children}</main>
            <Footer />

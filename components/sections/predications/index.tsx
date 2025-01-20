@@ -130,7 +130,7 @@ export default function Predications() {
           <Button 
             variant="outline"
             className="group bg-[#F34325] text-white flex items-center gap-2 
-            hover:bg-[#F34325]/90 transition-all duration-300 hover:scale-105"
+            hover:bg-[#F34325]/90 transition-all duration-300 hover:scale-105 rounded-3xl"
             onClick={handleOpenYouTube}
           >
             <span className="relative z-10">Voir plus sur YouTube</span>

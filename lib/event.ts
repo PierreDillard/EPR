@@ -4,7 +4,7 @@ import { Evenement, EvenementInfo } from '@/types/event';
 
 const supabase = createClientComponentClient();
 
-export async function fetchEvenements() {
+export async function fetchEvenements(): Promise<Evenement[]> {
   try {
     const { data, error } = await supabase
       .from('evenements')
@@ -22,7 +22,7 @@ export async function fetchEvenements() {
   }
 }
 
-export async function fetchEvenementsAVenir() {
+export async function fetchEvenementsAVenir(): Promise<Evenement[]> {
   try {
     const today = new Date().toISOString().split('T')[0];
     const { data, error } = await supabase
@@ -46,78 +46,72 @@ export async function handleAddEvenement(
   evenement: Omit<Evenement, 'id'>,
   infos?: Omit<EvenementInfo, 'id' | 'evenement_id'>
 ) {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || '';
-    const response = await fetch(`/api/admin/events`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ evenement, infos })
-    });
+  const { data, error } = await supabase
+    .from('evenements')
+    .insert([{ ...evenement }])
+    .select(); // Pour récupérer l'ID inséré
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Erreur lors de la création');
-    }
-
-    return await response.json();
-  } catch (error) {
+  if (error) {
     console.error('Erreur lors de l\'ajout de l\'événement:', error);
     throw error;
   }
+
+  if (infos) {
+    const evenementId = data?.[0]?.id;
+    if (evenementId) {
+      const { error: infosError } = await supabase
+        .from('evenements_infos')
+        .insert([{ ...infos, evenement_id: evenementId }]);
+
+      if (infosError) {
+        console.error('Erreur lors de l\'ajout des informations de l\'événement:', infosError);
+        throw infosError;
+      }
+    }
+  }
+
+  return data;
 }
 
-export async function handleUpdateEvenement(
+
+export async function updateEvenement(
   id: string,
   evenement: Partial<Omit<Evenement, 'id'>>,
   infos?: Partial<Omit<EvenementInfo, 'id' | 'evenement_id'>>
 ) {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || '';
-    const response = await fetch(`${baseUrl}/api/admin/events`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ id, evenement, infos })
-    });
+  const { error } = await supabase
+    .from('evenements')
+    .update(evenement)
+    .eq('id', id);
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Erreur lors de la mise à jour');
-    }
-
-    return await response.json();
-  } catch (error) {
+  if (error) {
     console.error('Erreur lors de la mise à jour de l\'événement:', error);
     throw error;
+  }
+
+  if (infos) {
+    const { error: infosError } = await supabase
+      .from('evenements_infos')
+      .update(infos)
+      .eq('evenement_id', id);
+
+    if (infosError) {
+      console.error('Erreur lors de la mise à jour des informations de l\'événement:', infosError);
+      throw infosError;
+    }
   }
 }
 
 export async function handleDeleteEvenement(id: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || '';
-    const response = await fetch(`${baseUrl}/api/admin/events?id=${id}`, {
-      method: 'DELETE',
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      credentials: 'include'
-    });
+    const { error } = await supabase
+      .from('evenements')
+      .delete()
+      .eq('id', id);
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Erreur lors de la suppression');
-    }
-
-    return await response.json();
+    if (error) throw error;
   } catch (error) {
-    console.error('Erreur lors de la suppression de l\'événement:', error);
+    console.error("Erreur lors de la suppression de l'événement:", error);
     throw error;
   }
 }

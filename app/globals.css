@@ -84,3 +84,9 @@
 h2::after {
   background-color: var(--title-underline-color);
 }
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-playfair: 'Playfair Display', serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+}
+

@@ -32,8 +32,8 @@ export default function CelebrationCard({
       <div className="relative h-full p-6 flex flex-col justify-between z-10">
         {/* En-tête */}
         <div className="space-y-2">
-          <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight drop-shadow-lg">
-            {lieu}
+          <h3 className="text-2xl md:text-3xl font-bold text-gray-100 tracking-tight drop-shadow-lg">
+          Culte
           </h3>
           <div className="w-16 h-1 bg-white rounded-full" />
         </div>
@@ -42,23 +42,23 @@ export default function CelebrationCard({
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-white/10 backdrop-blur-sm">
-              <Calendar className="h-5 w-5 text-white" />
+              <Calendar className="h-5 w-5 text-gray-100" />
             </div>
-            <span className="text-white font-medium drop-shadow-md">{jour}</span>
+            <span className="text-gray-100 font-medium drop-shadow-md">{jour}</span>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-white/10 backdrop-blur-sm">
-              <Clock className="h-5 w-5 text-white" />
+              <Clock className="h-5 w-5 text-gray-100" />
             </div>
-            <span className="text-white font-medium drop-shadow-md">{horaire}</span>
+            <span className="text-gray-100 font-medium drop-shadow-md">{horaire}</span>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-white/10 backdrop-blur-sm">
-              <MapPin className="h-5 w-5 text-white" />
+              <MapPin className="h-5 w-5 text-gray-100" />
             </div>
-            <span className="text-white font-medium drop-shadow-md">{adresse}</span>
+            <span className="text-gray-100 font-medium drop-shadow-md">{ lieu} {adresse}</span>
           </div>
         </div>
       </div>
