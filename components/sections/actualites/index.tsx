@@ -14,7 +14,7 @@ export default async function EventsPage() {
         <SectionTitle 
           title="Evènements"    
           icon={Calendar}  
-          color="#0A0A0A"
+         color="#00AECE"
           subtitle="Découvrez tous nos événements et rejoignez-nous pour grandir ensemble"
         />
         

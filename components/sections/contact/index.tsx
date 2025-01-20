@@ -13,7 +13,7 @@ export default function Contact() {
 
            <SectionTitle 
           title="Contact"
-          color="#0A0A0A"
+          color="#00AECE"
           icon={Mail}
           subtitle="Nous sommes à votre écoute. N'hésitez pas à nous contacter"
         />

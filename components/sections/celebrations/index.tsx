@@ -34,7 +34,7 @@ export default function Celebrations() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle 
             title="Célébrations"
-            color="#111827"
+          color="#00AECE"
             icon={Church}
             subtitle="Rejoignez-nous pour des moments de louange, de prière et de communion fraternelle"
           />

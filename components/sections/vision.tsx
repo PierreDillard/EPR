@@ -63,7 +63,7 @@ export default function Vision() {
       <div className="max-w-7xl mx-auto px-4 sm:px-2 lg:px-4">
       <SectionTitle
         title="Notre Vision"
-        color="black"
+        color="#00AECE"
         subtitle=""
         icon={BookOpen}
         iconClassName="text-[#00AECE]"

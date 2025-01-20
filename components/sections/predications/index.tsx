@@ -90,7 +90,7 @@ export default function Predications() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle 
           title="Prédications"
-          color="#111827"
+         color="#00AECE"
           icon={Video}
           subtitle="Dernières prédications et enseignements"
         />
