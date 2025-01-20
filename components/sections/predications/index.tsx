@@ -10,6 +10,7 @@ import  Loading from "@/components/ui/Loading"
 import { getVideos } from "@/lib/videos"
 import Script from "next/script"
 import { useToast } from "@/hooks/use-toast"
+import { Video } from "lucide-react"
 
 export default function Predications() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
@@ -89,7 +90,8 @@ export default function Predications() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle 
           title="Prédications"
-          color="#00AECE"
+          color="#111827"
+          icon={Video}
           subtitle="Dernières prédications et enseignements"
         />
 

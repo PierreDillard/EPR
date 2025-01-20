@@ -6,10 +6,16 @@ Users,
 Heart, 
 UnlockKeyhole, 
 BookOpen, 
-Globe 
+Globe, 
+Eye,
+Book
 } from "lucide-react";
 import Script from "next/script";
 import { StructuredDataVision } from "@/lib/structuredData/vision";
+import SectionTitle from "./section-title";
+import { setEventTime } from '../../utils/eventsDate';
+import { Separator } from '@/components/ui/separator';
+import Quote from'@/components/ui/quote';
 
 
 export default function Vision() {
@@ -54,15 +60,15 @@ export default function Vision() {
                 {JSON.stringify(structuredData)}
             </Script>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="prose prose-slate lg:prose-xl mx-auto mb-12">
-          <h2 className="text-4xl text-center font-bold my-6 relative py-8
-            after:content-[''] after:block after:w-24 after:h-1 after:bg-[#00AECE]
-            after:mx-auto after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2">
-            Notre Vision
-          </h2>
-          
-          <div className="!max-w-3xl mx-auto not-prose">
+      <div className="max-w-7xl mx-auto px-4 sm:px-2 lg:px-4">
+      <SectionTitle
+        title="Notre Vision"
+        color="black"
+        subtitle=""
+        icon={BookOpen}
+        iconClassName="text-[#00AECE]"
+      />
+         <div className="!max-w-3xl  not-prose">
             <p className="text-left text-lg text-gray-600 mb-6">
               <span className="font-medium">Ensemble pour le Royaume</span> est une association qui a pour vocation de rassembler 
               des chrétiens de différentes dénominations, horizons ou cultures, afin de 
@@ -79,7 +85,7 @@ export default function Vision() {
               au travers des <span className="font-medium">5 ministères</span> (apôtres, prophètes, 
               évangélistes, pasteurs, et enseignants).
             </p>
-          </div>
+        
         </div>
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -98,11 +104,17 @@ export default function Vision() {
           ))}
         </div>
 
-        <div className="prose prose-slate lg:prose-xl mx-auto mt-6">
-          <p className="text-center text-lg text-gray-600 italic">
-            C'est en cultivant <span className="font-medium">"la culture du Royaume"</span> que nous encourageons 
-            chaque chrétien à s'investir dans sa ville, son église locale et sa nation.
-          </p>
+        <div className="prose prose-slate lg:prose-xl mt-8">
+        <Quote 
+  text="C'est en cultivant la culture du Royaume que nous encourageons chaque chrétien à s'investir dans sa ville, son église locale et sa nation."
+  highlightedText="la culture du Royaume"
+  gradientColors={{
+    from: '#00AECE', // Bleu clair
+    via: '#0096B7', // Bleu moyen
+    to: '#006C8F'   // Bleu foncé
+  }}
+  className="w-full text-md md:text-lg mt-4"
+/>
         </div>
       </div>
     </section>

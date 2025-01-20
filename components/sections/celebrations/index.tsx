@@ -7,6 +7,7 @@ import Script from "next/script";
 import { StructuredDataCelebration } from "@/lib/structuredData/celebrations";
 import Loading from "@/components/ui/Loading";
 import MeetingCard from "./meeting-card";
+import { Church } from "lucide-react";
 
 const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || 'http://206.189.23.60';
 
@@ -30,10 +31,11 @@ export default function Celebrations() {
       </Script>
       
       <section id="celebrations" className="py-12 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-2 lg:px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle 
             title="Célébrations"
-            color="#A8CC3D"
+            color="#111827"
+            icon={Church}
             subtitle="Rejoignez-nous pour des moments de louange, de prière et de communion fraternelle"
           />
           
@@ -42,7 +44,7 @@ export default function Celebrations() {
             {celebrations.map((celebration, index) => (
               <div 
                 key={index}
-                className="h-[400px]" // Hauteur fixe pour les cartes
+                className="h-[400px]" 
               >
                 <CelebrationCard {...celebration} />
               </div>

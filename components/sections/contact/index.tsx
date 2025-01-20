@@ -2,6 +2,7 @@
 import SectionTitle from "@/components/sections/section-title"
 import ContactForm from "./contact-form"
 import QRCode from "./qr-code"
+import { Mail } from "lucide-react"
 
 
 export default function Contact() {
@@ -13,6 +14,7 @@ export default function Contact() {
            <SectionTitle 
           title="Contact"
           color="#0A0A0A"
+          icon={Mail}
           subtitle="Nous sommes à votre écoute. N'hésitez pas à nous contacter"
         />
         </div>

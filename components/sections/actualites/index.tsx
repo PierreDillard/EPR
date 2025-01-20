@@ -1,6 +1,7 @@
 import { fetchEvenementsAVenir } from '@/lib/event';
 import { EventsClient } from './EventsClient';
 import SectionTitle from '@/components/sections/section-title';
+import { Calendar } from 'lucide-react';
 
 export default async function EventsPage() {
 
@@ -11,7 +12,8 @@ export default async function EventsPage() {
     <section id="actualites" className="py-4 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle 
-          title="Evénements"      
+          title="Evènements"    
+          icon={Calendar}  
           color="#0A0A0A"
           subtitle="Découvrez tous nos événements et rejoignez-nous pour grandir ensemble"
         />
