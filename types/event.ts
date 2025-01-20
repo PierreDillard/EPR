@@ -2,8 +2,7 @@ export interface Event {
     id: string;
     title: string;
     date: string;
-    type: 'intercession' | 'formation' | 'celebration' | 'évangelisation';
-    location: string;
+    type: 'intercession' | 'formation' | 'celebration' | 'évangelisation'| 'séminaire';
     time?: string;
     speaker?: string;
     image: string;
@@ -23,6 +22,7 @@ export interface Evenement {
   time: string;
   speaker?: string;
   image: string;
+  recurrent: boolean;
 }
 
 export interface EvenementInfo {
