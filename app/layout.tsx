@@ -5,7 +5,7 @@ import { Inter,Playfair_Display  } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import Footer from '@/components/footer'
-import ScrollHandler from'@/components/utils/scroll-handler'
+
 import NavigationWrapper from '@/components/layout/navigation-wrapper'  
 
 
@@ -72,7 +72,7 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
-        > <ScrollHandler />
+        > 
            <NavigationWrapper />
            <main>{children}</main>
            <Footer />
