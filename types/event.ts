@@ -6,7 +6,7 @@ export interface Event {
     time?: string;
     speaker?: string;
     image: string;
-    recurrent: boolean;
+
   }
   
   // types/evenements.ts
@@ -22,7 +22,7 @@ export interface Evenement {
   time: string;
   speaker?: string;
   image: string;
-  recurrent: boolean;
+
 }
 
 export interface EvenementInfo {
