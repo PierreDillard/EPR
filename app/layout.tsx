@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: 'Ensemble pour le Royaume',
     images: [
       {
-        url: 'https://www.ensemblepourleroyaume.com/android-chrome-512x512.png',
+        url: 'https://www.ensemblepourleroyaume.com/icon.png',
         width: 512,
         height: 512,
         alt: 'Ensemble pour le Royaume',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     site: '@ensemblepourleroyaume',
     title: 'Ensemble pour le Royaume',
     description: 'Rassembler des chrétiens de différentes dénominations pour l\'avancement du Royaume de Dieu',
-    images: ['https://www.ensemblepourleroyaume.com/android-chrome-512x512.png'],
+    images: ['https://www.ensemblepourleroyaume.com/icon.png'],
   },
 }
 
