@@ -34,6 +34,7 @@ import {
 import type { EvenementComplet } from "@/types/event";
 import EventEditDialog from './EventEditDialog';
 import { getBadgeColor } from '@/utils/event';
+import MobileEventCard from './mobile-event-card';
 
 type EventsListProps = {
   onEventUpdate: () => Promise<void>;
@@ -145,7 +146,20 @@ export const EventsList: React.FC<EventsListProps> = ({ onEventUpdate }) => {
           Gérez tous les événements à venir
         </p>
       </div>
-
+      {isMobile ? (
+  <div className="space-y-4 p-4">
+    {events.map((event) => (
+      <MobileEventCard
+        key={event.id}
+        event={event}
+        onUpdate={async () => {
+          await loadEvents();
+          await onEventUpdate();
+        }}
+      />
+    ))}
+  </div>
+) : (
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -248,6 +262,7 @@ export const EventsList: React.FC<EventsListProps> = ({ onEventUpdate }) => {
           </TableBody>
         </Table>
       </div>
+      )}
     </Card>
   );
 };
