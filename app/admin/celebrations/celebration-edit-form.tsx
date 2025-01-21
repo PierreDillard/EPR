@@ -10,8 +10,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Loading from '@/components/ui/Loading';
+import { getCelebrationById, updateCelebration } from '@/lib/celebrations'; 
+
 interface CelebrationFormData {
   lieu: string;
   adresse: string;
@@ -43,60 +44,39 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
     const fetchCelebration = async () => {
-      const { data, error } = await supabase
-        .from('celebrations')
-        .select('*')
-        .eq('id', celebrationId)
-        .single();
-
-      if (error) {
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger les données de la célébration",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      if (data) {
+      try {
+        const data = await getCelebrationById(celebrationId);
         setFormData({
           lieu: data.lieu,
           adresse: data.adresse,
           horaire: data.horaire,
           jour: data.jour
         });
+      } catch (error) {
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger les données de la célébration",
+          variant: "destructive",
+        });
       }
     };
 
     fetchCelebration();
-  }, [celebrationId]);
+  }, [celebrationId, toast]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const { error } = await supabase
-        .from('celebrations')
-        .update({
-          lieu: formData.lieu,
-          adresse: formData.adresse,
-          horaire: formData.horaire,
-          jour: formData.jour
-        })
-        .eq('id', celebrationId);
-
-      if (error) throw error;
-
+      await updateCelebration(celebrationId, formData);
       toast({
         title: "Succès",
         description: "La célébration a été mise à jour avec succès",
       });
-
       if (onSuccess) onSuccess();
     } catch (error) {
       toast({
@@ -119,7 +99,7 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
             value={formData.lieu}
             onChange={(e) => setFormData(prev => ({ ...prev, lieu: e.target.value }))}
             required
-            placeholder="Ex: Église Saint-Michel"
+            placeholder="Ex: Église ..."
             className="w-full"
           />
         </div>
@@ -174,7 +154,7 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
           disabled={isLoading}
           className="w-full md:w-auto"
         >
-          {isLoading ? <Loading/> : "Mettre à jour"}
+          {isLoading ? <Loading /> : "Mettre à jour"}
         </Button>
       </div>
     </form>

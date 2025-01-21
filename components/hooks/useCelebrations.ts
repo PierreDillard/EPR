@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
-import { getCelebrations } from '@/lib/celebrations';
+import { useState, useEffect, useCallback } from 'react';
+import { toast, useToast } from '@/hooks/use-toast';
+import { getCelebrationById, getCelebrations } from '@/lib/celebrations';
 import type { Celebration } from '@/types/celebrations';
 
 export const useCelebrations = () => {
   const [celebrations, setCelebrations] = useState<Celebration[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchCelebrations = async () => {
@@ -27,3 +29,4 @@ export const useCelebrations = () => {
 
   return { celebrations, isLoading, error };
 };
+

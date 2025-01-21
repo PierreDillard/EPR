@@ -36,7 +36,22 @@ export interface EvenementInfo {
   programme?: string;
 }
 
-// Type combiné pour un événement avec ses infos
+
 export interface EvenementComplet extends Evenement {
-  infos?: EvenementInfo;
+  infos?: {
+
+    description?: string;
+
+    contact_email?: string;
+
+    contact_telephone?: string;
+    transport?: string;
+    programme?: string;
+
+  }[];
+}
+export interface EventStats {
+  total: number
+  upcoming: number
+  thisMonth: number
 }

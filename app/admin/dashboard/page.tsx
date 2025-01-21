@@ -1,33 +1,28 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import { getDashboardData } from '@/lib/dashboard'
 import Image from 'next/image'
 import { Card } from "@/components/ui/card"
 import {
   Video,
   Calendar,
   Users,
-  TrendingUp
+
 } from "lucide-react"
-import DashboardStats from './dashboard-stats'
-import LatestContent from './latest-content'
+
+
 
 export default async function DashboardPage() {
   const supabase = createServerComponentClient({ cookies })
   
   // Récupérer les statistiques
-  const [
-    { count: predicationsCount },
-    { count: celebrationsCount },
-    { data: latestPredications },
-    { data: latestCelebrations },
-    { data: adminsCount }
-  ] = await Promise.all([
-    supabase.from('predications').select('*', { count: 'exact' }),
-    supabase.from('celebrations').select('*', { count: 'exact' }),
-    supabase.from('predications').select('*').order('date', { ascending: false }).limit(5),
-    supabase.from('celebrations').select('*').order('created_at', { ascending: false }).limit(5),
-    supabase.from('admins').select('*', { count: 'exact' })
-  ])
+  const {
+    predicationsCount,
+    celebrationsCount,
+    latestPredications,
+    latestCelebrations,
+    adminsCount
+  } = await getDashboardData()
 
   const stats = [
     {
@@ -52,9 +47,7 @@ export default async function DashboardPage() {
       color: 'text-purple-600'
     }
   ]
-  console.log(stats);
-  console.log('Prédications récentes :', latestPredications);
-console.log('Célébrations récentes :', latestCelebrations);
+
 
   return (
     <div className="space-y-8 md:space-y-24">

@@ -18,6 +18,8 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
 import { handleDeleteEvenement, fetchEvenements } from "@/lib/event";
+import { useMediaQuery } from '@/hooks/use-media-query';
+import Loading from '@/components/ui/Loading';
 import { 
   AlertDialog,
   AlertDialogAction,
@@ -30,13 +32,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import type { EvenementComplet } from "@/types/event";
+import EventEditDialog from './EventEditDialog';
+import { getBadgeColor } from '@/utils/event';
 
+type EventsListProps = {
+  onEventUpdate: () => Promise<void>;
+};
 
-
-export default function EventsList() {
+export const EventsList: React.FC<EventsListProps> = ({ onEventUpdate }) => {
   const [events, setEvents] = useState<EvenementComplet[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isTablet = useMediaQuery('(max-width: 1024px)');
 
   useEffect(() => {
     loadEvents();
@@ -57,21 +66,6 @@ export default function EventsList() {
     }
   }
 
-  const getBadgeVariant = (type: string) => {
-    switch (type) {
-      case 'reunion':
-        return 'bg-purple-100 text-purple-800';
-      case 'formation':
-        return 'bg-blue-100 text-blue-800';
-      case 'celebration':
-        return 'bg-green-100 text-green-800';
-      case 'évangelisation':
-        return 'bg-orange-100 text-orange-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   const handleDelete = async (id: string) => {
     try {
       await handleDeleteEvenement(id);
@@ -80,6 +74,7 @@ export default function EventsList() {
         description: "L'événement a été supprimé",
       });
       loadEvents();
+      await onEventUpdate();
     } catch (error) {
       toast({
         title: "Erreur",
@@ -91,9 +86,56 @@ export default function EventsList() {
 
   if (isLoading) {
     return <Card className="p-6">
-      <div className="text-center">Chargement des événements...</div>
+      <Loading/>
     </Card>;
   }
+
+  const ActionButtons = ({ event }: { event: EvenementComplet }) => (
+    <div className="flex gap-2">
+      <EventEditDialog
+        eventId={event.id}
+        initialData={{
+          title: event.title,
+          date: event.date,
+          time: event.time,
+          location: event.location,
+          speaker: event.speaker,
+          type: event.type,
+          description: event.infos?.[0]?.description || '',
+          contact_email: event.infos?.[0]?.contact_email || '',
+          contact_telephone: event.infos?.[0]?.contact_telephone || '',
+        }}
+        onSuccess={loadEvents}
+      />
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="destructive" size="icon">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Êtes-vous sûr ?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Cette action ne peut pas être annulée. Cela supprimera
+              définitivement cet événement.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => handleDelete(event.id)}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
 
   return (
     <Card className="overflow-hidden">
@@ -108,33 +150,35 @@ export default function EventsList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Image</TableHead>
+              {!isMobile && <TableHead>Image</TableHead>}
               <TableHead>Détails</TableHead>
-              <TableHead>Informations</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              {!isMobile && !isTablet && <TableHead>Informations</TableHead>}
+              {!isMobile && <TableHead>Type</TableHead>}
+              {!isMobile && <TableHead className="text-right">Actions</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
             {events.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-8">
+                <TableCell colSpan={isMobile ? 1 : isTablet ? 3 : 5} className="text-center py-8">
                   Aucun événement à afficher
                 </TableCell>
               </TableRow>
             ) : (
               events.map((event) => (
                 <TableRow key={event.id}>
-                  <TableCell>
-                    <div className="relative w-24 h-16 rounded-md overflow-hidden">
-                      <Image
-                        src={event.image || '/images/events/event.jpg'}
-                        alt={event.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </TableCell>
+                  {!isMobile && (
+                    <TableCell>
+                      <div className="relative w-24 h-16 rounded-md overflow-hidden">
+                        <Image
+                          src={event.image || '/images/events/event.jpg'}
+                          alt={event.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    </TableCell>
+                  )}
                   <TableCell>
                     <div className="space-y-1">
                       <div className="font-medium">{event.title}</div>
@@ -146,61 +190,58 @@ export default function EventsList() {
                         <Clock className="w-4 h-4 mr-1" />
                         {event.time}
                       </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div className="flex items-center text-sm">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        {event.location}
-                      </div>
-                      {event.speaker && (
-                        <div className="flex items-center text-sm">
-                          <User className="w-4 h-4 mr-1" />
-                          {event.speaker}
-                        </div>
+                      {isMobile && (
+                        <>
+                          <div className="flex items-center text-sm text-gray-500 mt-2">
+                            <MapPin className="w-4 h-4 mr-1" />
+                            {event.location}
+                          </div>
+                          {event.speaker && (
+                            <div className="flex items-center text-sm text-gray-500">
+                              <User className="w-4 h-4 mr-1" />
+                              {event.speaker}
+                            </div>
+                          )}
+                          <div className="mt-2">
+                            <Badge className={getBadgeColor(event.type)}>
+                              {event.type}
+                            </Badge>
+                          </div>
+                          <div className="flex justify-start gap-2 mt-4 pt-4 border-t border-gray-100">
+                            <ActionButtons event={event} />
+                          </div>
+                        </>
                       )}
                     </div>
                   </TableCell>
-                  <TableCell>
-                    <Badge className={getBadgeVariant(event.type)}>
-                      {event.type}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="icon">
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="destructive" size="icon">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Êtes-vous sûr ?
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Cette action ne peut pas être annulée. Cela supprimera
-                              définitivement cet événement.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Annuler</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDelete(event.id)}
-                              className="bg-red-600 hover:bg-red-700"
-                            >
-                              Supprimer
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-                  </TableCell>
+                  {!isMobile && !isTablet && (
+                    <TableCell>
+                      <div className="space-y-1">
+                        <div className="flex items-center text-sm">
+                          <MapPin className="w-4 h-4 mr-1" />
+                          {event.location}
+                        </div>
+                        {event.speaker && (
+                          <div className="flex items-center text-sm">
+                            <User className="w-4 h-4 mr-1" />
+                            {event.speaker}
+                          </div>
+                        )}
+                      </div>
+                    </TableCell>
+                  )}
+                  {!isMobile && (
+                    <TableCell>
+                      <Badge className={getBadgeColor(event.type)}>
+                        {event.type}
+                      </Badge>
+                    </TableCell>
+                  )}
+                  {!isMobile && (
+                    <TableCell className="text-right">
+                      <ActionButtons event={event} />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             )}
@@ -209,4 +250,4 @@ export default function EventsList() {
       </div>
     </Card>
   );
-}
+};

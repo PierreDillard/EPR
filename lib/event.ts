@@ -1,6 +1,6 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Evenement, EvenementInfo } from '@/types/event';
+import { Evenement, EvenementInfo, EventStats } from '@/types/event';
 
 const supabase = createClientComponentClient();
 
@@ -46,31 +46,44 @@ export async function handleAddEvenement(
   evenement: Omit<Evenement, 'id'>,
   infos?: Omit<EvenementInfo, 'id' | 'evenement_id'>
 ) {
-  const { data, error } = await supabase
-    .from('evenements')
-    .insert([{ ...evenement }])
-    .select(); // Pour récupérer l'ID inséré
+  try {
+    // Démarrer une transaction
+    const { data: eventData, error: eventError } = await supabase
+      .from('evenements')
+      .insert([{ ...evenement }])
+      .select()
+      .single();
 
-  if (error) {
-    console.error('Erreur lors de l\'ajout de l\'événement:', error);
-    throw error;
-  }
+    if (eventError) {
+      console.error('Erreur lors de l\'ajout de l\'événement:', eventError);
+      throw eventError;
+    }
 
-  if (infos) {
-    const evenementId = data?.[0]?.id;
-    if (evenementId) {
+    if (infos && eventData?.id) {
       const { error: infosError } = await supabase
         .from('evenements_infos')
-        .insert([{ ...infos, evenement_id: evenementId }]);
+        .insert([{ 
+          ...infos, 
+          evenement_id: eventData.id 
+        }]);
 
       if (infosError) {
-        console.error('Erreur lors de l\'ajout des informations de l\'événement:', infosError);
+        // En cas d'erreur, on supprime l'événement créé pour maintenir la cohérence
+        await supabase
+          .from('evenements')
+          .delete()
+          .eq('id', eventData.id);
+          
+        console.error('Erreur lors de l\'ajout des informations:', infosError);
         throw infosError;
       }
     }
-  }
 
-  return data;
+    return eventData;
+  } catch (error) {
+    console.error('Erreur inattendue:', error);
+    throw error;
+  }
 }
 
 
@@ -79,26 +92,68 @@ export async function updateEvenement(
   evenement: Partial<Omit<Evenement, 'id'>>,
   infos?: Partial<Omit<EvenementInfo, 'id' | 'evenement_id'>>
 ) {
-  const { error } = await supabase
-    .from('evenements')
-    .update(evenement)
-    .eq('id', id);
+  try {
+    const { error: eventError } = await supabase
+      .from('evenements')
+      .update(evenement)
+      .eq('id', id);
 
-  if (error) {
-    console.error('Erreur lors de la mise à jour de l\'événement:', error);
-    throw error;
-  }
-
-  if (infos) {
-    const { error: infosError } = await supabase
-      .from('evenements_infos')
-      .update(infos)
-      .eq('evenement_id', id);
-
-    if (infosError) {
-      console.error('Erreur lors de la mise à jour des informations de l\'événement:', infosError);
-      throw infosError;
+    if (eventError) {
+      console.error('Erreur lors de la mise à jour de l\'événement:', eventError);
+      throw eventError;
     }
+
+    if (infos) {
+
+      const { data: existingInfos } = await supabase
+        .from('evenements_infos')
+        .select()
+        .eq('evenement_id', id)
+        .maybeSingle();
+
+      if (existingInfos) {
+        // Mise à jour des infos existantes
+        const { error: updateError } = await supabase
+          .from('evenements_infos')
+          .update(infos)
+          .eq('evenement_id', id);
+
+        if (updateError) {
+          console.error('Erreur lors de la mise à jour des infos:', updateError);
+          throw updateError;
+        }
+      } else {
+        // Création de nouvelles infos
+        const { error: insertError } = await supabase
+          .from('evenements_infos')
+          .insert([{ ...infos, evenement_id: id }]);
+
+        if (insertError) {
+          console.error('Erreur lors de la création des infos:', insertError);
+          throw insertError;
+        }
+      }
+    }
+
+    // Récupérer et retourner l'événement mis à jour avec ses infos
+    const { data: updatedEvent, error: fetchError } = await supabase
+      .from('evenements')
+      .select(`
+        *,
+        infos:evenements_infos (*)
+      `)
+      .eq('id', id)
+      .single();
+
+    if (fetchError) {
+      console.error('Erreur lors de la récupération de l\'événement mis à jour:', fetchError);
+      throw fetchError;
+    }
+
+    return updatedEvent;
+  } catch (error) {
+    console.error('Erreur inattendue:', error);
+    throw error;
   }
 }
 
@@ -113,5 +168,38 @@ export async function handleDeleteEvenement(id: string) {
   } catch (error) {
     console.error("Erreur lors de la suppression de l'événement:", error);
     throw error;
+  }
+}
+
+export async function getEventStats(): Promise<EventStats> {
+
+  const today = new Date().toISOString().split('T')[0]
+  const currentMonth = new Date().getMonth() + 1
+
+  try {
+
+    const { data: events, error } = await supabase
+      .from('evenements')
+      .select('*')
+      .order('date', { ascending: true })
+
+    if (error) throw error
+
+
+    const totalEvents = events?.length || 0
+    const upcomingEvents = events?.filter(event => event.date >= today).length || 0
+    const thisMonthEvents = events?.filter(event => {
+      const eventDate = new Date(event.date)
+      return eventDate.getMonth() + 1 === currentMonth
+    }).length || 0
+
+    return {
+      total: totalEvents,
+      upcoming: upcomingEvents,
+      thisMonth: thisMonthEvents
+    }
+  } catch (error) {
+    console.error('Erreur lors du calcul des statistiques des événements:', error)
+    throw error
   }
 }
