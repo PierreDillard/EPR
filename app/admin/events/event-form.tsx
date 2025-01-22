@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import { EventType } from "@/types/event";
 import { handleAddEvenement, updateEvenement } from "@/lib/event";
 import Loading from '@/components/ui/Loading';
+import { getEventImage } from '@/utils/event';
 
 interface EventFormProps {
   onSuccess: () => void;
@@ -114,7 +115,7 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
         location: eventData.location,
         time: eventData.time,
         speaker: eventData.speaker || undefined,
-        image: "/images/events/event.jpg" // Image par défaut
+        image: getEventImage (eventData.type as EventType)
       };
   
 
