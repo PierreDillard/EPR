@@ -64,7 +64,7 @@ export default function MobileEventCard({ event, onUpdate }: MobileEventCardProp
         </Card>
       </SheetTrigger>
 
-      <SheetContent side="bottom" className="h-[90%] rounded-t-xl">
+      <SheetContent side="bottom" className="h-[95vh] overflow-hidden flex flex-col rounded-t-xl">
         <SheetHeader>
           <SheetTitle>Modifier l&apos;événement</SheetTitle>
         </SheetHeader>
