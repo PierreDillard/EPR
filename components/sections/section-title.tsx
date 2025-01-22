@@ -20,7 +20,7 @@ export default function SectionTitle({
 }: SectionTitleProps) {
   return (
     <div className={cn(" mb-16", className)}>
-      <div className="flex items-center justify-start gap-4 mb-4 ">
+      <div className="flex items-center justify-center md:justify-start gap-4 mb-4 ">
         {Icon && (
           <Icon 
           className={cn(
