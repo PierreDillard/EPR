@@ -24,7 +24,8 @@ export default function MobileEventAdd({ onUpdate }: MobileEventAddProps) {
           Ajouter un événement
         </Button>
       </SheetTrigger>
-      <SheetContent side="bottom" className="h-[90%] rounded-t-xl">
+      <SheetContent side="bottom"    className="h-[95vh] overflow-hidden flex flex-col rounded-t-xl"
+      >
         <SheetHeader>
           <SheetTitle>Nouvel événement</SheetTitle>
           <SheetDescription>
