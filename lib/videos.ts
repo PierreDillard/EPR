@@ -6,7 +6,7 @@ export interface VideosResponse {
   rawData: PredicationData[];
 }
 
-// Créer une instance Supabase réutilisable
+
 const createSupabase = () => createClientComponentClient();
 
 // Fonction utilitaire pour formater la date

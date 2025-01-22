@@ -19,6 +19,7 @@ export default function Predications() {
   const [isLoading, setIsLoading] = useState(true)
   const videoPlayerRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
+  const MAX_VIDEOS = 6
 
   // Fonction pour gérer le scroll vers la vidéo
   const scrollToVideo = () => {
@@ -121,7 +122,7 @@ export default function Predications() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
-          {videos.map((video) => (
+          {videos.slice(0,MAX_VIDEOS).map((video) => (
             <div key={video.id} onClick={() => handleVideoSelect(video.id)}>
               <VideoCard {...video} />
             </div>
