@@ -274,7 +274,7 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
 
       <div className="flex justify-end gap-4">
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? <Loading /> : eventId ? "Mettre à jour" : "Créer l'événement"}
+          {isLoading ? <Loading /> : eventId ? "Mettre à jour" : "Créer"}
         </Button>
       </div>
     </form>
