@@ -9,11 +9,18 @@ import EventForm from './event-form';
 import { EventsList}from './events-list';
 import { EventStats } from '@/types/event';
 import { getEventStats } from '@/lib/event';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import { is } from 'date-fns/locale';
+
+
 
 
 function useEventStats() {
+  const [showForm, setShowForm] = useState(false);
   const [stats, setStats] = useState<EventStats>();
   const [isLoading, setIsLoading] = useState(true);
+
+  
 
   const loadStats = async () => {
     try {
@@ -37,6 +44,7 @@ function useEventStats() {
 export default function EventsPage() {
   const [showForm, setShowForm] = useState(false);
   const { stats, isLoading, refreshStats } = useEventStats();
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const handleSuccess = () => {
     refreshStats();
@@ -71,10 +79,12 @@ export default function EventsPage() {
           <p className="mt-2 text-gray-600">Gérez les événements et ajoutez de nouveaux contenus</p>
         </div>
         <div className="flex items-center gap-4">
+          {!isMobile && ( 
           <Button onClick={() => setShowForm(true)} className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
             Ajouter un événement
           </Button>
+          )}
         </div>
       </div>
 
