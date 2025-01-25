@@ -139,7 +139,7 @@ export default function EventsSection({ events }: { events: Event[] }) {
             </h3>
             <p className="text-gray-500">
               Revenez bientôt pour découvrir nos prochains événements.
-              En attendant, n'hésitez pas à nous contacter pour plus d'informations.
+              En attendant, n&apos;hésitez pas à nous contacter pour plus d&apos;informations.
             </p>
           </div>
           <Button
