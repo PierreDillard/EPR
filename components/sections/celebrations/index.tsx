@@ -30,7 +30,7 @@ export default function Celebrations() {
         {JSON.stringify(structuredData)}
       </Script>
       
-      <section id="celebrations" className="py-12 bg-gradient-to-b from-gray-50 to-white">
+      <section id="celebrations" className="py-8 md:py-12 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle 
             title="Célébrations"
@@ -50,7 +50,7 @@ export default function Celebrations() {
               </div>
             ))}
           </div>
-          <div className="grid md:grid-cols-2 gap-8 mt-16 ">
+          <div className="grid md:grid-cols-2 gap-8 mt-8 ">
   <MeetingCard 
     title="Intercession" 
     image={`${baseUrl}/images/intercession.jpg`}

@@ -55,7 +55,7 @@ export default function Vision() {
   const structuredData = StructuredDataVision(visionCards);
 
   return (
-    <section id="vision" className="py-16 bg-gray-50">
+    <section id="vision" className="py-8 md:py-16 bg-gray-50">
          <Script type="application/ld+json" id="json-ld-vision">
                 {JSON.stringify(structuredData)}
             </Script>
