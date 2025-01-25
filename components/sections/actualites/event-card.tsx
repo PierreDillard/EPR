@@ -1,11 +1,10 @@
-import Image from "next/image";
 import { MapPin, Clock, Calendar, User } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import  OptimizedImage  from "@/components/ui/optimized-image";
 import type { Event } from '@/types/event';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { getBadgeColor } from '../../../utils/event';
-
+import { getBadgeColor } from '@/utils/event';
 
 export default function EventCard({
   title,
@@ -20,14 +19,14 @@ export default function EventCard({
 
   return (
     <Card className="relative overflow-hidden h-[400px] transition-all duration-500 rounded-3xl bg-black/50 group hover:cursor-pointer">
-      {/* Image de fond */}
+      {/* Image de fond optimisée */}
       <div className="absolute inset-0">
-        <Image
+        <OptimizedImage
           src={image}
           alt={title}
-          fill
+          className="transition-transform duration-700 group-hover:scale-110"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority
-          className="object-cover"
         />
         <div className="absolute inset-0" />
       </div>
@@ -99,4 +98,3 @@ export default function EventCard({
     </Card>
   );
 }
-
