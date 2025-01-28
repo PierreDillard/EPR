@@ -14,7 +14,6 @@ import {
   DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
-
 import { EvenementComplet, Event } from '../../../types/event';
 
 function EventDetails({ event }: { event: EvenementComplet }) {
@@ -106,14 +105,14 @@ function EventPreview({ event }: { event: EvenementComplet }) {
           <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-10 flex flex-col gap-3">
             {/* Titre principal - Avec fond noir uniquement derrière le texte */}
             <div className="inline-block">
-              <h3 className="text-xl md:text-4xl font-bold text-white uppercase
+              <h3 className="text-xl md:text-4xl font-bold text-gray-100 uppercase
                           drop-shadow-lg bg-black/80 px-4 py-2 inline-block">
                 {event.title}
               </h3>
             </div>
 
             {/* Date avec fond noir */}
-            <div className="inline-flex items-center w-fit bg-black/80 text-white rounded-lg px-4 py-2">
+            <div className="inline-flex items-center w-fit bg-black/80 text-gray-100 rounded-lg px-4 py-2">
               <Calendar className="h-5 w-5 mr-3" />
               <span className="text-sm md:text-base font-medium">
                 {format(new Date(event.date), 'PPP', { locale: fr })}
@@ -122,7 +121,7 @@ function EventPreview({ event }: { event: EvenementComplet }) {
 
             {/* Informations supplémentaires */}
             {event.speaker && (
-              <div className="inline-flex items-center w-fit bg-black/80 text-white rounded-lg px-4 py-2">
+              <div className="inline-flex items-center w-fit bg-black/80 text-gray-100 rounded-lg px-4 py-2">
                 <User className="h-5 w-5 mr-3" />
                 <span className="text-sm md:text-base font-medium">{event.speaker}</span>
               </div>
