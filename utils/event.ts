@@ -51,11 +51,11 @@ export function getDefaultEventImage(type: EventType): string {
   //Validation de type d'événement
 
   const validEventTypes: EventType[] = [
-    'intercession',
+    'reunion',
     'formation',
     'celebration',
-    'évangelisation',
-    'séminaire'
+    'evangelisation',
+    'seminaire'
   ];
   
   export function isValidEventType(type: string): type is EventType {
