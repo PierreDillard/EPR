@@ -74,7 +74,7 @@ export default function MobileEventCard({ event, onUpdate }: MobileEventCardProp
             initialData={{
               title: event.title,
               date: event.date,
-              time: event.time,
+              time: event.time || '',
               location: event.location,
               speaker: event.speaker,
               type: event.type as EventType,

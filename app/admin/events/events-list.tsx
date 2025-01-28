@@ -103,7 +103,7 @@ export const EventsList: React.FC<EventsListProps> = ({ onEventUpdate }) => {
         initialData={{
           title: event.title,
           date: event.date,
-          time: event.time,
+          time: event.time || '',
           location: event.location,
           speaker: event.speaker,
           type: event.type,
