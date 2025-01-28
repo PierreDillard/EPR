@@ -14,6 +14,7 @@ import {
   DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
+import OptimizedImage from '@/components/ui/optimized-image';
 import { EvenementComplet, Event } from '../../../types/event';
 
 function EventDetails({ event }: { event: EvenementComplet }) {
@@ -90,13 +91,12 @@ function EventPreview({ event }: { event: EvenementComplet }) {
     <>
       <div className="flex flex-col space-y-2">      
         <div className="relative h-[300px] md:h-[500px]  w-full overflow-hidden rounded-lg">
-          <Image
-            src={event.image}
-            alt={event.title}
-            fill
-            className="object-cover"
-            priority
-          />
+        <OptimizedImage
+    src={event.image}
+    alt={event.title}
+    sizes="(max-width: 768px) 100vw, 100vw"
+    priority
+  />
           
           {/* Overlay noir semi-transparent */}
           <div className="absolute inset-0" />

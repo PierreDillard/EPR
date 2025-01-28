@@ -110,7 +110,7 @@ const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
           {previewUrl ? (
             <div className="relative w-full h-48">
               <Image
-                src={previewUrl}
+                 src={previewUrl || ''}
                 alt="Prévisualisation"
                 fill
                 className="object-cover rounded-lg"
@@ -149,9 +149,10 @@ const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
       {useDefaultImage && (
         <div className="relative w-full h-48">
           <Image
-            src={defaultImage}
-            alt="Image par défaut"
+             src={previewUrl || ''}
+            alt="Prévisualisation"
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover rounded-lg"
           />
         </div>

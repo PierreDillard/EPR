@@ -29,6 +29,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'images.ensemblepourleroyaume.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'api.qrserver.com',
       }
     ],

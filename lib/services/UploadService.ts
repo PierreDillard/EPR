@@ -36,7 +36,7 @@ export async function uploadEventImage(file: File): Promise<string> {
 
   
     if (!response.ok) {
-      // Tentative de récupération du message d'erreur du serveur
+
       let errorMessage;
       try {
         const errorData = await response.json();

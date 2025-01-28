@@ -23,18 +23,19 @@ const Loading = ({ size = 'md', className }: LoadingProps) => {
   return (
     <div className={cn("flex items-center justify-center", className)}>
       <div className={cn("relative", sizes[size])}>
-        {/* Point bleu */}
-        <div className={cn(
+          {/* Point orange */}
+          <div className={cn(
           "absolute rounded-full animate-bounce",
           dotSizes[size],
-          "bg-[#00AECE]"
-        )} 
+          "bg-[#FDAC00]"
+        )}
         style={{ 
-          left: '0%',
-          animationDelay: '0ms',
+          right: '0%',
+          animationDelay: '400ms',
           animationDuration: '1000ms'
         }} 
         />
+      
         
         {/* Point vert */}
         <div className={cn(
@@ -49,19 +50,20 @@ const Loading = ({ size = 'md', className }: LoadingProps) => {
           animationDuration: '1000ms'
         }} 
         />
-        
-        {/* Point orange */}
-        <div className={cn(
+          {/* Point bleu */}
+          <div className={cn(
           "absolute rounded-full animate-bounce",
           dotSizes[size],
-          "bg-[#FDAC00]"
-        )}
+          "bg-[#00AECE]"
+        )} 
         style={{ 
-          right: '0%',
-          animationDelay: '400ms',
+          left: '0%',
+          animationDelay: '0ms',
           animationDuration: '1000ms'
         }} 
         />
+        
+      
       </div>
     </div>
   );
