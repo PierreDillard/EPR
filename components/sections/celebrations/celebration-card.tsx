@@ -18,7 +18,7 @@ export default function CelebrationCard({
   const imageSize = isMobile ? 'w-[640px] h-[360px]' : 'w-[1080px] h-[720px]';
 
   return (
-    <Card className="relative overflow-hidden h-full transition-all duration-500 rounded-3xl">
+    <Card className="relative overflow-hidden h-full transition-all duration-500 rounded-2xl">
       {/* Image de fond optimisée avec luminosité ajustée */}
       <div className="absolute inset-0">
         <OptimizedImage

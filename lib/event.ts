@@ -1,6 +1,6 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Evenement, EvenementInfo, EventStats } from '@/types/event';
+import { Evenement, EvenementComplet, EvenementInfo, EventStats } from '@/types/event';
 
 const supabase = createClientComponentClient();
 
@@ -22,7 +22,7 @@ export async function fetchEvenements(): Promise<Evenement[]> {
   }
 }
 
-export async function fetchEvenementsAVenir(): Promise<Evenement[]> {
+export async function fetchEvenementsAVenir(): Promise<EvenementComplet[]> {
   try {
     const today = new Date().toISOString().split('T')[0];
     const { data, error } = await supabase

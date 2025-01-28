@@ -22,7 +22,7 @@ export default function MeetingCard({
   const isMobile = useMediaQuery('(max-width: 768px)');
   
   return (
-    <Card className="relative overflow-hidden h-[400px] transition-all duration-500 rounded-3xl">
+    <Card className="relative overflow-hidden h-[400px] transition-all duration-500 rounded-2xl">
       {/* Image de fond avec luminosité ajustée */}
       <div className="absolute inset-0">
         <Image

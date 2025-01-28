@@ -21,7 +21,7 @@ export interface Evenement {
   date: string;
   type: EventType;
   location: string;
-  time: string;
+  time?: string;
   speaker?: string;
   image: string;
 
