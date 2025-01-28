@@ -22,6 +22,12 @@ const nextConfig = {
         pathname: '/**', 
       },
       {
+        protocol: 'http',
+        hostname: '206.189.23.60',
+        port: '',
+        pathname: '/images/upload/**', // Ajout du pattern pour l'upload
+      },
+      {
         protocol: 'https',
         hostname: 'api.qrserver.com',
       }
