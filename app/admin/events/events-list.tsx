@@ -33,13 +33,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import type { EvenementComplet } from "@/types/event";
 import EventEditDialog from './EventEditDialog';
-import { getBadgeColor } from '@/utils/event';
+import { getBadgeColor , getImageUrl} from '@/utils/event';
 import MobileEventCard from './mobile-event-card';
 import MobileEventAdd from './mobile-event-card-add';
+
 
 type EventsListProps = {
   onEventUpdate: () => Promise<void>;
 };
+
+const IMAGES_URL = process.env.NEXT_PUBLIC_IMAGES_URL;
+
 
 export const EventsList: React.FC<EventsListProps> = ({ onEventUpdate }) => {
   const [events, setEvents] = useState<EvenementComplet[]>([]);
@@ -103,6 +107,7 @@ export const EventsList: React.FC<EventsListProps> = ({ onEventUpdate }) => {
           location: event.location,
           speaker: event.speaker,
           type: event.type,
+          image: event.image,
           description: event.infos?.[0]?.description || '',
           contact_email: event.infos?.[0]?.contact_email || '',
           contact_telephone: event.infos?.[0]?.contact_telephone || '',
@@ -191,7 +196,7 @@ export const EventsList: React.FC<EventsListProps> = ({ onEventUpdate }) => {
                     <TableCell>
                       <div className="relative w-24 h-16 rounded-md overflow-hidden">
                         <Image
-                          src={event.image || '/images/events/event.jpg'}
+                          src={getImageUrl(event.image)} 
                           alt={event.title}
                           fill
                           className="object-cover"

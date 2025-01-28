@@ -25,6 +25,7 @@ interface EventEditDialogProps {
     location: string;
 
     speaker?: string;
+    image: string;
 
     type: EventType;
 

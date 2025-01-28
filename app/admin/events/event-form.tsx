@@ -18,10 +18,14 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
+import EventImageUpload from '@/components/admin/EventImageUpload'; 
 import { EventType } from "@/types/event";
+import { uploadEventImage } from '@/lib/services/UploadService';
 import { handleAddEvenement, updateEvenement } from "@/lib/event";
 import Loading from '@/components/ui/Loading';
-import { getEventImage } from '@/utils/event';
+import { getDefaultEventImage} from '@/utils/event';
+import { getValidEventType } from '@/utils/event';
+
 
 interface EventFormProps {
   onSuccess: () => void;
@@ -31,7 +35,8 @@ interface EventFormProps {
     time: string;
     location: string;
     speaker?: string;
-    type: EventType;
+    type: EventType
+    image?: string;
     description?: string;
     contact_email?: string;
     contact_telephone?: string;
@@ -45,10 +50,14 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
   const [date, setDate] = useState<Date | undefined>(
     initialData?.date ? new Date(initialData.date) : undefined
   );
+  const [selectedImage, setSelectedImage] = useState<string | File>(
+    initialData?.image || getDefaultEventImage(initialData?.type || 'reunion')
+  );
   
   const [eventData, setEventData] = useState({
     title: initialData?.title || '',
-    type: initialData?.type || '',
+  
+    type: getValidEventType(initialData?.type),
     location: initialData?.location || '',
     time: initialData?.time || '',
     speaker: initialData?.speaker || ''
@@ -68,10 +77,12 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
       setEventData({
         title: initialData.title || '',
         type: initialData.type || '',
+      
         location: initialData.location || '',
         time: initialData.time || '',
         speaker: initialData.speaker || ''
       });
+    
 
       // Mettre à jour les informations complémentaires
       setEventInfos({
@@ -94,11 +105,11 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
     setEventInfos(prev => ({ ...prev, [field]: value }));
   };
   const eventTypes = [
-    { label: "Réunion", value: "intercession" },
+    { label: "Réunion", value: "reunion" },
     { label: "Formation", value: "formation" },
     { label: "Célébration", value: "celebration" },
-    { label: "Évangélisation", value: "évangelisation" },
-    { label: "Séminaire", value: "séminaire" },
+    { label: "Évangélisation", value: "evangelisation" },
+    { label: "Séminaire", value: "seminaire" },
   ];
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -108,6 +119,22 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
     try {
       if (!date) throw new Error("La date est requise");
 
+      // Gérer l'upload de l'image si nécessaire
+      let imageUrl = typeof selectedImage === 'string' ? selectedImage : '';
+      
+      if (selectedImage instanceof File) {
+        try {
+          imageUrl = await uploadEventImage(selectedImage);
+        } catch (error) {
+          toast({
+            title: "Erreur d'upload",
+            description: "Impossible d'uploader l'image. L'événement ne sera pas créé.",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+
       const evenement = {
         title: eventData.title,
         date: format(date, 'yyyy-MM-dd'),
@@ -115,9 +142,8 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
         location: eventData.location,
         time: eventData.time,
         speaker: eventData.speaker || undefined,
-        image: getEventImage (eventData.type as EventType)
+        image: imageUrl,
       };
-  
 
       const infos = {
         description: eventInfos.description,
@@ -183,6 +209,14 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
             </SelectContent>
           </Select>
         </div>
+        <div className="space-y-2 md:col-span-2">
+    <label className="text-sm font-medium">Image de l&apos;événement</label>
+    <EventImageUpload
+      eventType={eventData.type}
+      onImageChange={(image) => setSelectedImage(image)}
+      currentImage={typeof selectedImage === 'string' ? selectedImage : undefined}
+    />
+  </div>
 
         {/* Date picker reste inchangé */}
         <div className="space-y-2">

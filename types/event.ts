@@ -3,7 +3,7 @@ export interface Event {
     title: string;
     date: string;
     location: string;
-    type: 'intercession' | 'formation' | 'celebration' | 'évangelisation'| 'séminaire';
+    type: EventType;
     time?: string;
     speaker?: string;
     image: string;
@@ -12,7 +12,8 @@ export interface Event {
   
   // types/evenements.ts
 
-export type EventType = 'intercession' | 'formation' | 'celebration' | 'évangelisation'| 'séminaire';
+// types/event.ts
+export type EventType = 'reunion' | 'formation' | 'celebration' | 'evangelisation' | 'seminaire';
 
 export interface Evenement {
   id: string;

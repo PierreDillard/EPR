@@ -3,18 +3,25 @@ import { EventType } from "@/types/event";
 
 const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || 'http://206.189.23.60';
 
-  export function getEventImage(type: EventType): string {
-    switch (type) {
-      case 'intercession':
-        return `${baseUrl}/images/intercession.jpg`;
-      case 'évangelisation':
-        return `${baseUrl}/images/evangelisation.jpg`;
-      case 'séminaire':
-        return `${baseUrl}/images/seminaire.jpg`;
-      default:
-        return `${baseUrl}/images/event.webp`;
-    }
+// utils/event.ts
+export function getDefaultEventImage(type: EventType): string {
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || '';
+  
+  switch (type) {
+    case 'reunion':
+      return `${baseUrl}/images/events/reunion.jpg`;
+    case 'formation':
+      return `${baseUrl}/images/events/formation.jpg`;
+    case 'celebration':
+      return `${baseUrl}/images/events/celebration.jpg`;
+    case 'evangelisation':
+      return `${baseUrl}/images/events/evangelisation.jpg`;
+    case 'seminaire':
+      return `${baseUrl}/images/events/seminaire.jpg`;
+    default:
+      return `${baseUrl}/images/events/default.jpg`;
   }
+}
   
   // Fonction pour formater les dates pour l'édition
   export function formatDateForInput(date: string): string {
@@ -39,5 +46,63 @@ const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || 'http://206.189.23.60';
         return 'bg-orange-100 text-orange-800';
       default:
         return 'bg-gray-100 text-gray-800';
+    }
+  };
+  //Validation de type d'événement
+
+  const validEventTypes: EventType[] = [
+    'intercession',
+    'formation',
+    'celebration',
+    'évangelisation',
+    'séminaire'
+  ];
+  
+  export function isValidEventType(type: string): type is EventType {
+    return validEventTypes.includes(type as EventType);
+  }
+  
+  export function getValidEventType(type?: string): EventType {
+    switch (type) {
+      case 'reunion':
+      case 'formation':
+      case 'celebration':
+      case 'evangelisation':
+      case 'seminaire':
+        return type as EventType;
+      default:
+        return 'reunion'; // Type par défaut
+    }
+  }
+   export const getImageUrl = (image: string | null) => {
+    if (!image) return '/placeholder.jpg';
+  
+    try {
+      // Si c'est un objet stringifié
+      if (image.startsWith('{')) {
+        const parsed = JSON.parse(image);
+        return parsed.path ? `/${parsed.path.replace('./', '')}` : '/placeholder.jpg';
+      }
+  
+      // Si c'est une URL complète
+      if (image.startsWith('http')) {
+        return image;
+      }
+  
+      // Si c'est un chemin relatif
+      if (image.startsWith('./')) {
+        return `/${image.slice(2)}`;
+      }
+  
+      // Si c'est déjà un chemin avec slash
+      if (image.startsWith('/')) {
+        return image;
+      }
+  
+      // Par défaut, ajouter un slash
+      return `/${image}`;
+    } catch (error) {
+      console.error('Error parsing image path:', error);
+      return '/placeholder.jpg';
     }
   };

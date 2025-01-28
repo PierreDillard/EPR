@@ -19,7 +19,7 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: '206.189.23.60',
-        pathname: '/images/**', 
+        pathname: '/**', 
       },
       {
         protocol: 'https',

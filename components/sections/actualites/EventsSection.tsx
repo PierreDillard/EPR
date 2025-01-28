@@ -18,7 +18,7 @@ function MainEventCard({ event }: { event: Event }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="absolute inset-0 bg-black/20 z-10" />
+      <div className="absolute inset-0 bg-black/10 z-10" />
       <Image 
         src={event.image}
         alt={event.title}
@@ -26,7 +26,7 @@ function MainEventCard({ event }: { event: Event }) {
         className="object-cover transition-transform duration-700 hover:scale-110"
       />
       <div className={cn(
-        "absolute inset-0 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 z-20",
+        "absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300 z-20",
         isHovered ? "opacity-100" : "opacity-60"
       )}/>
       
@@ -38,8 +38,8 @@ function MainEventCard({ event }: { event: Event }) {
           {event.title}
         </h3>
         <div className="flex items-center gap-2 text-white/80">
-          <Clock className="h-4 w-4" />
-          {format(new Date(`2000-01-01 ${event.time}`), 'HH:mm')}
+          <MapPin className="h-4 w-4" />
+          {event.location}
         </div>
       </div>
 
@@ -130,14 +130,14 @@ export default function EventsSection({ events }: { events: Event[] }) {
 
   if (!events.length) {
     return (
-      <div className="container px-4 py-12">
-        <div className="bg-white rounded-2xl p-8 text-center max-w-2xl mx-auto">
-          <div className="mb-6">
-            <Calendar className="h-12 w-12 mx-auto text-[#00AECE] mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+      <div className="container px-4 py-6 md:py-12">
+        <div className="bg-white rounded-2xl p-6 md:p-8 text-center max-w-2xl mx-auto">
+          <div className="mb-4 md:mb-6">
+            <Calendar className="h-10 w-10 md:h-12 md:w-12 mx-auto text-[#00AECE] mb-3 md:mb-4" />
+            <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
               Aucun événement à venir
             </h3>
-            <p className="text-gray-500">
+            <p className="text-sm md:text-base text-gray-500">
               Revenez bientôt pour découvrir nos prochains événements.
               En attendant, n&apos;hésitez pas à nous contacter pour plus d&apos;informations.
             </p>
@@ -155,17 +155,50 @@ export default function EventsSection({ events }: { events: Event[] }) {
   }
 
   return (
-    <div className="container px-4 py-6 md:py-12">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-        <div className="lg:col-span-2 order-first lg:order-none">
-          <MainEventCard event={selectedEvent} />
+    <div className="container px-4 py-4 md:py-8">
+      <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
+        <div className="lg:flex-[2]">
+          {/* Utiliser aspect-ratio pour maintenir les proportions */}
+          <div className="aspect-[16/9] md:aspect-[16/10] w-full">
+            <MainEventCard event={selectedEvent} />
+          </div>
         </div>
-        <div className="order-last lg:order-none">
-          <UpcomingEventsList 
-            events={events}
-            onSelectEvent={setSelectedEvent}
-            selectedEventId={selectedEvent.id}
-          />
+
+        <div className="lg:flex-1">
+          <div className="bg-white rounded-2xl h-auto">
+            <div className="p-4">
+              <h2 className="text-lg md:text-xl font-bold mb-4">Prochains événements</h2>
+              <div className="space-y-3">
+                {events.slice(0, 4).map((event) => (
+                  <button 
+                    key={event.id} 
+                    className={cn(
+                      "flex gap-3 items-center p-2 w-full text-left hover:bg-gray-50 rounded-lg transition-colors",
+                      selectedEvent.id === event.id && "bg-gray-50"
+                    )}
+                    onClick={() => setSelectedEvent(event)}
+                  >
+                    <div className="relative aspect-square w-12 md:w-16 flex-shrink-0">
+                      <Image
+                        src={event.image}
+                        alt={event.title}
+                        fill
+                        className="object-cover rounded-lg"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs md:text-sm text-red-500 font-medium truncate">
+                        {format(new Date(event.date), 'E dd MMM', { locale: fr }).toUpperCase()}
+                      </p>
+                      <p className="font-semibold text-sm md:text-base text-gray-600 truncate">
+                        {event.title}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
