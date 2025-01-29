@@ -108,7 +108,7 @@ const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
           <input {...getInputProps()} />
           
           {previewUrl ? (
-            <div className="relative w-full h-48">
+            <div className="relative w-full h-72">
               <Image
                  src={previewUrl || ''}
                 alt="Prévisualisation"
@@ -147,7 +147,7 @@ const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
       )}
 
       {useDefaultImage && (
-        <div className="relative w-full h-48">
+        <div className="relative w-fullh-72">
           <Image
              src={previewUrl || ''}
             alt="Prévisualisation"

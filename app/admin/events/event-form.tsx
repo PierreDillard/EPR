@@ -209,7 +209,7 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
             </SelectContent>
           </Select>
         </div>
-        <div className="space-y-2 md:col-span-2">
+        <div className="space-y-2 md:col-span-2 ">
     <label className="text-sm font-medium">Image de l&apos;événement</label>
     <EventImageUpload
       eventType={eventData.type}

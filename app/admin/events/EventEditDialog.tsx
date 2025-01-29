@@ -1,5 +1,4 @@
-
-import React from 'react';
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -37,7 +36,7 @@ interface EventEditDialogProps {
 }
 
 export default function EventEditDialog({ eventId, initialData, onSuccess }: EventEditDialogProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleSuccess = () => {
     setOpen(false);
@@ -52,7 +51,8 @@ export default function EventEditDialog({ eventId, initialData, onSuccess }: Eve
           Modifier
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+ 
+      <DialogContent className="sm:max-w-[800px] w-11/12 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Modifier l&apos;événement</DialogTitle>
           <DialogDescription>
