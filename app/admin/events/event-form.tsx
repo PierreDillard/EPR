@@ -281,7 +281,7 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
             rows={4}
             value={eventInfos.description}
             onChange={(e) => updateEventInfos('description', e.target.value)}
-            placeholder="Description détaillée de l'événement"
+            placeholder="Description détaillée de l'événement (optionnel)"
           />
         </div>
 
@@ -292,7 +292,7 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
             value={eventInfos.contact_email}
         
             onChange={(e) => updateEventInfos('contact_email', e.target.value)}
-            placeholder="Email de contact"
+            placeholder="Email de contact (optionnel)"
           />
         </div>
 
@@ -302,7 +302,7 @@ export default function EventForm({ onSuccess, initialData, eventId }: EventForm
             type="tel"
             value={eventInfos.contact_telephone}
             onChange={(e) => updateEventInfos('contact_telephone', e.target.value)}
-            placeholder="Téléphone de contact"
+            placeholder="Téléphone de contact (optionnel)"
           />
         </div>
       </div>
