@@ -76,9 +76,7 @@ function EventDetails({ event }: { event: EvenementComplet }) {
       )}
 
       <div className="pt-4">
-        <Button className="w-full bg-black hover:bg-black/90" size="lg">
-          S&lsquo;inscrire
-        </Button>
+    
       </div>
     </div>
   );
