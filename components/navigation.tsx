@@ -4,6 +4,13 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { 
+  Book, 
+  Church, 
+  Calendar,
+  Video, 
+  Mail
+} from "lucide-react"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -29,11 +36,11 @@ export default function Navigation() {
   }, [isMobileMenuOpen])
 
   const navLinks = [
-    { href: "#vision", label: "Notre Vision" },
-    { href: "#celebrations", label: "Célébrations" },
-    { href: "#actualites", label: "Actualités" },
-    { href: "#predications", label: "Prédications" },
-    { href: "#contact", label: "Contact" },
+    { href: "#vision", label: "Notre Vision", icon: Book  },
+    { href: "#celebrations", label: "Célébrations", icon: Church },
+    { href: "#actualites", label: "Actualités", icon: Calendar  },
+    { href: "#predications", label: "Prédications", icon: Video },
+    { href: "#contact", label: "Contact", icon: Mail }
   ]
 
   return (
@@ -51,26 +58,30 @@ export default function Navigation() {
                     src="/logo1.jpeg"
                     alt="EPR Logo"
                     fill
-                    className="object-contain "
+                    className="object-contain"
                     priority
                   />
                 </div>
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation avec icônes */}
             <div className="hidden md:flex md:items-center md:space-x-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
-                    isScrolled ? "text-gray-700 hover:text-gray-900" : "text-white hover:text-gray-200"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const Icon = link.icon
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center gap-2 ${
+                      isScrolled ? "text-gray-700 hover:text-gray-900" : "text-white hover:text-gray-200"
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    {link.label}
+                  </Link>
+                )
+              })}
             </div>
 
             {/* Mobile menu button avec animation */}
@@ -98,32 +109,39 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile Navigation Overlay */}
-      <div 
-        className={`fixed inset-0 bg-white transition-opacity duration-300 ease-in-out md:hidden ${
-          isMobileMenuOpen ? "opacity-100 z-40" : "opacity-0 pointer-events-none -z-10"
-        }`}
-      >
-        <div className={`flex flex-col items-center pt-24 h-full transition-transform duration-500 ease-in-out ${
-          isMobileMenuOpen ? "translate-y-0" : "-translate-y-8"
-        }`}>
-          <div className="flex flex-col items-center space-y-6 p-8 w-full">
-            {navLinks.map((link, index) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-xl font-medium text-gray-900 hover:text-gray-600 transition-all duration-300 px-4 py-2 w-full text-center transform ${
-                  isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
+
+   {/* Mobile Navigation Overlay avec icônes alignées à gauche */}
+<div 
+  className={`fixed inset-0 bg-white transition-opacity duration-300 ease-in-out md:hidden ${
+    isMobileMenuOpen ? "opacity-100 z-40" : "opacity-0 pointer-events-none -z-10"
+  }`}
+>
+  <div className={`flex flex-col items-center pt-24 h-full transition-transform duration-500 ease-in-out ${
+    isMobileMenuOpen ? "translate-y-0" : "-translate-y-8"
+  }`}>
+    <div className="flex flex-col items-stretch space-y-6 p-8 w-full">
+      {navLinks.map((link, index) => {
+        const Icon = link.icon
+        return (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={`text-xl font-medium text-gray-900 hover:text-gray-600 
+              transition-all duration-300 px-4 py-2 w-full 
+              flex items-center gap-4 transform ${
+              isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
+            style={{ transitionDelay: `${index * 100}ms` }}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <Icon className="h-5 w-5 flex-shrink-0" />
+            <span>{link.label}</span>
+          </Link>
+        )
+      })}
+    </div>
+  </div>
+</div>
     </>
   )
 }

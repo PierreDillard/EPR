@@ -85,7 +85,7 @@ export default function HeroBanner() {
               onClick={scrollToVision}
               variant="outline"
               size="lg"
-              className="text-slate-400 border-white hover:bg-white hover:text-black"
+              className="text-gray-100 hover:bg-black hover:text-gray-300 bg-black hover:bg-opacity-90 rounded-2xl"
             >
               Découvrir notre vision
             </Button>
