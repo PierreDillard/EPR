@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Calendar, Plus } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import EventForm from './event-form';
+import EventForm from './event-form/EventForm';
 import { EventsList}from './events-list';
 import { EventStats } from '@/types/event';
 import { getEventStats } from '@/lib/event';

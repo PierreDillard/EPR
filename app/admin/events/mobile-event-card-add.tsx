@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import EventForm from './event-form';
+import EventForm from './event-form/EventForm';
 
 interface MobileEventAddProps {
   onUpdate: () => Promise<void>;

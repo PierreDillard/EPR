@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Edit2 } from "lucide-react";
-import EventForm from './event-form';  
+import EventForm from './EventForm';
 import { EventType } from "@/types/event";
 interface EventEditDialogProps {
   eventId: string;

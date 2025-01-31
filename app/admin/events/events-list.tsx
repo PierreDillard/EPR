@@ -32,7 +32,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import type { EvenementComplet } from "@/types/event";
-import EventEditDialog from './EventEditDialog';
+import EventEditDialog from './event-form/EventEditDialog';
 import { getBadgeColor , getImageUrl} from '@/utils/event';
 import MobileEventCard from './mobile-event-card';
 import MobileEventAdd from './mobile-event-card-add';
