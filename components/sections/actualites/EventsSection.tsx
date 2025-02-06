@@ -25,7 +25,7 @@ function EventDetails({ event }: { event: EvenementComplet }) {
   return (
     <div className="space-y-6">
       {/* Image en-tête */}
-      <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+      <div className="relative aspect-video w-full  rounded-lg">
         <Image
           src={event.image}
           alt={event.title}

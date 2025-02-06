@@ -14,7 +14,7 @@ export default function EventMap({ address }: EventMapProps) {
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
   return (
-    <Card className="w-full h-[200px] md:h-[150px] overflow-hidden">
+    <Card className="w-full h-[200px] md:h-[150px] ">
       <div className="relative h-full">
         <iframe
           src={`https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
