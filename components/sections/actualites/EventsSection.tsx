@@ -17,6 +17,7 @@ import {
 import OptimizedImage from '@/components/ui/optimized-image';
 import { EvenementComplet, Event } from '../../../types/event';
 import ClickableText from '../../ui/clikable-text';
+import EventMap from './EventMap';
 
 
 function EventDetails({ event }: { event: EvenementComplet }) {
@@ -73,7 +74,7 @@ function EventDetails({ event }: { event: EvenementComplet }) {
       {eventInfo?.description && (
         <div className="space-y-2">
           <div className="text-sm font-medium text-gray-500">Description</div>
-          <div className="text-gray-700 whitespace-pre-wrap">
+          <div className="text-black whitespace-pre-wrap">
             <ClickableText 
               text={eventInfo.description}
               className="leading-relaxed"
@@ -83,8 +84,13 @@ function EventDetails({ event }: { event: EvenementComplet }) {
       )}
 
 
-      <div className="pt-4">
-    
+   {/* Carte Google Maps */}
+   <div className="space-y-2">
+        <div className="text-sm font-medium text-gray-500">S&lsquo;y rendre</div>
+        <EventMap 
+          address={event.location} 
+          className="w-full h-[400px] overflow-hidden rounded-lg"
+        />
       </div>
     </div>
   );
