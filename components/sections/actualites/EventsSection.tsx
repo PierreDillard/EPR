@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/dialog";
 import OptimizedImage from '@/components/ui/optimized-image';
 import { EvenementComplet, Event } from '../../../types/event';
+import ClickableText from '../../ui/clikable-text';
+
 
 function EventDetails({ event }: { event: EvenementComplet }) {
   const eventInfo = event.infos?.[0];
@@ -71,9 +73,15 @@ function EventDetails({ event }: { event: EvenementComplet }) {
       {eventInfo?.description && (
         <div className="space-y-2">
           <div className="text-sm font-medium text-gray-500">Description</div>
-          <p className="text-gray-700 whitespace-pre-wrap">{eventInfo.description}</p>
+          <div className="text-gray-700 whitespace-pre-wrap">
+            <ClickableText 
+              text={eventInfo.description}
+              className="leading-relaxed"
+            />
+          </div>
         </div>
       )}
+
 
       <div className="pt-4">
     
