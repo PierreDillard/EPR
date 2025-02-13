@@ -1,4 +1,4 @@
-// hooks/useGARouteChange.ts
+
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
