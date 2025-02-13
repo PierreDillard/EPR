@@ -6,6 +6,8 @@ import { Toaster } from '@/components/ui/toaster'
 import Footer from '@/components/footer'
 import NavigationWrapper from '@/components/layout/navigation-wrapper'
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import GoogleAnalytics from '@/components/GoogleAnalytics'
+import { Providers } from '@/components/providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -58,6 +60,9 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
+      {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
@@ -67,6 +72,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className={inter.className} suppressHydrationWarning>
+      <Providers>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -79,6 +85,7 @@ export default function RootLayout({
           <Toaster />
         </ThemeProvider>
         <SpeedInsights />
+      </Providers>
       </body>
     </html>
   )

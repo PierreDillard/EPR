@@ -92,7 +92,7 @@ function EventDetails({ event }: { event: EvenementComplet }) {
           className="w-full h-[400px] overflow-hidden rounded-lg"
         />
       </div>
-    </div>
+    </div> 
   );
 }
 
