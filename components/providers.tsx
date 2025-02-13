@@ -1,10 +1,13 @@
-
 'use client';
 
-import { useGARouteChange } from '@/hooks/useGARouteChange';
+import { Suspense } from 'react';
+import { AnalyticsWrapper } from './analytics-wrapper';
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  useGARouteChange();
-  
-  return <>{children}</>;
+  return (
+    <Suspense fallback={null}>
+      <AnalyticsWrapper />
+      {children}
+    </Suspense>
+  );
 }

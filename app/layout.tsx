@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/toaster'
 import Footer from '@/components/footer'
 import NavigationWrapper from '@/components/layout/navigation-wrapper'
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import GoogleAnalytics from '@/components/GoogleAnalytics'
+import GoogleAnalytics from '@/components/analytics-wrapper'
 import { Providers } from '@/components/providers'
 
 const inter = Inter({ subsets: ['latin'] })
