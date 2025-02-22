@@ -21,8 +21,9 @@ import {
 
 interface DeleteButtonProps {
   id: number;
-  title: string;
+  title?: string;
   onDelete: () => void;
+  type?:string;
 }
 
 export default function DeleteButton({ id, title, onDelete }: DeleteButtonProps) {

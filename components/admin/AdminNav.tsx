@@ -12,7 +12,8 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronLeft
+  ChevronLeft,
+  Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from "@/lib/utils/utils";
@@ -23,6 +24,11 @@ const navigation = [
     name: 'Dashboard',
     href: '/admin/dashboard',
     icon: LayoutDashboard,
+  },
+  {
+    name: 'Méditations',
+    href: '/admin/meditations',
+    icon: Sparkles,
   },
   {
     name: 'Prédications',
@@ -112,7 +118,7 @@ export default function AdminNav() {
             <div className="hidden md:flex md:items-center md:space-x-8">
               {navigation.map((item) => {
                 const Icon = item.icon;
-                const isActive = pathname === item.href;
+                const isActive = pathname.startsWith(item.href);
                 
                 return (
                   <Link

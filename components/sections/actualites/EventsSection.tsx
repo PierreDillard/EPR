@@ -155,7 +155,7 @@ function EventPreview({ event }: { event: EvenementComplet }) {
 
       {/* Boîte de dialogue pour les détails */}
       <Dialog open={showDetails} onOpenChange={setShowDetails}>
-        <DialogContent className="max-w-3xl w-[90vw]">
+        <DialogContent className="max-w-3xl w-[90vw] h-[90vh] overflow-y-auto p-6">
           <DialogHeader className="flex flex-row justify-between items-center">
             <DialogTitle className="text-xl md:text-2xl uppercase">
               {event.title}

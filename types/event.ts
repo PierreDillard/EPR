@@ -13,7 +13,7 @@ export interface Event {
   // types/evenements.ts
 
 // types/event.ts
-export type EventType = 'reunion' | 'formation' | 'celebration' | 'evangelisation' | 'seminaire';
+export type EventType = 'reunion' | 'formation' | 'celebration' | 'evangelisation' | 'seminaire'|'meditation';
 
 export interface Evenement {
   id: string;
