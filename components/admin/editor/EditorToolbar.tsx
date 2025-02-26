@@ -29,7 +29,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
   if (!editor) return null;
 
   const setFontSize = (value: FontSizeKey) => {
-    editor.chain().focus().setMark('fontSize', { size: FONT_SIZES[value] }).run();
+    editor.chain().focus().setFontSize(FONT_SIZES[value]).run();
   };
 
   return (

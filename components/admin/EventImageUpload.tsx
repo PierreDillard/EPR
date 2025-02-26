@@ -146,8 +146,8 @@ const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
         </div>
       )}
 
-      {useDefaultImage && (
-        <div className="relative w-fullh-72">
+      {useDefaultImage && previewUrl &&  (
+        <div className="relative w-full h-72">
           <Image
              src={previewUrl || ''}
             alt="Prévisualisation"
