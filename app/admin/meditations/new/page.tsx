@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import  EventImageUpload from '@/components/admin/EventImageUpload';
+import EventImageUpload from '@/components/admin/EventImageUpload';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import dynamic from 'next/dynamic';
+import { uploadEventImage } from '@/lib/services/UploadService';
 
 const DynamicMeditationEditor = dynamic(
   () => import('@/components/admin/editor/MeditationEditor').then(mod => mod.MeditationEditor),
@@ -25,11 +26,10 @@ export default function NewMeditation() {
   const router = useRouter();
   const { toast } = useToast();
   const supabase = createClientComponentClient();
+  const [selectedImage, setSelectedImage] = useState<string | File | undefined>(undefined);
 
   const handleImageChange = (image: string | File) => {
-    if (typeof image === 'string') {
-      setImageUrl(image);
-    }
+    setSelectedImage(image);
   };
 
   const handleSubmit = async () => {
@@ -44,12 +44,32 @@ export default function NewMeditation() {
 
     setLoading(true);
     try {
+      // Traitement de l'image - ajout crucial
+      let finalImageUrl;
+      
+      // Si selectedImage est un File (donc provient d'un upload)
+      if (selectedImage instanceof File) {
+        try {
+          finalImageUrl = await uploadEventImage(selectedImage);
+        } catch (error) {
+          toast({
+            title: "Erreur d'upload",
+            description: "Impossible d'uploader l'image.",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
+      } else if (typeof selectedImage === 'string') {
+        finalImageUrl = selectedImage; // Utilisation de l'image par défaut ou URL existante
+      }
+
       const { error } = await supabase
         .from('meditations')
         .insert({
           title: title.trim(),
           content,
-          image_url: imageUrl,
+          image_url: finalImageUrl, // Utilisation de l'URL finale
           published: false,
         })
         .select()
@@ -65,6 +85,7 @@ export default function NewMeditation() {
       router.push('/admin/meditations');
       router.refresh();
     } catch (error) {
+      console.error("Erreur:", error);
       toast({
         title: "Erreur",
         description: "Impossible de créer la méditation",
@@ -74,7 +95,6 @@ export default function NewMeditation() {
       setLoading(false);
     }
   };
-
   return (
     <div className="container max-w-5xl mx-auto py-8 px-4 space-y-6">
       <div className="flex justify-between items-center flex-wrap gap-4">

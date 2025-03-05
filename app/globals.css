@@ -90,3 +90,60 @@ h2::after {
   --font-montserrat: 'Montserrat', sans-serif;
 }
 
+/* Styles pour le contenu TipTap */
+.tiptap-content {
+  overflow: hidden;
+  line-height: 1.5rem;
+  
+}
+
+.tiptap-content p {
+  margin-bottom: 0.5rem;
+}
+
+.tiptap-content a {
+  color: #00AECE;
+  text-decoration: underline;
+}
+
+.tiptap-content strong {
+  font-weight: bold;
+}
+
+.tiptap-content em {
+  font-style: italic;
+}
+
+.tiptap-content ul, .tiptap-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tiptap-content ul li {
+  list-style-type: disc;
+}
+
+.tiptap-content ol li {
+  list-style-type: decimal;
+}
+
+.tiptap-content h1, 
+.tiptap-content h2, 
+.tiptap-content h3 {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.tiptap-content blockquote {
+  border-left: 3px solid #00AECE;
+  padding-left: 1rem;
+  font-style: italic;
+  margin: 0.5rem 0;
+}
+
+.tiptap-content code {
+  background-color: #f1f1f1;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: monospace;
+}
