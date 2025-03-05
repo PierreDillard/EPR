@@ -3,7 +3,7 @@ import { EventType } from "@/types/event";
 
 const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || 'http://206.189.23.60';
 
-// utils/event.ts
+
 export function getDefaultEventImage(type: EventType): string {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || '';
   
@@ -18,6 +18,7 @@ export function getDefaultEventImage(type: EventType): string {
       return `${baseUrl}/images/events/evangelisation.jpg`;
     case 'seminaire':
       return `${baseUrl}/images/events/seminaire.jpg`;
+      case 'meditation': return '/images/defaults/meditation.jpg';
     default:
       return `${baseUrl}/images/events/default.jpg`;
   }

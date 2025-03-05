@@ -70,10 +70,10 @@ export async function middleware(req: NextRequest) {
 // Mise à jour du matcher pour inclure toutes les routes
 export const config = {
   matcher: [
-    '/',              // Route principale
+    '/',              
     '/login',
     '/admin/:path*',
     '/unauthorized',
-    '/:path*'         // Toutes les autres routes
+    '/((?!admin|login|unauthorized)[^/]+)/:path*' 
   ]
 }

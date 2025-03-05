@@ -3,14 +3,28 @@
 "use client"
 import Head from "next/head"
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
 import Image from "next/image"
 import dynamic from 'next/dynamic'
+import { Button } from "@/components/ui/button"
+import Loading from "../ui/Loading"
 
 function VideoBackground() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
-
+  const [videoError, setVideoError] = useState(false);
+  const handleLoadedData = () => {
+    setIsVideoLoaded(true);
+  };
+  const handleVideoError = () => {
+    setVideoError(true);
+  };
+  if (videoError) {
+    return (
+      <div className="absolute inset-0 overflow-hidden flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className="absolute inset-0 overflow-hidden hidden md:block">
        <Head>
@@ -36,6 +50,12 @@ function VideoBackground() {
         <track kind="captions" src="/captions.vtt" srcLang="fr" label="French" />
       </video>
       <div className="absolute inset-0 bg-black/50" />
+      {/* Tant que la vidéo n’est pas chargée, on affiche Loading en overlay */}
+      {!isVideoLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Loading />
+        </div>
+      )}
     </div>
   )
 }

@@ -5,10 +5,10 @@ import dynamic from 'next/dynamic';
 import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import TextStyle from '@tiptap/extension-text-style';
-import { Extension } from '@tiptap/core';
+
 import Image from '@tiptap/extension-image';
 import { Mark } from '@tiptap/core';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 // Types pour l'extension FontSize
 interface FontSizeAttributes {
@@ -67,6 +67,9 @@ interface MeditationEditorProps {
 }
 
 export function MeditationEditor({ initialContent, onSave }: MeditationEditorProps) {
+  // Ajout d'une référence pour éviter les sauvegardes inutiles lors de l'initialisation
+  const isInitialRender = useRef(true);
+  
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -84,17 +87,26 @@ export function MeditationEditor({ initialContent, onSave }: MeditationEditorPro
         class: 'prose prose-lg max-w-none w-full focus:outline-none min-h-[400px] px-4 py-2',
       },
     },
-    immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      // Mise à jour automatique du contenu
-      onSave(editor.getHTML()).catch(console.error);
+
+      if (isInitialRender.current) {
+        isInitialRender.current = false;
+        return;
+      }
+  
+      const timeoutId = setTimeout(() => {
+        onSave(editor.getHTML()).catch(console.error);
+      }, 500);
+      
+      return () => clearTimeout(timeoutId);
     },
   });
 
-  // S'assurer que l'éditeur est initialisé avec le bon contenu
+  // Correction de l'initialisation du contenu
   useEffect(() => {
-    if (editor && initialContent !== editor.getHTML()) {
+    if (editor && initialContent && editor.isEmpty) {
       editor.commands.setContent(initialContent);
+      isInitialRender.current = true; 
     }
   }, [editor, initialContent]);
 

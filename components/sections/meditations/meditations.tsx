@@ -1,24 +1,14 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { getLatestMeditations } from '@/lib/meditations'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
-async function getLatestMeditations() {
-  const supabase = createServerComponentClient({ cookies })
-  const { data: meditations } = await supabase
-    .from('meditations')
-    .select('*')
-    .eq('published', true)
-    .order('created_at', { ascending: false })
-    .limit(4)
-  
-  return meditations || []
-}
+
+
 
 export default async function MeditationSection() {
-  const meditations = await getLatestMeditations()
+
 
   return (
     <section className="py-16 bg-gray-50">

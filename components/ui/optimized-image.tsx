@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from 'react';
@@ -10,6 +11,9 @@ interface OptimizedImageProps {
   sizes?: string;
   priority?: boolean;
   fallbackSrc?: string;
+  fill?: boolean;      
+  width?: number;      
+  height?: number; 
 }
 
 export default function OptimizedImage({
