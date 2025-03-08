@@ -1,6 +1,6 @@
 import SectionTitle from "../section-title";
 import { Sparkles } from "lucide-react";
-import { InstagramStyleMeditation } from "./instagram-style-meditation";
+import { InstagramStyleMeditation } from "./instagram-style-meditation"
 
 interface MeditationSectionProps {
   meditations: Array<{ 
