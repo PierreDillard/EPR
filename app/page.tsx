@@ -12,11 +12,22 @@ export default async function Home() {
   return (
     <>
       <HeroBanner />
-      <MeditationSection meditations={meditations} />
+   
       <Vision />
+      
+
+      <MeditationSection meditations={meditations} />
+
+
       <Celebrations />
+
+
       <Actualites />
+
+
       <Predications /> 
+
+
       <Contact />
     </>
   )

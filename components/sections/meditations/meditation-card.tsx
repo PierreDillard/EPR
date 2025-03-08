@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import OptimizedImage from "@/components/ui/optimized-image";
-import { Sparkles, Calendar, ArrowRight } from "lucide-react";
+import { Sparkles, FileText, Headphones, Type, Heart, PlayCircle } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Meditation {
   id: string;
@@ -9,90 +10,135 @@ interface Meditation {
   content: string;
   image_url: string;
   created_at: string;
+  author?: {
+    name: string;
+    avatar?: string;
+  };
 }
 
 export function MeditationCard({ meditation }: { meditation: Meditation }) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', { 
-      day: 'numeric', 
-      month: 'long', 
-      year: 'numeric' 
-    });
-  };
-
-  // Fonction pour extraire un court extrait du contenu HTML
-  const createExcerpt = (htmlContent: string, maxLength = 120) => {
-    // Créer un élément temporaire pour parser le HTML
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlContent;
-    
-    // Obtenir le texte brut
-    const textContent = tempDiv.textContent || '';
-    
-    // Tronquer le texte
-    return textContent.length > maxLength 
-      ? textContent.substring(0, maxLength) + '...' 
-      : textContent;
+  // Définir un auteur par défaut si non fourni
+  const author = meditation.author || {
+    name: "EPR Team",
+    avatar: "/images/default-avatar.jpg"
   };
 
   return (
-    <div className="relative w-full h-[80vh] md:h-[75vh] group overflow-hidden rounded-xl shadow-xl">
-      {/* Image de fond avec overlay */}
-      <div className="absolute inset-0 w-full h-full">
+    <div className="flex flex-col w-full max-w-3xl mx-auto">
+      {/* Bannière principale */}
+      <div className="relative w-full h-[300px] rounded-xl overflow-hidden mb-4">
         {meditation.image_url ? (
           <OptimizedImage
             src={meditation.image_url}
             alt={meditation.title}
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-cover"
             priority
           />
         ) : (
-          <div className="bg-gradient-to-r from-blue-400 to-purple-500 h-full w-full flex items-center justify-center">
-            <Sparkles className="h-20 w-20 text-white" />
+          <div className="bg-gradient-to-r from-orange-300 to-amber-500 h-full w-full flex items-center justify-center">
+            <Sparkles className="h-16 w-16 text-white" />
           </div>
         )}
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-80" />
-      </div>
-
-      {/* Contenu */}
-      <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 text-white z-10">
-        <div className="max-w-3xl mx-auto">
-          {/* Date avec icône */}
-          <div className="flex items-center space-x-2 mb-4 opacity-90">
-            <Calendar className="h-4 w-4" />
-            <span className="text-sm font-light">{formatDate(meditation.created_at)}</span>
+        
+        {/* Overlay avec titre */}
+        <div className="absolute inset-0 bg-black/30 flex flex-col justify-between p-6">
+          {/* Badge/logo coin supérieur gauche */}
+          <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <Sparkles className="h-8 w-8 text-white" />
           </div>
           
-          {/* Titre */}
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">
-            {meditation.title}
-          </h2>
-          
-          {/* Extrait du contenu */}
-          <p className="text-base md:text-lg text-gray-100 mb-6 md:mb-8 leading-relaxed opacity-90">
-            {typeof window !== 'undefined' 
-              ? createExcerpt(meditation.content) 
-              : "Chargement de la méditation..."}
-          </p>
-          
-          {/* Bouton Découvrir */}
-          <Link href={`/meditations/${meditation.id}`} passHref>
-            <Button 
-              size="lg"
-              className="group bg-white text-black hover:bg-[#00AECE] hover:text-white transition-all duration-300 rounded-full px-8"
-            >
-              <span className="mr-2">Découvrir</span>
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
+          {/* Titre en bas */}
+          <div>
+            <h3 className="text-white text-2xl font-bold drop-shadow-md">
+              {meditation.title}
+            </h3>
+            <div className="bg-[#00AECE] text-white px-3 py-1 rounded-md w-fit mt-2 font-semibold">
+              Méditation
+            </div>
+          </div>
+        </div>
+        
+        {/* Bouton de lecture */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Link href={`/meditations/${meditation.id}`}>
+            <button className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center transition-transform hover:scale-110">
+              <PlayCircle className="h-10 w-10 text-white fill-white" />
+            </button>
           </Link>
         </div>
       </div>
       
-      {/* Logo/Icône en haut de l'image */}
-      <div className="absolute top-6 right-6 bg-[#00AECE] rounded-full p-3 shadow-lg z-10">
-        <Sparkles className="h-6 w-6 text-white" />
+      {/* Menu d'actions */}
+      <div className="flex justify-between bg-gray-50 rounded-xl p-4 mb-8">
+        <button className="flex flex-col items-center gap-1">
+          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+            <FileText className="h-5 w-5 text-gray-600" />
+          </div>
+          <span className="text-xs text-gray-600">PDF</span>
+        </button>
+        
+        <button className="flex flex-col items-center gap-1">
+          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+            <Sparkles className="h-5 w-5 text-[#00AECE]" />
+          </div>
+          <span className="text-xs text-gray-600">Audio</span>
+        </button>
+        
+        <button className="flex flex-col items-center gap-1">
+          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+            <Type className="h-5 w-5 text-gray-600" />
+          </div>
+          <span className="text-xs text-gray-600">Texte</span>
+        </button>
+        
+        <button className="flex flex-col items-center gap-1">
+          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+            <Headphones className="h-5 w-5 text-gray-600" />
+          </div>
+          <span className="text-xs text-gray-600">Écouter</span>
+        </button>
+        
+        <button className="flex flex-col items-center gap-1">
+          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+            <Heart className="h-5 w-5 text-gray-600" />
+          </div>
+          <span className="text-xs text-gray-600">Aimer</span>
+        </button>
+      </div>
+      
+      {/* Titre et auteur */}
+      <div className="px-4">
+        <h2 className="text-4xl font-bold text-center mb-6">{meditation.title}</h2>
+        
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-16 h-16 rounded-full overflow-hidden mb-2">
+            <Image 
+              src={author.avatar || "/images/default-avatar.jpg"} 
+              alt={author.name}
+              width={64}
+              height={64}
+              className="object-cover"
+            />
+          </div>
+          <p className="text-gray-600">{author.name}</p>
+        </div>
+        
+        {/* Aperçu du contenu */}
+        <div 
+          className="prose prose-gray max-w-none mb-6 line-clamp-4"
+          dangerouslySetInnerHTML={{ 
+            __html: meditation.content.substring(0, 300) + '...'
+          }}
+        />
+        
+        {/* Bouton de lecture complet */}
+        <Link href={`/meditations/${meditation.id}`} className="block mb-12">
+          <Button 
+            className="w-full bg-[#00AECE] hover:bg-[#00AECE]/90 text-white"
+          >
+            Lire la méditation complète
+          </Button>
+        </Link>
       </div>
     </div>
   );

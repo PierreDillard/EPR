@@ -1,8 +1,6 @@
-import Link from "next/link";
 import SectionTitle from "../section-title";
-import { Button } from "@/components/ui/button";
-import { Sparkles, ArrowRight } from "lucide-react";
-import { MeditationCard } from "./meditation-card";
+import { Sparkles } from "lucide-react";
+import { InstagramStyleMeditation } from "./instagram-style-meditation";
 
 interface MeditationSectionProps {
   meditations: Array<{ 
@@ -10,7 +8,8 @@ interface MeditationSectionProps {
     title: string; 
     content: string; 
     image_url: string; 
-    created_at: string; 
+    created_at: string;
+    published: boolean;
   }>;
 }
 
@@ -18,13 +17,13 @@ export default function MeditationSection({ meditations }: MeditationSectionProp
   // Si aucune méditation, on affiche un message
   if (!meditations || meditations.length === 0) {
     return (
-      <section id="meditations" className="py-16 bg-gradient-to-b from-gray-50 to-white">
+      <section id="meditations" className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle 
             title="Méditation"
             color="#00AECE"
             icon={Sparkles}
-            subtitle="Découvrez nos méditations spirituelles"
+            subtitle="Réflexions spirituelles pour nourrir votre foi"
           />
           <div className="text-center py-12">
             <p>Aucune méditation disponible pour le moment.</p>
@@ -34,24 +33,22 @@ export default function MeditationSection({ meditations }: MeditationSectionProp
     );
   }
 
-  // Sélectionner la méditation la plus récente
+  // Sélectionner la méditation la plus récente seulement
   const featuredMeditation = meditations[0];
 
   return (
-    <section id="meditations" className="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <section id="meditations" className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle 
           title="Méditation"
           color="#00AECE"
           icon={Sparkles}
-          subtitle="Découvrez nos méditations spirituelles"
+          subtitle="Réflexions spirituelles pour nourrir votre foi"
         />
 
-        <div className="mb-12">
-          <MeditationCard meditation={featuredMeditation} />
+        <div className="mt-12">
+          <InstagramStyleMeditation meditation={featuredMeditation} />
         </div>
-
-     
       </div>
     </section>
   );
