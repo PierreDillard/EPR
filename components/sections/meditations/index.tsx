@@ -43,7 +43,7 @@ export default function MeditationSection({ meditations }: MeditationSectionProp
           title="Méditation"
           color="#00AECE"
           icon={Sparkles}
-          subtitle="Réflexions spirituelles pour nourrir votre foi"
+          subtitle="Pour nourrir votre foi"
         />
 
         <div className="mt-12">

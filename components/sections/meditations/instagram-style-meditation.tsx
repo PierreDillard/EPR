@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import OptimizedImage from "@/components/ui/optimized-image";
 
+
 interface Meditation {
   id: string;
   title: string;
@@ -21,55 +22,50 @@ export function InstagramStyleMeditation({ meditation }: { meditation: Meditatio
   };
 
   return (
-    <Card className="overflow-hidden border-0 shadow-md">
-      <div className="flex flex-col md:flex-row">
-        {/* Partie gauche - Image */}
-        <div className="w-full md:w-1/2 relative bg-gradient-to-br from-gray-800 to-gray-900">
-          <div className="relative aspect-square w-full">
-            <OptimizedImage
-              src={meditation.image_url || "/images/meditation-default.jpg"}
-              alt={meditation.title}
-              className="object-cover"
-              priority
-            />
-            {/* Overlay pour assurer la lisibilité du texte */}
-            <div className="absolute inset-0 bg-black/20"></div>
-          </div>
-        </div>
-        
-        {/* Partie droite - Contenu */}
-        <div className="w-full md:w-1/2 p-6 flex flex-col bg-white">
-          {/* En-tête avec date */}
-          <div className="mb-4 text-sm text-gray-500 font-medium">
-            {formatDate(meditation.created_at)}
-          </div>
-          
-          {/* Contenu principal - sans contrainte de hauteur */}
-          <div className="space-y-4 flex-grow mb-8">
-            <h2 className="text-xl md:text-2xl font-bold leading-snug text-gray-900">
-              {meditation.title}
-            </h2>
-            
-            <div 
-              className="prose prose-sm md:prose-base prose-gray overflow-auto"
-              dangerouslySetInnerHTML={{ __html: meditation.content }}
-            />
+    <div className="relative max-w-6xl mx-auto mb-20">
+      {/* Image container - positionnée en haut */}
+      <div className="relative z-10 w-full md:ml-auto aspect-square md:aspect-[16/9] shadow-md rounded-xl overflow-hidden">
+        <OptimizedImage
+          src={meditation.image_url || "/images/meditation-default.jpg"}
+          alt={meditation.title}
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/10"></div>
+      </div>
+      
+      {/* Contenu textuel - décalé vers le haut et à gauche par rapport à l'image */}
+      <Card className="relative z-20 w-full  bg-white shadow-xl border-0 overflow-hidden mt-[-40px] md:mt-[-180px] md:ml-6">
+        <div className="p-8 md:p-10">
+          {/* En-tête avec date et indicateur */}
+          <div className="flex justify-between items-center mb-6">
+            <span className="text-sm font-medium text-gray-500">
+              {formatDate(meditation.created_at)}
+            </span>
+            <div className="flex items-center space-x-2">
+              <span className="h-2 w-2 bg-[#00AECE] rounded-full"></span>
+              <span className="text-sm font-medium text-[#00AECE]">Méditation</span>
+            </div>
           </div>
           
-          {/* Pied de page - maintenant positionné correctement */}
-          <div className="pt-4 border-t border-gray-100 mt-auto">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-              <div className="text-sm text-gray-500">
-                Ensemble pour le Royaume
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="h-2 w-2 bg-[#00AECE] rounded-full"></span>
-                <span className="text-sm font-medium text-[#00AECE]">Méditation</span>
-              </div>
+          {/* Titre avec une grande taille de police */}
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-gray-900 mb-6">
+            {meditation.title}
+          </h2>
+          
+          {/* Contenu complet */}
+          <div className="prose prose-xl max-w-none mb-8">
+            <div dangerouslySetInnerHTML={{ __html: meditation.content }} />
+          </div>
+          
+          {/* Actions en bas */}
+          <div className="flex justify-between items-center pt-6 border-t border-gray-100">
+            <div className="text-sm text-gray-600">
+              Ensemble pour le Royaume
             </div>
           </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 }
