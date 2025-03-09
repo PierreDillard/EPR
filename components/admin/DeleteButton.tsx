@@ -1,12 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/no-unescaped-entities */
-'use client';
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from 'next/navigation';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,45 +13,63 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { deleteMeditation } from '@/lib/meditations';
 
 interface DeleteButtonProps {
   id: number;
   title?: string;
   onDelete: () => void;
-  type?:string;
+  type?: string;
 }
 
-export default function DeleteButton({ id, title, onDelete }: DeleteButtonProps) {
+export default function DeleteButton({ id, title, onDelete, type = 'predication' }: DeleteButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   
+  const getTypeLabel = () => {
+    switch (type) {
+      case 'meditation':
+        return 'la méditation';
+      case 'predication':
+      default:
+        return 'la prédication';
+    }
+  };
 
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/admin/predications?id=${id}`, {
-        method: 'DELETE',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        credentials: 'include',
-      });
+      if (type === 'meditation') {
+        await deleteMeditation(id.toString());
+        toast({
+          title: "Succès !",
+          description: "La méditation a été supprimée avec succès",
+        });
+      } else {
+        const response = await fetch(`/api/admin/predications?id=${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          credentials: 'include',
+        });
 
-      if (!response.ok) {
-        throw new Error('Erreur lors de la suppression');
+        if (!response.ok) {
+          throw new Error('Erreur lors de la suppression');
+        }
+
+        toast({
+          title: "Succès !",
+          description: "La prédication a été supprimée avec succès",
+        });
       }
-
-      toast({
-        title: "Succès !",
-        description: "La prédication a été supprimée avec succès",
-      });
       
       onDelete();
     } catch (error) {
       console.error('Erreur:', error);
       toast({
         title: "Erreur",
-        description: "Impossible de supprimer la prédication",
+        description: `Impossible de supprimer ${getTypeLabel()}`,
         variant: "destructive",
       });
     } finally {
@@ -75,7 +88,7 @@ export default function DeleteButton({ id, title, onDelete }: DeleteButtonProps)
         <AlertDialogHeader>
           <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
           <AlertDialogDescription>
-            Vous êtes sur le point de supprimer la prédication &quot;{title}". 
+            Vous êtes sur le point de supprimer {getTypeLabel()} {title && `"${title}"`}. 
             Cette action est irréversible.
           </AlertDialogDescription>
         </AlertDialogHeader>

@@ -1,6 +1,4 @@
-
-'use client';
-
+'use client'
 import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
@@ -18,14 +16,8 @@ import { useToast } from '@/hooks/use-toast';
 import DeleteButton from '@/components/admin/DeleteButton';
 import { cn } from "@/lib/utils/utils";
 import Loading from '@/components/ui/Loading';
-
-interface Meditation {
-  id: string;
-  title: string;
-  published: boolean;
-  created_at: string;
-  updated_at: string;
-}
+import { getMeditations, toggleMeditationPublished } from '@/lib/meditations';
+import type { Meditation } from '@/types/meditations';
 
 export default function AdminMeditations() {
   const [meditations, setMeditations] = useState<Meditation[]>([]);
@@ -33,18 +25,10 @@ export default function AdminMeditations() {
   const { toast } = useToast();
   const supabase = createClientComponentClient();
 
-  useEffect(() => {
-    fetchMeditations();
-  }, []);
-
   const fetchMeditations = async () => {
     try {
-      const { data, error } = await supabase
-        .from('meditations')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
+      setLoading(true);
+      const data = await getMeditations();
       setMeditations(data || []);
     } catch (error) {
       toast({
@@ -57,17 +41,16 @@ export default function AdminMeditations() {
     }
   };
 
+  useEffect(() => {
+    fetchMeditations();
+  }, []);
+
   const togglePublished = async (meditation: Meditation) => {
     try {
-      const { error } = await supabase
-        .from('meditations')
-        .update({ published: !meditation.published })
-        .eq('id', meditation.id);
-
-      if (error) throw error;
-
+      const updatedMeditation = await toggleMeditationPublished(meditation.id, meditation.published);
+      
       setMeditations(meditations.map(m => 
-        m.id === meditation.id ? { ...m, published: !m.published } : m
+        m.id === meditation.id ? updatedMeditation : m
       ));
 
       toast({
@@ -85,8 +68,7 @@ export default function AdminMeditations() {
 
   const handleDeleteMeditation = (meditationId: string) => {
     return async () => {
-      const updatedMeditations = meditations.filter(m => m.id !== meditationId);
-      setMeditations(updatedMeditations);
+      await fetchMeditations(); // Rafraîchir la liste après suppression
     };
   };
 
@@ -118,52 +100,61 @@ export default function AdminMeditations() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {meditations.map((meditation) => (
-              <TableRow key={meditation.id}>
-                <TableCell className="font-medium">{meditation.title}</TableCell>
-                <TableCell>
-                  {new Date(meditation.created_at).toLocaleDateString('fr-FR')}
-                </TableCell>
-                <TableCell>
-                  {new Date(meditation.updated_at).toLocaleDateString('fr-FR')}
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={cn(
-                      "px-2 py-1 rounded-full text-xs font-medium",
-                      meditation.published
-                        ? "bg-green-100 text-green-800"
-                        : "bg-gray-100 text-gray-800"
-                    )}
-                  >
-                    {meditation.published ? 'Publié' : 'Brouillon'}
-                  </span>
-                </TableCell>
-                <TableCell className="text-right space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => togglePublished(meditation)}
-                  >
-                    {meditation.published ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
-                  <Link href={`/admin/meditations/${meditation.id}`}>
-                    <Button variant="ghost" size="sm">
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                  <DeleteButton
-                    id={Number(meditation.id)}
-                    onDelete={handleDeleteMeditation(meditation.id)}
-                    type="meditation"
-                  />
+            {meditations.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-8">
+                  Aucune méditation trouvée
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              meditations.map((meditation) => (
+                <TableRow key={meditation.id}>
+                  <TableCell className="font-medium">{meditation.title}</TableCell>
+                  <TableCell>
+                    {new Date(meditation.created_at).toLocaleDateString('fr-FR')}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(meditation.updated_at || meditation.created_at).toLocaleDateString('fr-FR')}
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      className={cn(
+                        "px-2 py-1 rounded-full text-xs font-medium",
+                        meditation.published
+                          ? "bg-green-100 text-green-800"
+                          : "bg-gray-100 text-gray-800"
+                      )}
+                    >
+                      {meditation.published ? 'Publié' : 'Brouillon'}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right space-x-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => togglePublished(meditation)}
+                    >
+                      {meditation.published ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                    <Link href={`/admin/meditations/${meditation.id}`}>
+                      <Button variant="ghost" size="sm">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                    <DeleteButton
+                      id={Number(meditation.id)}
+                      title={meditation.title}
+                      onDelete={handleDeleteMeditation(meditation.id)}
+                      type="meditation"
+                    />
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </div>

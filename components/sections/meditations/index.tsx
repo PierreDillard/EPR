@@ -23,7 +23,7 @@ export default function MeditationSection({ meditations }: MeditationSectionProp
             title="Méditation"
             color="#00AECE"
             icon={Sparkles}
-            subtitle="Réflexions spirituelles pour nourrir votre foi"
+            subtitle="Nourrir votre foi"
           />
           <div className="text-center py-12">
             <p>Aucune méditation disponible pour le moment.</p>
