@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import EventImageUpload from '@/components/admin/EventImageUpload';
@@ -20,10 +20,9 @@ const DynamicMeditationEditor = dynamic(
   }
 );
 
-export default function EditMeditation({ params }: { params: { id: string } }) {
-  // Mise en cache de la promesse pour déballer params
-  const paramsPromise = useMemo(() => Promise.resolve(params), [params]);
-  const unwrappedParams = React.use(paramsPromise);
+// On change la signature pour indiquer que params est une promesse
+export default function EditMeditation({ params }: { params: Promise<{ id: string }> }) {
+  const unwrappedParams = React.use(params);
   const meditationId = unwrappedParams.id;
   
   const [title, setTitle] = useState('');
