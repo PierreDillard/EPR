@@ -25,7 +25,7 @@ function EventDetails({ event }: { event: EvenementComplet }) {
   return (
     <div className="space-y-6">
       {/* Image en-tête */}
-      <div className="relative aspect-video w-full  rounded-lg">
+      <div className="relative max-w-md mx-auto aspect-square text-center w-full rounded-lg overflow-hidden">
         <Image
           src={event.image}
           alt={event.title}
@@ -100,26 +100,29 @@ function EventPreview({ event }: { event: EvenementComplet }) {
 
   return (
     <>
-      <div className="flex flex-col space-y-2">      
-        <div className="relative h-[300px] md:h-[500px] w-full overflow-hidden rounded-lg">
+      <div className="flex flex-col space-y-4">
+        {/* Bloc image - On utilise un ratio pour éviter de “casser” la mise en page */}
+        <div className="relative w-full aspect-square overflow-hidden rounded-lg">
           <OptimizedImage
             src={event.image}
             alt={event.title}
-            sizes="(max-width: 768px) 100vw, 100vw"
+            // Bonne pratique : laisser Next gérer la taille si fill = true
+            fill={true}
+            objectFit="cover" // "cover" ou "contain" selon besoin
             priority
+            sizes="(max-width: 768px) 80vw, 80vw"
+            fillContainer={false} 
+            // fillContainer = false => on s'appuie directement sur <Image />
           />
-          
-          {/* Overlay noir semi-transparent */}
-          <div className="absolute inset-0" />
 
-          {/* Titre uniquement - avec fond noir */}
+          {/* Overlay noir semi-transparent (si besoin) */}
+          <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+
+          {/* Titre en overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-10">
-            <div className="inline-block">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-100 uppercase
-                          drop-shadow-lg bg-black/80 px-4 py-2 inline-block">
-                {event.title}
-              </h3>
-            </div>
+            <h3 className="text-xl md:text-2xl font-bold text-gray-100 uppercase drop-shadow-lg bg-black/80 px-4 py-2 inline-block">
+              {event.title}
+            </h3>
           </div>
         </div>
 
@@ -130,7 +133,7 @@ function EventPreview({ event }: { event: EvenementComplet }) {
           className="w-full mt-4 bg-black hover:bg-black/90 font-semibold text-lg
                      transition-all duration-300 hover:scale-[1.02]"
         >
-          <Info className="h-5 w-5 mr-3"/>
+          <Info className="h-5 w-5 mr-3" />
           Plus d&apos;infos
         </Button>
       </div>
@@ -142,7 +145,7 @@ function EventPreview({ event }: { event: EvenementComplet }) {
             <DialogTitle className="text-xl md:text-2xl uppercase">
               {event.title}
             </DialogTitle>
-            <DialogClose className="h-6 w-6 cursor-pointer opacity-70 hover:opacity-100 transition-opacity" />
+            <DialogClose className="h-10 w-10  cursor-pointer opacity-70 hover:opacity-100 transition-opacity" />
           </DialogHeader>
           <EventDetails event={event} />
         </DialogContent>
@@ -150,7 +153,6 @@ function EventPreview({ event }: { event: EvenementComplet }) {
     </>
   );
 }
-
 function UpcomingEventItem({ 
   event,
   isSelected,
