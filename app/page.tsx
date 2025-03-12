@@ -4,19 +4,20 @@ import Celebrations from "@/components/sections/celebrations"
 import Predications from "@/components/sections/predications" 
 import Actualites from "@/components/sections/actualites"
 import Contact from "@/components/sections/contact"
-import MeditationSection from "@/components/sections/meditations"
+
 import { getLatestMeditations } from "@/lib/meditations"
+import MissionBanner from "@/components/MissionBanner"
 
 export default async function Home() {
   const meditations = await getLatestMeditations();
   return (
     <>
       <HeroBanner />
-   
+      <MissionBanner />
       <Vision />
       
 
-      <MeditationSection meditations={meditations} />
+
 
 
       <Celebrations />

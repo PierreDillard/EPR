@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { Providers } from '@/components/providers'
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -72,6 +73,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className={`${inter.className} bg-repeat`} suppressHydrationWarning>
+        
   
       <Providers>
         <ThemeProvider
@@ -80,7 +82,10 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
+          
+          
           <NavigationWrapper />
+         
           
           <main className="bg-white/80 backdrop-blur-[2px]">{children}</main>
           <Footer />
