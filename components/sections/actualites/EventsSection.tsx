@@ -23,7 +23,7 @@ import EventMap from './EventMap';
 function EventDetails({ event }: { event: EvenementComplet }) {
   const eventInfo = event.infos?.[0];
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       {/* Image en-tête */}
       <div className="relative max-w-md mx-auto aspect-square text-center w-full rounded-lg overflow-hidden">
         <OptimizedImage
@@ -102,11 +102,10 @@ function EventPreview({ event }: { event: EvenementComplet }) {
     <>
       <div className="flex flex-col space-y-4">
         {/* Bloc image - On utilise un ratio pour éviter de “casser” la mise en page */}
-        <div className="relative w-full aspect-square overflow-hidden rounded-lg">
+        <div className="relative w-full aspect-square overflow-hidden rounded-lg max-h-[600px] bg-gray-900">
           <OptimizedImage
             src={event.image}
             alt={event.title}
-            // Bonne pratique : laisser Next gérer la taille si fill = true
             fill={true}
             objectFit="contain" 
             priority
@@ -176,7 +175,7 @@ function UpcomingEventItem({
             src={event.image}
             alt={event.title}
             fill
-            className="object-cover"
+            className="object-contain"
           />
         </div>
         
