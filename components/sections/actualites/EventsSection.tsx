@@ -26,7 +26,7 @@ function EventDetails({ event }: { event: EvenementComplet }) {
     <div className="space-y-6">
       {/* Image en-tête */}
       <div className="relative max-w-md mx-auto aspect-square text-center w-full rounded-lg overflow-hidden">
-        <Image
+        <OptimizedImage
           src={event.image}
           alt={event.title}
           fill
@@ -108,7 +108,7 @@ function EventPreview({ event }: { event: EvenementComplet }) {
             alt={event.title}
             // Bonne pratique : laisser Next gérer la taille si fill = true
             fill={true}
-            objectFit="cover" // "cover" ou "contain" selon besoin
+            objectFit="contain" 
             priority
             sizes="(max-width: 768px) 80vw, 80vw"
             fillContainer={false} 
@@ -172,7 +172,7 @@ function UpcomingEventItem({
     >
       <div className="p-4 flex gap-4">
         <div className="relative w-32 h-20 flex-shrink-0 rounded-lg overflow-hidden">
-          <Image
+          <OptimizedImage
             src={event.image}
             alt={event.title}
             fill
