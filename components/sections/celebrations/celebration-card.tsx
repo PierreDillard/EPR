@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import { MapPin, Clock, Calendar } from "lucide-react";
 import OptimizedImage from "@/components/ui/optimized-image";
 import { CelebrationProps } from "@/types/celebrations";
@@ -7,24 +6,104 @@ import { cn } from '@/lib/utils/utils';
 
 const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || 'https://206.189.23.60';
 
+interface EnhancedCelebrationProps extends CelebrationProps {
+  displayStyle?: 'standard' | 'featured' | 'dark';
+  customTitle?: string;
+  badgeText?: string;
+}
+
 export default function CelebrationCard({ 
   lieu, 
   adresse, 
   horaire, 
   jour,
-  image = `${baseUrl}/images/event.webp`
-}: CelebrationProps) {
+  image = `${baseUrl}/images/event.webp`,
+  displayStyle = 'standard',
+  customTitle,
+  badgeText
+}: EnhancedCelebrationProps) {
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const imageSize = isMobile ? 'w-[640px] h-[360px]' : 'w-[1080px] h-[720px]';
-
+  
+  // Si c'est le style "dark" (culte après midi)
+  if (displayStyle === 'dark') {
+    return (
+      <div className="bg-gradient-to-br md:mt-12 from-[#1A1A1A] via-[#2C2C2C] to-[#333333] text-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.02] duration-300 h-full relative">
+        <div className="p-6">
+          <h3 className="text-xl font-bold mb-4">{customTitle || "Culte après-midi"}</h3>
+          <div className="flex items-center mb-3">
+            <Calendar className="h-5 w-5 text-sky-300 mr-2" />
+            <span className="text-sky-100">{jour}</span>
+          </div>
+          <div className="flex items-center mb-3">
+            <Clock className="h-5 w-5 text-sky-300 mr-2" />
+            <span className="text-sky-100">{horaire}</span>
+          </div>
+          <div className="flex items-start mb-4">
+            <MapPin className="h-5 w-5 text-sky-300 mr-2 mt-0.5" />
+            <span className="text-sky-100">{lieu} {adresse}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  // Si c'est le style "featured" (culte principal)
+  if (displayStyle === 'featured') {
+    return (
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.02] duration-300 h-full">
+        <div className="h-64 overflow-hidden relative">
+          <OptimizedImage 
+            src={image} 
+            alt={lieu} 
+            className="w-full h-full object-cover" 
+            sizes="(max-width: 768px) 100vw, 50vw" 
+            priority 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 p-6">
+            <span className="bg-sky-600 text-white px-3 py-1 text-sm font-medium rounded-full">
+              {badgeText || "Culte Principal"}
+            </span>
+            <h3 className="text-white text-2xl font-bold mt-2">
+              {customTitle || "Culte du Dimanche"}
+            </h3>
+          </div>
+        </div>
+        <div className="p-6">
+          <div className="flex items-center mb-4">
+            <Calendar className="h-5 w-5 text-gray-500 mr-2" />
+            <span className="text-gray-700 font-medium">{jour}</span>
+          </div>
+          <div className="flex items-center mb-4">
+            <Clock className="h-5 w-5 text-gray-500 mr-2" />
+            <span className="text-gray-700 font-medium">{horaire}</span>
+          </div>
+          <div className="flex items-start">
+            <MapPin className="h-5 w-5 text-gray-500 mr-2 mt-0.5" />
+            <span className="text-gray-700 font-medium">{lieu} {adresse}</span>
+          </div>
+          <div className="mt-6">
+            <a href="#" className="inline-block bg-sky-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-sky-700 transition-colors">
+              En savoir plus
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  // Style standard (celui d'origine que vous aviez défini)
   return (
-    <Card className="relative overflow-hidden h-full transition-all duration-500 rounded-2xl">
+    <div className="relative overflow-hidden h-full transition-all duration-500 rounded-2xl shadow-lg">
       {/* Image de fond optimisée avec luminosité ajustée */}
       <div className="absolute inset-0">
         <OptimizedImage
           src={image}
           alt={lieu}
-          className={`${imageSize} object-cover transition-transform duration-500 scale-110 brightness-[0.95] md:brightness-[0.85]`}
+          className={cn(
+            "w-full h-full object-cover transition-transform duration-500 scale-110",
+            "brightness-[0.95] md:brightness-[0.85]"
+          )}
           sizes="(max-width: 768px) 100vw, 50vw"
           priority
         />
@@ -33,15 +112,15 @@ export default function CelebrationCard({
           className={cn(
             "absolute inset-0 bg-gradient-to-t",
             isMobile 
-               ? "from-black/70 via-black/20 to-black/5" 
-  : "from-black/60 via-black/10 to-transparent"
+              ? "from-black/70 via-black/20 to-black/5" 
+              : "from-black/60 via-black/10 to-transparent"
           )} 
         />
         {/* Overlay ajusté selon le device */}
         <div 
           className={cn(
             "absolute inset-0",
-      isMobile ? "bg-black/10" : "bg-black/20"
+            isMobile ? "bg-black/10" : "bg-black/20"
           )} 
         />
       </div>
@@ -50,7 +129,7 @@ export default function CelebrationCard({
       <div className="relative h-full p-6 flex flex-col justify-between z-10">
         <div className="space-y-2">
           <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight drop-shadow-lg">
-            Culte
+            {customTitle || "Culte"}
           </h3>
           <div className="w-16 h-1 bg-white/90 rounded-full" />
         </div>
@@ -85,6 +164,6 @@ export default function CelebrationCard({
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   );
 }

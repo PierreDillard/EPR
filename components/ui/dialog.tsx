@@ -5,7 +5,8 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 
 import { cn } from '@/lib/utils/utils';
-import Image from 'next/image';
+import OptimizedImage from './optimized-image';
+import { StaticImageData } from 'next/image';
 
 const Dialog = DialogPrimitive.Root;
 
@@ -114,16 +115,25 @@ const DialogImage = ({
   src,
   alt,
   className,
+  width,
+  height,
   ...props
-}: React.ImgHTMLAttributes<HTMLImageElement>) => (
+}: Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src' | 'width' | 'height'> & {
+  src: string | StaticImageData;
+  alt?: string;
+  width?: number;
+  height?: number;
+}) => (
   <div className="w-full overflow-hidden">
-    <Image
-      src={src}
+    <OptimizedImage
+      src={typeof src === 'string' ? src : src.src}
       alt={alt || ""}
       className={cn(
         'w-full object-cover transition-transform duration-300 hover:scale-105',
         className
       )}
+      width={width}
+      height={height}
       {...props}
     />
   </div>
