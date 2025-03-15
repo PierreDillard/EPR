@@ -90,7 +90,7 @@ export default function Celebrations() {
               layout="imageLeft"
             />
 
-            {/* Rencontre de prière */}
+            {/* Intercession */}
             <MeetingCard 
               title="Intercession" 
               image={`${baseUrl}/images/intercession.jpg`}

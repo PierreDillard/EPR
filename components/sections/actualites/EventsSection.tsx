@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Image from 'next/image';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Calendar, MapPin, User, Clock, ChevronRight, Info } from 'lucide-react';
@@ -101,7 +100,7 @@ function EventPreview({ event }: { event: EvenementComplet }) {
   return (
     <>
       <div className="flex flex-col space-y-4">
-        {/* Bloc image - On utilise un ratio pour éviter de “casser” la mise en page */}
+ 
         <div className="relative w-full aspect-square overflow-hidden rounded-lg max-h-[600px] bg-gray-900">
           <OptimizedImage
             src={event.image}
@@ -111,10 +110,10 @@ function EventPreview({ event }: { event: EvenementComplet }) {
             priority
             sizes="(max-width: 768px) 80vw, 80vw"
             fillContainer={false} 
-            // fillContainer = false => on s'appuie directement sur <Image />
+         
           />
 
-          {/* Overlay noir semi-transparent (si besoin) */}
+        
           <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
           {/* Titre en overlay */}
