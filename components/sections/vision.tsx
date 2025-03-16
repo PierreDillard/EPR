@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 'use client';
+import { motion } from "framer-motion";
+
 import {
 Users, 
 Heart, 
@@ -13,8 +15,7 @@ Book
 import Script from "next/script";
 import { StructuredDataVision } from "@/lib/structuredData/vision";
 import SectionTitle from "./section-title";
-import { setEventTime } from '../../utils/eventsDate';
-import { Separator } from '@/components/ui/separator';
+
 import Quote from'@/components/ui/quote';
 
 
@@ -89,20 +90,30 @@ export default function Vision() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-          {visionCards.map((card, index) => (
-            <div key={index} className="group hover:scale-105 transition-transform duration-300">
-              <div className="bg-white p-6 rounded-lg h-full flex flex-col items-center shadow-sm hover:shadow-md transition-shadow">
-                <div className="mb-6 transform transition-transform duration-300 group-hover:scale-110">
-                  <div className={`inline-flex justify-center items-center w-16 h-16 rounded-full ${card.bgColor} text-white`}>
-                    {card.icon}
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold mb-4">{card.title}</h3>
-                <p className="text-gray-600 text-center text-sm">{card.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+  {visionCards.map((card, index) => (
+    <motion.div
+      key={index}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 1.05 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="bg-white p-6 rounded-lg h-full flex flex-col items-center shadow-sm hover:shadow-md">
+        <motion.div
+          className="mb-6"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 1.1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className={`inline-flex justify-center items-center w-16 h-16 rounded-full ${card.bgColor} text-white`}>
+            {card.icon}
+          </div>
+        </motion.div>
+        <h3 className="text-xl font-bold mb-4">{card.title}</h3>
+        <p className="text-gray-600 text-center text-sm">{card.description}</p>
+      </div>
+    </motion.div>
+  ))}
+</div>
 
         <div className="prose prose-slate lg:prose-xl mt-8">
         <Quote 
