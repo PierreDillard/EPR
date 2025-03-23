@@ -54,7 +54,7 @@ export default function Celebrations() {
 
             {/* Cartes secondaires (plus petites) */}
             <div className="lg:col-span-5">
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:mb-6 lg:mb-0">
                 {/* Culte secondaire */}
                 {celebrations.length > 1 && (
                   <CelebrationCard 
@@ -78,7 +78,7 @@ export default function Celebrations() {
           </div>
 
           {/* Troisième rangée avec étude biblique et rencontre de prière */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
             {/* Étude biblique */}
             <MeetingCard 
               title="Étude Biblique" 

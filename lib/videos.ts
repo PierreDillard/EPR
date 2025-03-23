@@ -24,6 +24,7 @@ const getThumbnailUrl = (miniature: string | null, youtubeId: string): string =>
 };
 
 export async function getVideos(): Promise<VideosResponse> {
+
   const supabase = createSupabase();
   
   try {

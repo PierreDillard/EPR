@@ -19,6 +19,9 @@ import SectionTitle from "./section-title";
 import Quote from'@/components/ui/quote';
 
 
+
+
+
 export default function Vision() {
     const visionCards = [
     {

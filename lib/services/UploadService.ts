@@ -71,3 +71,53 @@ export async function uploadEventImage(file: File): Promise<string> {
     throw error;
   }
 }
+
+
+
+export async function deleteImageFromServer(imageUrl: string): Promise<boolean> {
+  try {
+
+    if (!IMAGES_URL) {
+      console.error('IMAGES_URL n\'est pas défini');
+      return false;
+    }
+
+    const urlParts = imageUrl.split('/');
+    const filename = urlParts[urlParts.length - 1];
+    
+    if (!filename) {
+      console.error('Impossible d\'extraire le nom du fichier:', imageUrl);
+      return false;
+    }
+    
+    // Construire l'URL correctement en s'assurant qu'il n'y a pas de doubles slashes
+    const deleteUrl = `${IMAGES_URL.replace(/\/$/, '')}/delete`;
+    console.log(deleteUrl);
+    console.log('Tentative de suppression sur:', deleteUrl);
+    
+    const response = await fetch(deleteUrl, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+   
+      mode: 'cors',
+      credentials: 'same-origin',
+      body: JSON.stringify({ filename })
+    });
+    
+    if (!response.ok) {
+      console.error('Erreur lors de la suppression de l\'image:', response.statusText);
+      return false;
+    }
+    
+    const data = await response.json();
+    console.log('Réponse de la suppression:', data);
+    
+    return data.success || false;
+  } catch (error) {
+    console.error('Erreur lors de la suppression de l\'image:', error);
+    return false;
+  }
+}

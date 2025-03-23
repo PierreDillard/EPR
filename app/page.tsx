@@ -8,8 +8,14 @@ import Contact from "@/components/sections/contact"
 import { getLatestMeditations } from "@/lib/meditations"
 import MissionBanner from "@/components/MissionBanner"
 
+
 export default async function Home() {
   const meditations = await getLatestMeditations();
+  console.log("SUPABASE:", {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  });
+  
   return (
     <>
       <HeroBanner />

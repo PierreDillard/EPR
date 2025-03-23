@@ -12,7 +12,24 @@ import Script from "next/script"
 import { useToast } from "@/hooks/use-toast"
 import { Video } from "lucide-react"
 
+import { supabase } from '@/lib/supabaseClient'; 
+
+export  function TestPage() {
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase.from('predications').select('*');
+      console.log('📦 predications:', data);
+      console.log('❌ error:', error);
+    };
+
+    fetchData();
+  }, []);
+
+  return <div>Test data Supabase</div>;
+}
+
 export default function Predications() {
+  console.log(process.env.NEXT_PUBLIC_SUPABASE_URL) 
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
   const [videos, setVideos] = useState<VideoProps[]>([])
   const [structuredData, setStructuredData] = useState<any>(null)

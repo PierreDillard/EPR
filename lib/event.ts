@@ -1,6 +1,7 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Evenement, EvenementComplet, EvenementInfo, EventStats } from '@/types/event';
+import { deleteImageFromServer } from '@/lib/services/UploadService';
 
 const supabase = createClientComponentClient();
 
@@ -159,6 +160,28 @@ export async function updateEvenement(
 
 export async function handleDeleteEvenement(id: string) {
   try {
+
+    const { data: event, error: fetchError } = await supabase
+      .from('evenements')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (fetchError) {
+      console.error('Erreur lors de la récupération de l\'événement:', fetchError);
+      throw fetchError;
+    }
+    
+ 
+    if (event?.image) {
+      try {
+        await deleteImageFromServer(event.image);
+      } catch (imageError) {
+        console.error('Erreur lors de la suppression de l\'image:', imageError);
+     
+      }
+    }
+  
     const { error } = await supabase
       .from('evenements')
       .delete()
