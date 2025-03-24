@@ -13,59 +13,51 @@ export async function uploadEventImage(file: File): Promise<string> {
 
     const formData = new FormData();
     formData.append('file', file);
-
- 
-    console.log('Tentative d\'upload vers:', `${IMAGES_URL}/images/upload`);
+    
+    // Log pour vérifier l'URL d'upload
+    console.log('Tentative d\'upload vers:', `${IMAGES_URL}/upload`);
     console.log('Détails du fichier:', {
       name: file.name,
       type: file.type,
       size: file.size
     });
 
-    // Effectuer la requête avec les bons headers
+    // Simplifier la requête fetch
     const response = await fetch(`${IMAGES_URL}/upload`, {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-     
-      },
+      // Ne pas spécifier de headers supplémentaires avec FormData
+      // Le navigateur définira automatiquement les headers corrects
+      // y compris Content-Type avec la boundary pour multipart/form-data
       mode: 'cors',
-      credentials: 'same-origin', 
+      credentials: 'omit', // Modifié de 'same-origin' à 'omit'
       body: formData
     });
 
-  
     if (!response.ok) {
-
+      // Récupérer le message d'erreur du serveur si possible
       let errorMessage;
       try {
         const errorData = await response.json();
-        errorMessage = errorData.message || response.statusText;
+        errorMessage = errorData.message || errorData.error || response.statusText;
       } catch {
-        errorMessage = response.statusText;
+        errorMessage = `${response.status} ${response.statusText}`;
       }
       
-      throw new Error(`Erreur serveur: ${errorMessage}`);
+      throw new Error(`Erreur lors de l'upload: ${errorMessage}`);
     }
 
     const data = await response.json();
+    console.log('Réponse du serveur:', data);
 
-    // Vérification de la réponse
-    if (!data.url) {
-      throw new Error('URL de l\'image manquante dans la réponse du serveur');
-    }
-
-    // Construction de l'URL complète
-    const fullImageUrl = new URL(data.url, IMAGES_URL).toString();
-    return fullImageUrl;
+    // Retourner l'URL directement depuis la réponse du serveur
+    // Le serveur renvoie déjà l'URL complète
+    return data.url;
 
   } catch (error) {
-
-    if (error instanceof TypeError && error.message === 'Failed to fetch') {
+    if (error instanceof TypeError && error.message.includes('fetch')) {
       console.error('Erreur de connexion au serveur:', IMAGES_URL);
-      throw new Error(`Impossible de contacter le serveur d'images à ${IMAGES_URL}. Vérifiez que le serveur est en ligne et accessible.`);
+      throw new Error(`Erreur de connexion au serveur: ${IMAGES_URL}`);
     }
-
 
     console.error('Erreur lors de l\'upload:', error);
     throw error;
@@ -76,12 +68,12 @@ export async function uploadEventImage(file: File): Promise<string> {
 
 export async function deleteImageFromServer(imageUrl: string): Promise<boolean> {
   try {
-
-    if (!IMAGES_URL) {
-      console.error('IMAGES_URL n\'est pas défini');
+    if (!imageUrl) {
+      console.error('URL d\'image non fournie');
       return false;
     }
 
+    // Extraire le nom du fichier de l'URL
     const urlParts = imageUrl.split('/');
     const filename = urlParts[urlParts.length - 1];
     
@@ -90,25 +82,31 @@ export async function deleteImageFromServer(imageUrl: string): Promise<boolean> 
       return false;
     }
     
-    // Construire l'URL correctement en s'assurant qu'il n'y a pas de doubles slashes
-    const deleteUrl = `${IMAGES_URL.replace(/\/$/, '')}/delete`;
-    console.log(deleteUrl);
+    // Construire l'URL de suppression
+    const deleteUrl = `${IMAGES_URL}/delete`;
     console.log('Tentative de suppression sur:', deleteUrl);
+    console.log('Nom du fichier à supprimer:', filename);
     
     const response = await fetch(deleteUrl, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Content-Type': 'application/json'
       },
-   
       mode: 'cors',
-      credentials: 'same-origin',
+      credentials: 'omit',
       body: JSON.stringify({ filename })
     });
     
     if (!response.ok) {
-      console.error('Erreur lors de la suppression de l\'image:', response.statusText);
+      let errorMessage;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorData.error || response.statusText;
+      } catch {
+        errorMessage = `${response.status} ${response.statusText}`;
+      }
+      
+      console.error('Erreur lors de la suppression de l\'image:', errorMessage);
       return false;
     }
     
