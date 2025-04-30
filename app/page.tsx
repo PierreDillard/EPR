@@ -6,7 +6,7 @@ import Actualites from "@/components/sections/actualites"
 import Contact from "@/components/sections/contact"
 
 import { getLatestMeditations } from "@/lib/meditations"
-import MissionBanner from "@/components/MissionBanner"
+
 
 
 export default async function Home() {
@@ -19,7 +19,7 @@ export default async function Home() {
   return (
     <>
       <HeroBanner />
-      <MissionBanner />
+   
       <Vision />
       
 
