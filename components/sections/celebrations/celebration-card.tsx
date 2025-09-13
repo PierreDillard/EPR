@@ -4,7 +4,7 @@ import { CelebrationProps } from "@/types/celebrations";
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { cn } from '@/lib/utils/utils';
 
-const baseUrl = process.env.NEXT_PUBLIC_IMAGES_URL || 'https://206.189.23.60';
+
 
 interface EnhancedCelebrationProps extends CelebrationProps {
   displayStyle?: 'standard' | 'featured' | 'dark';
@@ -17,7 +17,7 @@ export default function CelebrationCard({
   adresse, 
   horaire, 
   jour,
-  image = `${baseUrl}/images/event.webp`,
+  image = `/event.webp`,
   displayStyle = 'standard',
   customTitle,
   badgeText
