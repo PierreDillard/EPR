@@ -1,4 +1,4 @@
-import SectionTitle from "../section-title";
+/* import SectionTitle from "../section-title";
 import { Sparkles } from "lucide-react";
 import { InstagramStyleMeditation } from "./instagram-style-meditation"
 
@@ -52,4 +52,4 @@ export default function MeditationSection({ meditations }: MeditationSectionProp
       </div>
     </section>
   );
-}
+} */
