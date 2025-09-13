@@ -114,7 +114,7 @@ export default function CelebrationCard({
     );
   }
   
-  // Style standard (celui d'origine que vous aviez défini)
+ 
   return (
     <div className="relative overflow-hidden h-full transition-all duration-500 rounded-2xl shadow-lg">
       {/* Image de fond optimisée avec luminosité ajustée */}

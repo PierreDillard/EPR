@@ -82,7 +82,7 @@ export default function Celebrations() {
             {/* Étude biblique */}
             <MeetingCard 
               title="Étude Biblique" 
-              image={`${baseUrl}/images/bible.jpg`}
+              image={`/bible.jpg`}
               date="Tous les mardis"
               time="19h00"
               location="Boulogne"
@@ -93,7 +93,7 @@ export default function Celebrations() {
             {/* Intercession */}
             <MeetingCard 
               title="Intercession" 
-              image={`${baseUrl}/images/intercession.jpg`}
+              image={`/intercession.jpg`}
               date="Vendredi"
               time="19h00"
               location="Boulogne"
