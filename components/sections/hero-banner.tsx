@@ -46,7 +46,7 @@ function VideoBackground() {
           isVideoLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
-        <source src="epr.mp4" type="video/mp4" />
+        <source src="/epr.mp4" type="video/mp4" />
         <track kind="captions" src="/captions.vtt" srcLang="fr" label="French" />
       </video>
       <div className="absolute inset-0 bg-black/50" />
