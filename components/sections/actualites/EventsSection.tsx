@@ -24,7 +24,7 @@ function EventDetails({ event }: { event: EvenementComplet }) {
   return (
     <div className="space-y-6 ">
       {/* Image en-tête */}
-      <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-gray-100">
+      <div className="relative w-auto h-fullrounded-lg overflow-hidden bg-gray-100">
         <OptimizedImage
           src={event.image}
           alt={event.title}
