@@ -101,7 +101,7 @@ function EventPreview({ event }: { event: EvenementComplet }) {
     <>
       <div className="flex flex-col space-y-4">
 
-        <div className="relative w-full aspect-video overflow-hidden rounded-lg bg-gray-100">
+        <div className="relative w-full aspect-square overflow-hidden rounded-lg bg-gray-900 max-w-2xl mx-auto">
           <OptimizedImage
             src={event.image}
             alt={event.title}
@@ -111,8 +111,8 @@ function EventPreview({ event }: { event: EvenementComplet }) {
             className="object-contain"
           />
 
-        
-          <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+
+          <div className="absolute inset-0 bg-black/5 pointer-events-none" />
 
           {/* Titre en overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-10">

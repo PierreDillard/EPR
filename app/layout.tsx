@@ -72,7 +72,7 @@ export default function RootLayout({
         <meta name="msvalidate.01" content="C2B25B7A6E318B040EE6B2F0014A8A8D" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={`${inter.className} bg-repeat`} suppressHydrationWarning>
+      <body className={`${inter.className} bg-gray-900`} suppressHydrationWarning>
         
   
       <Providers>
