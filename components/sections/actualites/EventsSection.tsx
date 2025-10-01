@@ -24,7 +24,7 @@ function EventDetails({ event }: { event: EvenementComplet }) {
   return (
     <div className="space-y-6 ">
       {/* Image en-tête */}
-      <div className="relative max-w-md mx-auto aspect-square text-center w-full rounded-lg overflow-hidden">
+      <div className="relative w-full aspect-video rounded-lg overflow-hidden">
         <OptimizedImage
           src={event.image}
           alt={event.title}
@@ -100,17 +100,15 @@ function EventPreview({ event }: { event: EvenementComplet }) {
   return (
     <>
       <div className="flex flex-col space-y-4">
- 
-        <div className="relative w-full aspect-square overflow-hidden rounded-lg max-h-[600px] bg-gray-900">
+
+        <div className="relative w-full aspect-video overflow-hidden rounded-lg bg-gray-900">
           <OptimizedImage
             src={event.image}
             alt={event.title}
             fill={true}
-            objectFit="contain" 
             priority
             sizes="(max-width: 768px) 80vw, 80vw"
-            fillContainer={false} 
-         
+            className="object-cover"
           />
 
         
