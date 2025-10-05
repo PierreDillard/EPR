@@ -18,7 +18,7 @@ export default function EventCard({
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   return (
-    <Card className="relative overflow-hidden h-[400px] transition-all duration-500 rounded-3xl bg-black/50 group hover:cursor-pointer">
+    <Card className="relative overflow-hidden h-auto transition-all duration-500 rounded-3xl bg-black/50 group hover:cursor-pointer">
       {/* Image de fond optimisée */}
       <div className="absolute inset-0">
         <OptimizedImage

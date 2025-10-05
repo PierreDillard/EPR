@@ -72,7 +72,7 @@ export default function RootLayout({
         <meta name="msvalidate.01" content="C2B25B7A6E318B040EE6B2F0014A8A8D" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={`${inter.className} bg-gray-900`} suppressHydrationWarning>
+      <body className={`${inter.className}`} suppressHydrationWarning>
         
   
       <Providers>
@@ -87,7 +87,7 @@ export default function RootLayout({
           <NavigationWrapper />
          
           
-          <main className="bg-white/80 backdrop-blur-[2px]">{children}</main>
+          <main className=" bg-gray-900 backdrop-blur-[2px]">{children}</main>
           <Footer />
           <Toaster />
         </ThemeProvider>
