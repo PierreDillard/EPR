@@ -25,7 +25,7 @@ export default function EventCard({
           src={image}
           alt={title}
           className="transition-transform duration-700 group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 33vw"
           priority
         />
         <div className="absolute inset-0" />

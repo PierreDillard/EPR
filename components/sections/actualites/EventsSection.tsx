@@ -161,7 +161,7 @@ function UpcomingEventItem({
   return (
     <Card
       className={cn(
-        "relative overflow-hidden cursor-pointer transition-all duration-300",
+        "relative overflow-hidden cursor-pointer border-gray-400  transition-all duration-300",
         isSelected ? "ring-2 ring-black bg-gray-50" : "hover:bg-gray-50"
       )}
       onClick={onClick}
