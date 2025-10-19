@@ -24,14 +24,17 @@ function EventDetails({ event }: { event: EvenementComplet }) {
   return (
     <div className="space-y-6 ">
       {/* Image en-tête */}
-      <div className="relative w-auto h-fullrounded-lg overflow-hidden bg-gray-100">
-        <OptimizedImage
-          src={event.image}
-          alt={event.title}
-          fill
-          className="object-contain"
-        />
-      </div>
+    <div className="relative w-full max-w-2xl mx-auto rounded-lg bg-gray-900 aspect-[3/4] p-2">
+  <OptimizedImage
+    src={event.image}
+    alt={event.title}
+    fill
+    className="object-contain"
+    sizes="(max-width: 768px) 90vw, 800px"
+    priority
+  />
+  <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-transparent pointer-events-none" />
+</div>
 
       {/* Informations principales */}
       <div className="grid gap-4 md:grid-cols-2">
