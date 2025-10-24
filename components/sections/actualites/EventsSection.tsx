@@ -104,7 +104,7 @@ function EventPreview({ event }: { event: EvenementComplet }) {
     <>
       <div className="flex flex-col space-y-4">
 
-        <div className="relative w-full max-w-2xl mx-auto rounded-lg bg-gray-900 aspect-[3/4] p-2">
+         <div className="relative w-full aspect-square overflow-hidden rounded-lg bg-gray-900 max-w-2xl mx-auto">
           <OptimizedImage
             src={event.image}
             alt={event.title}
