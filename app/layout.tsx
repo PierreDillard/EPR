@@ -14,23 +14,25 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Ensemble pour le Royaume',
-  description:
-    "Rassembler des chrétiens de différentes dénominations pour l'avancement du Royaume de Dieu",
+  description: "Rassembler des chrétiens de différentes dénominations pour l'avancement du Royaume de Dieu",
   metadataBase: new URL('https://www.ensemblepourleroyaume.com'),
   alternates: {
     canonical: 'https://www.ensemblepourleroyaume.com',
     languages: { 'fr-FR': 'https://www.ensemblepourleroyaume.com' },
   },
+  themeColor: '#0f172a',
+  manifest: '/site.webmanifest',
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+    ],
     apple: '/apple-touch-icon.png',
   },
-  manifest: '/site.webmanifest',
-  themeColor: '#0f172a', 
   openGraph: {
     title: 'Ensemble pour le Royaume',
-    description:
-      "Rassembler des chrétiens de différentes dénominations pour l'avancement du Royaume de Dieu",
+    description: "Rassembler des chrétiens de différentes dénominations pour l'avancement du Royaume de Dieu",
     url: 'https://www.ensemblepourleroyaume.com',
     siteName: 'Ensemble pour le Royaume',
     images: [
@@ -48,12 +50,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@ensemblepourleroyaume',
     title: 'Ensemble pour le Royaume',
-    description:
-      "Rassembler des chrétiens de différentes dénominations pour l'avancement du Royaume de Dieu",
+    description: "Rassembler des chrétiens de différentes dénominations pour l'avancement du Royaume de Dieu",
     images: ['https://www.ensemblepourleroyaume.com/android-chrome-512x512.png'],
   },
 }
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning>
