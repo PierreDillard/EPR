@@ -15,9 +15,9 @@ import {
   ChevronLeft,
   Sparkles
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from "@/lib/utils/utils";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from '@/core/components/ui/button';
+import { cn } from "@/core/utils/utils";
+import { useToast } from "@/core/hooks/use-toast";
 
 const navigation = [
   {

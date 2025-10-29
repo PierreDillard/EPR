@@ -3,6 +3,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import AdminNav from '@/components/admin/AdminNav';
+import { AdminProviders } from './admin-providers';
 export const dynamic = 'force-dynamic'
 
 export default async function AdminLayout({
@@ -22,7 +23,7 @@ export default async function AdminLayout({
       <AdminNav />
       <main className="flex-1 mt-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {children}
+          <AdminProviders>{children}</AdminProviders>
         </div>
       </main>
     </div>

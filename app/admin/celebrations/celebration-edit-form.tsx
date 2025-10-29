@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/core/components/ui/button";
+import { Input } from "@/core/components/ui/input";
+import { Label } from "@/core/components/ui/label";
 import { 
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import Loading from '@/components/ui/Loading';
-import { getCelebrationById, updateCelebration } from '@/lib/celebrations'; 
+} from "@/core/components/ui/select";
+import { useToast } from "@/core/hooks/use-toast";
+import Loading from '@/core/components/common/Loading';
+import { useAdminServices } from '@/core/services/admin/context'; 
 
 interface CelebrationFormData {
   lieu: string;
@@ -44,11 +44,12 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { celebrations: celebrationsService } = useAdminServices();
 
   useEffect(() => {
     const fetchCelebration = async () => {
       try {
-        const data = await getCelebrationById(celebrationId);
+        const data = await celebrationsService.get(celebrationId);
         setFormData({
           lieu: data.lieu,
           adresse: data.adresse,
@@ -65,14 +66,14 @@ export default function CelebrationEditForm({ celebrationId, onSuccess }: Celebr
     };
 
     fetchCelebration();
-  }, [celebrationId, toast]);
+  }, [celebrationId, toast, celebrationsService]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      await updateCelebration(celebrationId, formData);
+      await celebrationsService.update(celebrationId, formData);
       toast({
         title: "Succès",
         description: "La célébration a été mise à jour avec succès",

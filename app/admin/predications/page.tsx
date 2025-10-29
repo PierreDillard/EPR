@@ -2,15 +2,16 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 
-import { useEffect, useState } from 'react';
-import YouTubeForm from './youtube-form';
-import { Card } from "@/components/ui/card";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useEffect, useState, useCallback } from 'react';
 import { Plus, Youtube, Calendar, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
-import { Button } from "@/components/ui/button";
-import Loading from '@/components/ui/Loading';
-import DeleteButton from '@/components/admin/DeleteButton';
+import { Card } from "@/core/components/ui/card";
+import { Button } from "@/core/components/ui/button";
+import Loading from '@/core/components/common/Loading';
+import DeleteButton from '@/core/components/common/DeleteButton';
+import { useAdminServices } from '@/core/services/admin/context';
+import type { PredicationData } from '@/features/predications/types/predications.types';
+import { YouTubeForm } from '@/features/predications/components/admin';
 import {
   Table,
   TableBody,
@@ -18,45 +19,36 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/core/components/ui/table";
 
-
-interface Predication {
-  id: number;
-  titre: string;
-  miniature: string;
-  video_id: string;
-  created_at: string;
-}
 
 export default function PredicationsPage() {
-  const [predications, setPredications] = useState<Predication[]>([]);
+  const [predications, setPredications] = useState<PredicationData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  const { predications: predicationsService } = useAdminServices();
 
   // Fonction pour charger les prédications
-  const loadPredications = async () => {
-    const { data, error } = await supabase
-      .from('predications')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
+  const loadPredications = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await predicationsService.list();
+      setPredications(data);
+    } catch (error) {
       console.error('Erreur lors du chargement des prédications:', error);
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    setPredications(data || []);
-    setIsLoading(false);
-  };
+  }, [predicationsService]);
 
   // Charger les prédications au montage du composant
   useEffect(() => {
-    loadPredications();
-  }, []);
+    loadPredications().catch((error) => {
+      console.error('Erreur lors du chargement initial des prédications:', error);
+    });
+  }, [loadPredications]);
 
   // Fonction pour mettre à jour la liste après un ajout
-  const handlePredicationAdded = async (newPredication: Predication) => {
+  const handlePredicationAdded = async (newPredication: PredicationData) => {
     setPredications(prev => [newPredication, ...prev]);
   };
 
@@ -173,7 +165,7 @@ export default function PredicationsPage() {
                     <div className="flex justify-end gap-2">
                       <Button variant="outline" size="sm" asChild>
                         <a
-                          href={`https://youtube.com/watch?v=${predication.video_id}`}
+                          href={`https://youtube.com/watch?v=${predication.video_id ?? predication.youtube_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-2"

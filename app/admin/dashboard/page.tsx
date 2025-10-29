@@ -1,8 +1,8 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-import { getDashboardData } from '@/lib/dashboard'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { getDashboardData } from '@/features/dashboard/api/dashboard.service';
 import Image from 'next/image'
-import { Card } from "@/components/ui/card"
+import { Card } from "@/core/components/ui/card"
 import {
   Video,
   Calendar,

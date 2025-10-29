@@ -1,13 +1,8 @@
-import HeroBanner from "@/components/sections/hero-banner"
-import Vision from "@/components/sections/vision"
-import Celebrations from "@/components/sections/celebrations"
-import Predications from "@/components/sections/predications" 
-import Actualites from "@/components/sections/actualites"
-import Contact from "@/components/sections/contact"
-
-import { getLatestMeditations } from "@/lib/meditations"
-
-
+import { getLatestMeditations } from "@/features/meditations";
+import { CelebrationsSection } from "@/features/celebrations";
+import { EventsSection } from "@/features/events";
+import { PredicationsSection } from "@/features/predications";
+import { HeroBanner, VisionSection, ContactSection } from "@/features/landing";
 
 export default async function Home() {
   const meditations = await getLatestMeditations();
@@ -20,22 +15,21 @@ export default async function Home() {
     <>
       <HeroBanner />
    
-      <Vision />
+      <VisionSection />
       
 
 
 
 
-      <Celebrations />
+      <CelebrationsSection />
+
+      <EventsSection />
 
 
-      <Actualites />
+      <PredicationsSection /> 
 
 
-      <Predications /> 
-
-
-      <Contact />
+      <ContactSection />
     </>
   )
 }

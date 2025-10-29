@@ -18,13 +18,13 @@ import FontSize from './extensions/FontSize'
 import TextAlign from './extensions/TextAlign'
 
 // UI Components
-import { Button } from '@/components/ui/button'
-import { Dropdown } from '@/components/ui/dropdown'
-import { ColorPicker } from '@/components/ui/color-picker'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Label } from '@/components/ui/label'
+import { Button } from '@/core/components/ui/button'
+import { Dropdown } from '@/core/components/ui/dropdown'
+import { ColorPicker } from '@/core/components/ui/color-picker'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/core/components/ui/dialog'
+import { Input } from '@/core/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/components/ui/tabs'
+import { Label } from '@/core/components/ui/label'
 
 // Icons
 import {
@@ -49,7 +49,7 @@ import {
   ChevronDown,
   X,
 } from 'lucide-react'
-import { cn } from '@/lib/utils/utils'
+import { cn } from '@/core/utils/utils'
 
 // Options for dropdowns
 const FontSizeOptions = [

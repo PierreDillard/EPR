@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Alert, AlertDescription } from "@/core/components/ui/alert"
+import { Button } from "@/core/components/ui/button"
+import { Input } from "@/core/components/ui/input"
 
 export default function LoginForm() {
   const router = useRouter()

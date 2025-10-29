@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Card } from "@/components/ui/card";
+import { useState, useEffect, useCallback } from 'react';
+import { Card } from "@/core/components/ui/card";
 import CelebrationEditDialog from '@/app/admin/celebrations/celebration-edit-dialog';
 import MobileCelebrationCard from './mobile-celebration-card';
 import {
@@ -12,43 +11,36 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/core/components/ui/table";
 import { MapPin, Clock, Calendar } from 'lucide-react';
-import { useMediaQuery } from '@/hooks/use-media-query';
-import Loading from '@/components/ui/Loading';
-
-interface Celebration {
-  id: number;
-  lieu: string;
-  adresse: string;
-  horaire: string;
-  jour: string;
-}
+import { useMediaQuery } from '@/core/hooks/use-media-query';
+import Loading from '@/core/components/common/Loading';
+import { useAdminServices } from '@/core/services/admin/context';
+import type { Celebration } from '@/features/celebrations/types/celebrations.types';
 
 export default function CelebrationsPage() {
   const [celebrations, setCelebrations] = useState<Celebration[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  const { celebrations: celebrationsService } = useAdminServices();
   const isMobile = useMediaQuery('(max-width: 768px)');
 
-  const loadCelebrations = async () => {
-    const { data, error } = await supabase
-      .from('celebrations')
-      .select('*')
-      .order('id', { ascending: true });
-
-    if (error) {
+  const loadCelebrations = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await celebrationsService.list();
+      setCelebrations(data);
+    } catch (error) {
       console.error('Erreur lors du chargement des célébrations:', error);
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    setCelebrations(data || []);
-    setIsLoading(false);
-  };
+  }, [celebrationsService]);
 
   useEffect(() => {
-    loadCelebrations();
-  }, []);
+    loadCelebrations().catch((error) => {
+      console.error('Erreur lors du chargement initial des célébrations:', error);
+    });
+  }, [loadCelebrations]);
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-48">

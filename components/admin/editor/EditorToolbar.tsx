@@ -1,14 +1,14 @@
 'use client';
 
 import { Editor } from '@tiptap/react';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/core/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/core/components/ui/select";
 import { Bold, Italic } from 'lucide-react';
 
 

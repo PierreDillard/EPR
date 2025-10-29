@@ -1,13 +1,13 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { EventType } from '@/types/event';
-import Image from 'next/image';
-import { ImagePlus, X } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { getDefaultEventImage } from '@/utils/event';
+import { useState, useCallback, useEffect } from "react";
+import { useDropzone } from "react-dropzone";
+import Image from "next/image";
+import { ImagePlus, X } from "lucide-react";
+import { Button } from "@/core/components/ui/button";
+import { Alert, AlertDescription } from "@/core/components/ui/alert";
+import { Switch } from "@/core/components/ui/switch";
+import { Label } from "@/core/components/ui/label";
+import type { EventType } from "@/features/events/types/events.types";
+import { getDefaultEventImage } from "@/features/events/utils/event";
 
 interface EventImageUploadProps {
   eventType: EventType;

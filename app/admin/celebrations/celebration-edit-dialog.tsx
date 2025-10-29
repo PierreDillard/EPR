@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "@/core/components/ui/dialog";
+import { Button } from "@/core/components/ui/button";
 import { Edit2 } from "lucide-react";
 import CelebrationEditForm from './celebration-edit-form';
 
