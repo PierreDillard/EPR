@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -44,6 +46,14 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
+  },
+  webpack: (config) => {
+    config.resolve.alias['@'] = path.resolve(__dirname, 'src');
+    config.resolve.alias['@/core'] = path.resolve(__dirname, 'src/core');
+    config.resolve.alias['@/features'] = path.resolve(__dirname, 'src/features');
+    config.resolve.alias['@/config'] = path.resolve(__dirname, 'src/config');
+    config.resolve.alias['@/components'] = path.resolve(__dirname, 'components');
+    return config;
   },
 }
 

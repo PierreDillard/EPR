@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { getCelebrations } from '../api/public';
 import type { Celebration } from '../types/celebrations.types';

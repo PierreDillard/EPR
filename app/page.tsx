@@ -1,8 +1,10 @@
-import { getLatestMeditations } from "@/features/meditations";
-import { CelebrationsSection } from "@/features/celebrations";
-import { EventsSection } from "@/features/events";
-import { PredicationsSection } from "@/features/predications";
-import { HeroBanner, VisionSection, ContactSection } from "@/features/landing";
+import { getLatestMeditations } from "@/features/meditations/api/public";
+import CelebrationsSection from "@/features/celebrations/components/CelebrationsSection";
+import EventsSection from "@/features/events/components";
+import PredicationsSection from "@/features/predications/components/PredicationsSection";
+import HeroBanner from "@/features/landing/components/HeroBanner";
+import VisionSection from "@/features/landing/components/VisionSection";
+import ContactSection from "@/features/landing/components/contact";
 
 export default async function Home() {
   const meditations = await getLatestMeditations();

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { MapPin, Clock, Calendar } from "lucide-react";
 import { useMediaQuery } from '@/core/hooks/use-media-query';

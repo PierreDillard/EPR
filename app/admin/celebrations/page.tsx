@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Card } from "@/core/components/ui/card";
-import CelebrationEditDialog from '@/app/admin/celebrations/celebration-edit-dialog';
+import CelebrationEditDialog from '../../admin/celebrations/celebration-edit-dialog';
 import MobileCelebrationCard from './mobile-celebration-card';
 import {
   Table,

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { getVideos } from "../api/public";
 import type { VideoProps } from "../types/predications.types";
