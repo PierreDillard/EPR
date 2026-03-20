@@ -6,7 +6,6 @@ import SectionTitle from "@/components/sections/section-title"
 import { Button } from "@/components/ui/button"
 import { VideoProps } from "@/types/predications"
 import  Loading from "@/components/ui/Loading"
-import { getYoutubeVideos } from "@/lib/providers/youtube-rss"
 import { useToast } from "@/hooks/use-toast"
 import { Video } from "lucide-react"
 
@@ -31,7 +30,8 @@ export default function Predications() {
     async function loadPredications() {
       try {
         setIsLoading(true)
-        const videos = await getYoutubeVideos();
+        const res = await fetch('/api/rss');
+        const videos: VideoProps[] = await res.json();
         setVideos(videos);
       } catch (error) {
         console.error('Erreur lors du chargement des prédications:', error)
