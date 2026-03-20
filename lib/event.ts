@@ -1,9 +1,7 @@
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Evenement, EvenementComplet, EvenementInfo, EventStats } from '@/types/event';
 import { deleteImageFromServer } from '@/lib/services/UploadService';
-
-const supabase = createClientComponentClient();
+import { clientSupabase as supabase } from '@/lib/supabaseClient';
 
 export async function fetchEvenements(): Promise<Evenement[]> {
   try {

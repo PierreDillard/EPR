@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ExternalLink, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { clientSupabase } from "@/lib/supabaseClient";
 
 interface Info {
   id: number;
@@ -35,7 +35,7 @@ export function InfoBanner({
   const [info, setInfo] = useState<Info | null>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  const supabase = clientSupabase;
 
   useEffect(() => {
     async function fetchInfo() {

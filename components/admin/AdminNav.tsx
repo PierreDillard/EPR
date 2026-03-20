@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { clientSupabase } from '@/lib/supabaseClient';
 import {
   LayoutDashboard,
   Video,
@@ -59,7 +59,7 @@ export default function AdminNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const isSubPage = pathname !== '/admin/dashboard';
-  const supabase = createClientComponentClient();
+  const supabase = clientSupabase;
 
   const handleBack = () => {
     router.back();

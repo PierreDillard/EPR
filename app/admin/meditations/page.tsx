@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { clientSupabase } from '@/lib/supabaseClient';
+
 import Link from 'next/link';
 import { Plus, Edit, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,7 @@ export default function AdminMeditations() {
   const [meditations, setMeditations] = useState<Meditation[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const supabase = createClientComponentClient();
+  const supabase = clientSupabase;
 
   const fetchMeditations = async () => {
     try {

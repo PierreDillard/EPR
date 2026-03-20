@@ -1,7 +1,5 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Meditation } from '@/types/meditations';
-
-const supabase = createClientComponentClient();
+import { clientSupabase as supabase } from '@/lib/supabaseClient';
 
 export async function getLatestMeditations() {
   

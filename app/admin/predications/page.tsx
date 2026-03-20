@@ -3,9 +3,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { clientSupabase } from '@/lib/supabaseClient';
 import YouTubeForm from './youtube-form';
 import { Card } from "@/components/ui/card";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+
 import { Plus, Youtube, Calendar, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
@@ -32,7 +33,7 @@ interface Predication {
 export default function PredicationsPage() {
   const [predications, setPredications] = useState<Predication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  const supabase = clientSupabase;
 
   // Fonction pour charger les prédications
   const loadPredications = async () => {

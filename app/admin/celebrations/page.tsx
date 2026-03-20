@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { clientSupabase } from '@/lib/supabaseClient';
+
 import { Card } from "@/components/ui/card";
 import CelebrationEditDialog from '@/app/admin/celebrations/celebration-edit-dialog';
 import MobileCelebrationCard from './mobile-celebration-card';
@@ -28,7 +29,7 @@ interface Celebration {
 export default function CelebrationsPage() {
   const [celebrations, setCelebrations] = useState<Celebration[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  const supabase = clientSupabase;
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   const loadCelebrations = async () => {

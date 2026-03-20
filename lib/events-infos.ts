@@ -1,7 +1,5 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Evenement, EvenementInfo } from '@/types/event';
-
-const supabase = createClientComponentClient();
+import { clientSupabase as supabase } from '@/lib/supabaseClient';
 
 
 export async function getEvenements(): Promise<Evenement[]> {

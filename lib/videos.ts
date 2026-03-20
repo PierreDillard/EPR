@@ -1,13 +1,10 @@
 import { VideoProps, PredicationData } from '@/types/predications';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { clientSupabase as supabase } from '@/lib/supabaseClient';
 
 export interface VideosResponse {
   formattedVideos: VideoProps[];
   rawData: PredicationData[];
 }
-
-
-const createSupabase = () => createClientComponentClient();
 
 // Fonction utilitaire pour formater la date
 const formatDate = (dateString: string) => {
@@ -25,7 +22,6 @@ const getThumbnailUrl = (miniature: string | null, youtubeId: string): string =>
 
 export async function getVideos(): Promise<VideosResponse> {
 
-  const supabase = createSupabase();
   
   try {
     const { data: videos, error } = await supabase
@@ -57,7 +53,6 @@ export async function getVideos(): Promise<VideosResponse> {
 }
 
 export async function addVideo(predicationData: Partial<PredicationData>): Promise<PredicationData> {
-  const supabase = createSupabase();
   
   try {
     const { data, error } = await supabase
@@ -75,7 +70,6 @@ export async function addVideo(predicationData: Partial<PredicationData>): Promi
 }
 
 export async function deleteVideo(id: string): Promise<void> {
-  const supabase = createSupabase();
   
   try {
     const { error } = await supabase
@@ -92,7 +86,6 @@ export async function deleteVideo(id: string): Promise<void> {
 
 // Fonction pour récupérer une seule vidéo
 export async function getVideo(id: string): Promise<PredicationData> {
-  const supabase = createSupabase();
   
   try {
     const { data, error } = await supabase
