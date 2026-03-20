@@ -5,34 +5,14 @@ import VideoCard from "./video-card"
 import SectionTitle from "@/components/sections/section-title"
 import { Button } from "@/components/ui/button"
 import { VideoProps } from "@/types/predications"
-import { StructuredDataPredications } from "@/lib/structuredData/predications"
 import  Loading from "@/components/ui/Loading"
-import { getVideos } from "@/lib/videos"
-import Script from "next/script"
+import { getYoutubeVideos } from "@/lib/providers/youtube-rss"
 import { useToast } from "@/hooks/use-toast"
 import { Video } from "lucide-react"
 
-import { supabase } from '@/lib/supabaseClient'; 
-
-export  function TestPage() {
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase.from('predications').select('*');
-      console.log('📦 predications:', data);
-      console.log('❌ error:', error);
-    };
-
-    fetchData();
-  }, []);
-
-  return <div>Test data Supabase</div>;
-}
-
 export default function Predications() {
-  console.log(process.env.NEXT_PUBLIC_SUPABASE_URL) 
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
   const [videos, setVideos] = useState<VideoProps[]>([])
-  const [structuredData, setStructuredData] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const videoPlayerRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
@@ -51,9 +31,8 @@ export default function Predications() {
     async function loadPredications() {
       try {
         setIsLoading(true)
-        const response = await getVideos();
-        setVideos(response.formattedVideos);
-        setStructuredData(StructuredDataPredications(response.rawData));
+        const videos = await getYoutubeVideos();
+        setVideos(videos);
       } catch (error) {
         console.error('Erreur lors du chargement des prédications:', error)
         toast({
@@ -97,14 +76,6 @@ export default function Predications() {
 
   return (
     <section id="predications" className="py-4 bg-gray-50">
-      {structuredData && (
-        <Script
-          id="structured-data-predications"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      )}
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle 
           title="Prédications"
