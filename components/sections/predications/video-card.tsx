@@ -12,7 +12,7 @@ export default function VideoCard({ id, title, date, thumbnail }: VideoProps) {
     <Card className="overflow-hidden hover:shadow-lg transition-shadow  group cursor-pointer">
       <div className="relative aspect-video">
         <Image 
-          src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}
+          src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
           alt={title}
           fill
           className="object-cover"

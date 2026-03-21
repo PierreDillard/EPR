@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             disableTransitionOnChange
           >
             <NavigationWrapper />
-            <main className="bg-gray-900 backdrop-blur-[2px]">{children}</main>
+            <main className="bg-gray-900">{children}</main>
             <Footer />
             <Toaster />
           </ThemeProvider>
