@@ -73,7 +73,7 @@ export default function Vision() {
         icon={BookOpen}
         iconClassName="text-[#00AECE]"
       />
-        <div className="flex flex-col md:flex-row items-center gap-10 not-prose border border-black rounded-xl p-8">
+        <div className="flex flex-col md:flex-row items-center gap-10 not-prose">
           <div className="w-full md:w-1/2 space-y-4">
             <p className="text-left text-base text-gray-600">
               <span className="font-semibold">Ensemble pour le Royaume</span> rassemble des chrétiens de différentes dénominations et cultures pour participer à l'avancement du Royaume de Dieu.
