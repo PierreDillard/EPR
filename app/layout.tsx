@@ -65,8 +65,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem={false}
             disableTransitionOnChange
           >
+            <NavigationWrapper />
             <div className="max-w-[1400px] mx-auto">
-              <NavigationWrapper />
               <main>{children}</main>
               <Footer />
             </div>
