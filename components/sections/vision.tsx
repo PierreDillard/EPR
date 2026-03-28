@@ -74,31 +74,24 @@ export default function Vision() {
         iconClassName="text-[#00AECE]"
       />
         <div className="flex flex-col md:flex-row items-center gap-10 not-prose">
-          <div className="flex-1">
-            <p className="text-left text-lg text-gray-600 mb-6">
-              <span className="font-medium">Ensemble pour le Royaume</span> est une association qui a pour vocation de rassembler
-              des chrétiens de différentes dénominations, horizons ou cultures, afin de
-              participer ensemble à l'avancement du Royaume de Dieu dès ici-bas.
+          <div className="w-full md:w-1/2 space-y-4">
+            <p className="text-left text-base text-gray-600">
+              <span className="font-semibold">Ensemble pour le Royaume</span> rassemble des chrétiens de différentes dénominations et cultures pour participer à l'avancement du Royaume de Dieu.
             </p>
-            <p className="text-left text-lg text-gray-600 mb-6">
-              Elle est appelée à proclamer la bonne nouvelle du royaume (Mat 4:23),
-              à manifester la puissance du royaume (I Cor 4:20) et à produire les
-              fruits du royaume (Rom 14:17; Gal 5:22).
+            <p className="text-left text-base text-gray-600">
+              Proclamer la bonne nouvelle (Mat 4:23), manifester la puissance du Royaume (I Cor 4:20) et produire ses fruits (Rom 14:17 ; Gal 5:22).
             </p>
-            <p className="text-left text-lg text-gray-600">
-              Dans le respect de ses partenaires, elle œuvre 'en réseau', comme dans
-              le Nouveau Testament, et collabore avec l'ensemble du 'corps de Christ'
-              au travers des <span className="font-medium">5 ministères</span> (apôtres, prophètes,
-              évangélistes, pasteurs, et enseignants).
+            <p className="text-left text-base text-gray-600">
+              Elle collabore 'en réseau' avec le 'corps de Christ' au travers des <span className="font-semibold">5 ministères</span> — apôtres, prophètes, évangélistes, pasteurs et enseignants.
             </p>
           </div>
-          <div className="flex-shrink-0 w-full md:w-80 lg:w-96">
+          <div className="w-full md:w-1/2">
             <Image
               src="/vision.png"
               alt="Ensemble pour le Royaume"
-              width={400}
-              height={300}
-              className="rounded-xl shadow-md object-cover w-full"
+              width={600}
+              height={400}
+              className="rounded-xl shadow-lg object-cover w-full"
             />
           </div>
         </div>

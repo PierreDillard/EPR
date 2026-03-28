@@ -30,18 +30,23 @@ export default function SectionTitle({
             style={{ color }} 
           />
         )}
-        <h2 
+        <h2
           className="text-4xl font-bold relative py-8
-            after:content-[''] after:block after:w-24 after:h-1 
-            after:mx-auto after:absolute after:bottom-0 after:left-1/2 
+            after:content-[''] after:block after:w-24 after:h-1
+            after:mx-auto after:absolute after:bottom-0 after:left-1/2
             after:-translate-x-1/2"
-            style={{ 
+            style={{
               '--title-underline-color': color,
               '--tw-text-opacity': '1',
             } as React.CSSProperties}
           >
           {title}
         </h2>
+        <div className="flex items-center gap-1.5 pb-1">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#00AECE]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#A8CC3D]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#FDAC00]" />
+        </div>
       </div>
       {subtitle && (
         <p className="text-lg text-gray-600 mt-4 ">
