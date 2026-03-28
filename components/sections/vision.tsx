@@ -12,6 +12,7 @@ Globe,
 Eye,
 Book
 } from "lucide-react";
+import Image from "next/image";
 import Script from "next/script";
 import { StructuredDataVision } from "@/lib/structuredData/vision";
 import SectionTitle from "./section-title";
@@ -72,24 +73,34 @@ export default function Vision() {
         icon={BookOpen}
         iconClassName="text-[#00AECE]"
       />
-         <div className="!max-w-3xl  not-prose">
+        <div className="flex flex-col md:flex-row items-center gap-10 not-prose">
+          <div className="flex-1">
             <p className="text-left text-lg text-gray-600 mb-6">
-              <span className="font-medium">Ensemble pour le Royaume</span> est une association qui a pour vocation de rassembler 
-              des chrétiens de différentes dénominations, horizons ou cultures, afin de 
+              <span className="font-medium">Ensemble pour le Royaume</span> est une association qui a pour vocation de rassembler
+              des chrétiens de différentes dénominations, horizons ou cultures, afin de
               participer ensemble à l'avancement du Royaume de Dieu dès ici-bas.
             </p>
             <p className="text-left text-lg text-gray-600 mb-6">
-              Elle est appelée à proclamer la bonne nouvelle du royaume (Mat 4:23), 
-              à manifester la puissance du royaume (I Cor 4:20) et à produire les 
+              Elle est appelée à proclamer la bonne nouvelle du royaume (Mat 4:23),
+              à manifester la puissance du royaume (I Cor 4:20) et à produire les
               fruits du royaume (Rom 14:17; Gal 5:22).
             </p>
             <p className="text-left text-lg text-gray-600">
-              Dans le respect de ses partenaires, elle œuvre 'en réseau', comme dans 
-              le Nouveau Testament, et collabore avec l'ensemble du 'corps de Christ' 
-              au travers des <span className="font-medium">5 ministères</span> (apôtres, prophètes, 
+              Dans le respect de ses partenaires, elle œuvre 'en réseau', comme dans
+              le Nouveau Testament, et collabore avec l'ensemble du 'corps de Christ'
+              au travers des <span className="font-medium">5 ministères</span> (apôtres, prophètes,
               évangélistes, pasteurs, et enseignants).
             </p>
-        
+          </div>
+          <div className="flex-shrink-0 w-full md:w-80 lg:w-96">
+            <Image
+              src="/vision.png"
+              alt="Ensemble pour le Royaume"
+              width={400}
+              height={300}
+              className="rounded-xl shadow-md object-cover w-full"
+            />
+          </div>
         </div>
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
