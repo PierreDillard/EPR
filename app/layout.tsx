@@ -57,7 +57,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={`${inter.className} bg-black`} suppressHydrationWarning>
         <Providers>
           <ThemeProvider
             attribute="class"
@@ -65,13 +65,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem={false}
             disableTransitionOnChange
           >
-            <NavigationWrapper />
-            <main className="bg-gray-900">{children}</main>
-            <Footer />
+            <div className="max-w-[1400px] mx-auto">
+              <NavigationWrapper />
+              <main>{children}</main>
+              <Footer />
+            </div>
             <Toaster />
           </ThemeProvider>
           <SpeedInsights />
-          <SWRegister /> 
+          <SWRegister />
         </Providers>
       </body>
     </html>
